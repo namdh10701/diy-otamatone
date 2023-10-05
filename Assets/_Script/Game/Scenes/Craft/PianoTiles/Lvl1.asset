@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6020ed4e11b362e4b8cfd2e851079ae8, type: 3}
+  m_Name: Lvl1
+  m_EditorClassIdentifier: 
+  LevelName: Lvl1
+  MusicClip: {fileID: 8300000, guid: 7e06116f8992a5849a479f6aaac9ee24, type: 3}
+  StartOffset: 4
+  EndOffset: 4
+  Bpm: 170
+  GridHeight: 0.35
+  GridWidth: 0
+  Row: 0
+  NotePrefab: {fileID: 484159737164921265, guid: 0448bfa8f16666f4b862b3a04b251f1e, type: 3}
+  Spawnables: []
