@@ -11,6 +11,13 @@ using static LevelDefinition;
 
 public class LevelEditor : EditorWindow
 {
+    //ToDo Snap To Grid
+    //Display note number on note visual
+    //
+    //Demo a gameplay
+    //Auto Play
+    //Trail Note
+
     private LevelDefinition sourcelevelDefinition;
     private LevelDefinition loadedLevelDefinition;
 
@@ -51,7 +58,6 @@ public class LevelEditor : EditorWindow
                 if (sourcelevelDefinition != null)
                 {
                     LoadLevel(sourcelevelDefinition);
-
                 }
             }
             return;
@@ -85,7 +91,7 @@ public class LevelEditor : EditorWindow
             Scene scene = EditorSceneManager.GetActiveScene();
             if (scene.name.Equals("LevelEditor"))
             {
-               
+
                 SaveLevel(loadedLevelDefinition);
             }
         }
@@ -132,6 +138,7 @@ public class LevelEditor : EditorWindow
 
         if (GUILayout.Button("Re-spawn Level Notes"))
         {
+            ClearNotes();
             SpawnLevelNotes();
         }
 
@@ -173,16 +180,17 @@ public class LevelEditor : EditorWindow
         }
 
         sourcelevelDefinition.SaveValue(levelDefinition);
-        EditorUtility.SetDirty(levelDefinition);
+        EditorUtility.SetDirty(sourcelevelDefinition);
         AssetDatabase.SaveAssets();
         Debug.Log("Level saved");
     }
 
     private void SpawnLevelNotes()
     {
-        foreach(SpawnableObject spawnableObject in loadedLevelDefinition.Spawnables)
+        loadedLevelDefinition.Spawnables = sourcelevelDefinition.Spawnables;
+        foreach (SpawnableObject spawnableObject in loadedLevelDefinition.Spawnables)
         {
-            Debug.Log("Spawn");
+            SpawnNote(spawnableObject.Col, spawnableObject.Row);
         }
     }
 
@@ -199,9 +207,8 @@ public class LevelEditor : EditorWindow
 
     private void LoadLevel(LevelDefinition levelDefinition)
     {
-        ClearNotes();
-
         loadedLevelDefinition = Instantiate(levelDefinition);
+        ClearNotes();
         loadedLevelDefinition.LevelName = levelDefinition.LevelName;
         loadedLevelDefinition.MusicClip = levelDefinition.MusicClip;
         loadedLevelDefinition.StartOffset = levelDefinition.StartOffset;
