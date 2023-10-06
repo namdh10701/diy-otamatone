@@ -1,0 +1,6 @@
+Rem.png
+size:792,1164
+filter:Linear,Linear
+pma:true
+curtain
+bounds:2,2,787,1159

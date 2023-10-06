@@ -1,0 +1,377 @@
+{
+  "LockedIndex": [
+    {
+      "PartID": 0,
+      "Type": 0,
+      "Unlocked": false,
+      "Index": 3,
+      "GoldToUnlock": 0
+    },
+    {
+      "PartID": 0,
+      "Type": 0,
+      "Unlocked": false,
+      "Index": 4,
+      "GoldToUnlock": 0
+    },
+    {
+      "PartID": 0,
+      "Type": 0,
+      "Unlocked": false,
+      "Index": 5,
+      "GoldToUnlock": 0
+    },
+    {
+      "PartID": 0,
+      "Type": 0,
+      "Unlocked": false,
+      "Index": 6,
+      "GoldToUnlock": 0
+    },
+    {
+      "PartID": 0,
+      "Type": 0,
+      "Unlocked": false,
+      "Index": 8,
+      "GoldToUnlock": 0
+    },
+    {
+      "PartID": 0,
+      "Type": 1,
+      "Unlocked": false,
+      "Index": 10,
+      "GoldToUnlock": 25
+    },
+    {
+      "PartID": 0,
+      "Type": 0,
+      "Unlocked": false,
+      "Index": 11,
+      "GoldToUnlock": 0
+    },
+    {
+      "PartID": 0,
+      "Type": 1,
+      "Unlocked": false,
+      "Index": 12,
+      "GoldToUnlock": 25
+    },
+    {
+      "PartID": 0,
+      "Type": 0,
+      "Unlocked": false,
+      "Index": 13,
+      "GoldToUnlock": 0
+    },
+    {
+      "PartID": 0,
+      "Type": 1,
+      "Unlocked": false,
+      "Index": 14,
+      "GoldToUnlock": 25
+    },
+
+
+    {
+      "PartID": 1,
+      "Type": 0,
+      "Unlocked": false,
+      "Index": 0,
+      "GoldToUnlock": 0
+    },
+    {
+      "PartID": 1,
+      "Type": 1,
+      "Unlocked": false,
+      "Index": 4,
+      "GoldToUnlock": 25
+    },
+    {
+      "PartID": 1,
+      "Type": 1,
+      "Unlocked": false,
+      "Index": 5,
+      "GoldToUnlock": 25
+    },
+    {
+      "PartID": 1,
+      "Type": 0,
+      "Unlocked": false,
+      "Index": 6,
+      "GoldToUnlock": 0
+    },
+    {
+      "PartID": 1,
+      "Type": 0,
+      "Unlocked": false,
+      "Index": 7,
+      "GoldToUnlock": 0
+    },
+    {
+      "PartID": 1,
+      "Type": 1,
+      "Unlocked": false,
+      "Index": 8,
+      "GoldToUnlock": 25
+    },
+    {
+      "PartID": 1,
+      "Type": 1,
+      "Unlocked": false,
+      "Index": 9,
+      "GoldToUnlock": 25
+    },
+    {
+      "PartID": 1,
+      "Type": 1,
+      "Unlocked": false,
+      "Index": 9,
+      "GoldToUnlock": 25
+    },
+    {
+      "PartID": 2,
+      "Type": 0,
+      "Unlocked": false,
+      "Index": 3,
+      "GoldToUnlock": 0
+    },
+    {
+      "PartID": 2,
+      "Type": 0,
+      "Unlocked": false,
+      "Index": 4,
+      "GoldToUnlock": 0
+    },
+    {
+      "PartID": 2,
+      "Type": 0,
+      "Unlocked": false,
+      "Index": 5,
+      "GoldToUnlock": 0
+    },
+    {
+      "PartID": 2,
+      "Type": 0,
+      "Unlocked": false,
+      "Index": 6,
+      "GoldToUnlock": 0
+    },
+    {
+      "PartID": 2,
+      "Type": 0,
+      "Unlocked": false,
+      "Index": 8,
+      "GoldToUnlock": 0
+    },
+    {
+      "PartID": 2,
+      "Type": 1,
+      "Unlocked": false,
+      "Index": 10,
+      "GoldToUnlock": 25
+    },
+    {
+      "PartID": 2,
+      "Type": 0,
+      "Unlocked": false,
+      "Index": 11,
+      "GoldToUnlock": 0
+    },
+    {
+      "PartID": 2,
+      "Type": 1,
+      "Unlocked": false,
+      "Index": 12,
+      "GoldToUnlock": 25
+    },
+    {
+      "PartID": 2,
+      "Type": 0,
+      "Unlocked": false,
+      "Index": 13,
+      "GoldToUnlock": 0
+    },
+    {
+      "PartID": 2,
+      "Type": 1,
+      "Unlocked": false,
+      "Index": 14,
+      "GoldToUnlock": 25
+    },
+    {
+      "PartID": 2,
+      "Type": 0,
+      "Unlocked": false,
+      "Index": 15,
+      "GoldToUnlock": 0
+    },
+    {
+      "PartID": 2,
+      "Type": 0,
+      "Unlocked": false,
+      "Index": 16,
+      "GoldToUnlock": 0
+    },
+    {
+      "PartID": 2,
+      "Type": 0,
+      "Unlocked": false,
+      "Index": 17,
+      "GoldToUnlock": 0
+    },
+    {
+      "PartID": 2,
+      "Type": 1,
+      "Unlocked": false,
+      "Index": 18,
+      "GoldToUnlock": 25
+    },
+    {
+      "PartID": 3,
+      "Type": 0,
+      "Unlocked": false,
+      "Index": 3,
+      "GoldToUnlock": 0
+    },
+    {
+      "PartID": 3,
+      "Type": 0,
+      "Unlocked": false,
+      "Index": 4,
+      "GoldToUnlock": 0
+    },
+    {
+      "PartID": 3,
+      "Type": 0,
+      "Unlocked": false,
+      "Index": 5,
+      "GoldToUnlock": 0
+    },
+    {
+      "PartID": 3,
+      "Type": 0,
+      "Unlocked": false,
+      "Index": 7,
+      "GoldToUnlock": 0
+    },
+    {
+      "PartID": 3,
+      "Type": 1,
+      "Unlocked": false,
+      "Index": 9,
+      "GoldToUnlock": 25
+    },
+    {
+      "PartID": 3,
+      "Type": 0,
+      "Unlocked": false,
+      "Index": 10,
+      "GoldToUnlock": 0
+    },
+    {
+      "PartID": 3,
+      "Type": 0,
+      "Unlocked": false,
+      "Index": 11,
+      "GoldToUnlock": 0
+    },
+    {
+      "PartID": 3,
+      "Type": 1,
+      "Unlocked": false,
+      "Index": 12,
+      "GoldToUnlock": 25
+    },
+    {
+      "PartID": 3,
+      "Type": 0,
+      "Unlocked": false,
+      "Index": 13,
+      "GoldToUnlock": 0
+    },
+    {
+      "PartID": 4,
+      "Type": 1,
+      "Unlocked": false,
+      "Index": 2,
+      "GoldToUnlock": 25
+    },
+    {
+      "PartID": 4,
+      "Type": 0,
+      "Unlocked": false,
+      "Index": 3,
+      "GoldToUnlock": 0
+    },
+    {
+      "PartID": 4,
+      "Type": 1,
+      "Unlocked": false,
+      "Index": 4,
+      "GoldToUnlock": 25
+    },
+    {
+      "PartID": 4,
+      "Type": 0,
+      "Unlocked": false,
+      "Index": 5,
+      "GoldToUnlock": 0
+    },
+    {
+      "PartID": 4,
+      "Type": 0,
+      "Unlocked": false,
+      "Index": 6,
+      "GoldToUnlock": 0
+    },
+    {
+      "PartID": 5,
+      "Type": 0,
+      "Unlocked": false,
+      "Index": 1,
+      "GoldToUnlock": 0
+    },
+    {
+      "PartID": 5,
+      "Type": 1,
+      "Unlocked": false,
+      "Index": 2,
+      "GoldToUnlock": 25
+    },
+    {
+      "PartID": 5,
+      "Type": 0,
+      "Unlocked": false,
+      "Index": 3,
+      "GoldToUnlock": 0
+    },
+    {
+      "PartID": 5,
+      "Type": 1,
+      "Unlocked": false,
+      "Index": 4,
+      "GoldToUnlock": 25
+    },
+    {
+      "PartID": 5,
+      "Type": 0,
+      "Unlocked": false,
+      "Index": 5,
+      "GoldToUnlock": 0
+    },
+    {
+      "PartID": 5,
+      "Type": 0,
+      "Unlocked": false,
+      "Index": 6,
+      "GoldToUnlock": 0
+    },
+    {
+      "PartID": 5,
+      "Type": 0,
+      "Unlocked": false,
+      "Index": 7,
+      "GoldToUnlock": 0
+    }
+  ]
+}

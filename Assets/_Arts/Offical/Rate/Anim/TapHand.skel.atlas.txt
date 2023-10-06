@@ -1,0 +1,9 @@
+TapHand.skel.png
+size:276,152
+filter:Linear,Linear
+pma:true
+Circle
+bounds:174,52,94,94
+offsets:1,0,95,95
+Hand
+bounds:6,6,162,140

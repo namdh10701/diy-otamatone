@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6418aa01e60a9744aa25c65b7506567f, type: 3}
+  m_Name: Eye
+  m_EditorClassIdentifier: 
+  PartID: 2
+  Sprites:
+  - {fileID: 21300000, guid: 4e7dde4133f2f4d43979ef6fbd57fd6c, type: 3}
+  - {fileID: 21300000, guid: 1d47768033609284b966c253ffcb0a9a, type: 3}
+  - {fileID: 21300000, guid: dd0d046e8a7969a43a281a8404b9a0d1, type: 3}
+  - {fileID: 21300000, guid: 055fcaf40342c924c94523082630db43, type: 3}
+  - {fileID: 21300000, guid: d84bb56d810f20c499d6673e4263ee0a, type: 3}
+  - {fileID: 21300000, guid: 5b122e0396be5c34d8a239efd76df868, type: 3}
+  - {fileID: 21300000, guid: b1db1c2825a869e4a8800b32f5d78ed7, type: 3}
+  - {fileID: 21300000, guid: 53befa4277c62b146b7b810ebfb805ef, type: 3}
+  - {fileID: 21300000, guid: a9c211a95bd0106468862155cdf6123b, type: 3}
+  - {fileID: 21300000, guid: b98b0442a5f3ade439ebfa99a02443cb, type: 3}
+  - {fileID: 21300000, guid: 02142932a65e11240a2d08f4804f39a1, type: 3}
+  - {fileID: 21300000, guid: 44896bcbd37a6954784a70199a403a68, type: 3}
+  - {fileID: 21300000, guid: bc5a5e7bb84b5714996b7e896fe74e6e, type: 3}
+  - {fileID: 21300000, guid: 1888a1e3415231940a33156472612cf5, type: 3}
+  - {fileID: 21300000, guid: db9b66692c156e64aa813b211fdc263f, type: 3}
+  - {fileID: 21300000, guid: 64dabad8f22f6844b9043fee2d729f78, type: 3}
+  - {fileID: 21300000, guid: e0b7c6d0f2f993442af33ec7459331f1, type: 3}
+  - {fileID: 21300000, guid: d13386a3577e0bf469c053677c45096d, type: 3}
+  - {fileID: 21300000, guid: 1dbfabb5b3cdfba4996acc328cf5d07f, type: 3}
