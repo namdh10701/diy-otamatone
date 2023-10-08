@@ -13,11 +13,12 @@ using static LevelDefinition;
 public class LevelEditor : EditorWindow
 {
     private LevelDefinition sourcelevelDefinition;
-    private LevelDefinition loadedLevelDefinition;
+    [SerializeField] private LevelDefinition loadedLevelDefinition;
 
     private TileRunner tileRunner;
     private bool levelLoaded;
     private Camera camera;
+
     [MenuItem("Window/Level Editor")]
     static void Init()
     {
@@ -71,23 +72,18 @@ public class LevelEditor : EditorWindow
     }
     void OnPlayModeChanged(PlayModeStateChange state)
     {
-        /*if ((state == PlayModeStateChange.EnteredEditMode || state == PlayModeStateChange.EnteredPlayMode) && sourcelevelDefinition != null)
+        if ((state == PlayModeStateChange.EnteredEditMode) && sourcelevelDefinition != null)
         {
             Scene scene = EditorSceneManager.GetActiveScene();
             if (scene.name.Equals("LevelEditor"))
             {
+                Debug.Log("Loaded here");
                 LoadLevel(sourcelevelDefinition);
             }
         }
-        else*/
-        if (state == PlayModeStateChange.ExitingEditMode && sourcelevelDefinition != null && loadedLevelDefinition != null && !levelLoaded)
+        if (state == PlayModeStateChange.ExitingEditMode && sourcelevelDefinition != null && loadedLevelDefinition != null && levelLoaded)
         {
             Scene scene = EditorSceneManager.GetActiveScene();
-            if (scene.name.Equals("LevelEditor"))
-            {
-
-                SaveLevel(loadedLevelDefinition);
-            }
         }
     }
 
@@ -104,7 +100,6 @@ public class LevelEditor : EditorWindow
     string msg = "";
     private void OnGUI()
     {
-        OnWindowOpen();
         GUILayout.Label("Level Definition", EditorStyles.boldLabel);
 
         sourcelevelDefinition = (LevelDefinition)EditorGUILayout.ObjectField("Level Definition", sourcelevelDefinition, typeof(LevelDefinition), false, null);
@@ -119,14 +114,16 @@ public class LevelEditor : EditorWindow
             GUILayout.Label("Select a LevelDefinition ScriptableObject to begin.");
             return;
         }
+
         loadedLevelDefinition.LevelName = EditorGUILayout.TextField("Level Name", loadedLevelDefinition.LevelName);
         loadedLevelDefinition.MusicClip = (AudioClip)EditorGUILayout.ObjectField("Music", loadedLevelDefinition.MusicClip, typeof(AudioClip), false);
-        loadedLevelDefinition.NotePrefab = (Tile)EditorGUILayout.ObjectField("Note Prefab", loadedLevelDefinition.NotePrefab, typeof(Tile), false);
+        loadedLevelDefinition.TrailNote = (TrailTile)EditorGUILayout.ObjectField("Trail Note", loadedLevelDefinition.TrailNote, typeof(TrailTile), false);
+        loadedLevelDefinition.DownNote = (Tile)EditorGUILayout.ObjectField("Down Note", loadedLevelDefinition.DownNote, typeof(Tile), false);
         loadedLevelDefinition.Bpm = EditorGUILayout.FloatField("Bpm", loadedLevelDefinition.Bpm);
-        loadedLevelDefinition.StartOffset = EditorGUILayout.FloatField("Start Offset", loadedLevelDefinition.StartOffset);
-        loadedLevelDefinition.EndOffset = EditorGUILayout.FloatField("End Offset", loadedLevelDefinition.EndOffset);
-        loadedLevelDefinition.GridHeight = EditorGUILayout.FloatField("Grid height", loadedLevelDefinition.GridHeight);
-        loadedLevelDefinition.GridWidth = EditorGUILayout.FloatField("Grid width", loadedLevelDefinition.GridWidth);
+        loadedLevelDefinition.TimeToFirstNote = EditorGUILayout.FloatField("Time To First Note", loadedLevelDefinition.TimeToFirstNote);
+        loadedLevelDefinition.TimeFromLastNote = EditorGUILayout.FloatField("Time From Last Note", loadedLevelDefinition.TimeFromLastNote);
+        loadedLevelDefinition.GridHeight = EditorGUILayout.FloatField("Grid Height", loadedLevelDefinition.GridHeight);
+        //loadedLevelDefinition.NoteSpeed = EditorGUILayout.FloatField("Note Speed", loadedLevelDefinition.NoteSpeed);
         if (loadedLevelDefinition == null)
             return;
 
@@ -135,11 +132,14 @@ public class LevelEditor : EditorWindow
             ClearNotes();
             SpawnLevelNotes();
         }
-
-        if (GUILayout.Button("Spawn All Notes"))
+        Tile a = FindFirstObjectByType<Tile>();
+        if (a == null)
         {
-            msg = "";
-            SpawnAllNotes();
+            if (GUILayout.Button("Spawn All Notes"))
+            {
+                msg = "";
+                SpawnAllNotes();
+            }
         }
         if (GUILayout.Button("Clear Notes"))
         {
@@ -150,7 +150,6 @@ public class LevelEditor : EditorWindow
         {
             SaveLevel(loadedLevelDefinition);
         }
-        DrawGrid();
     }
 
     private void SaveLevel(LevelDefinition levelDefinition)
@@ -161,12 +160,29 @@ public class LevelEditor : EditorWindow
         {
             try
             {
-                levelDefinition.Spawnables[i] = new SpawnableObject()
+                if (spawnables[i].Type == Tile.NoteType.Trail)
                 {
-                    SpawnablePrefab = PrefabUtility.GetCorrespondingObjectFromOriginalSource(spawnables[i].gameObject),
-                    Row = spawnables[i].Row,
-                    Col = spawnables[i].Col
-                };
+                    float TrailHeight = ((TrailTile)spawnables[i]).TrailHeight;
+                    Debug.Log(TrailHeight);
+                    levelDefinition.Spawnables[i] = new SpawnableObject()
+                    {
+                        Type = (int)spawnables[i].Type,
+                        TrailHeight = TrailHeight,
+                        Row = spawnables[i].Row,
+                        Col = spawnables[i].Col
+                    };
+                }
+                else
+                {
+                    levelDefinition.Spawnables[i] = new SpawnableObject()
+                    {
+                        Type = (int)spawnables[i].Type,
+                        TrailHeight = 0,
+                        Row = spawnables[i].Row,
+                        Col = spawnables[i].Col
+                    };
+                }
+
             }
             catch (System.Exception e)
             {
@@ -182,10 +198,14 @@ public class LevelEditor : EditorWindow
 
     private void SpawnLevelNotes()
     {
+        float audioTimeHasBeat = (loadedLevelDefinition.MusicClip.length - loadedLevelDefinition.TimeToFirstNote - loadedLevelDefinition.TimeFromLastNote);
+        float x = Mathf.CeilToInt(loadedLevelDefinition.Bpm * audioTimeHasBeat / 60);
+        loadedLevelDefinition.NoteSpeed = (x - 1) * loadedLevelDefinition.GridHeight / audioTimeHasBeat;
+
         loadedLevelDefinition.Spawnables = sourcelevelDefinition.Spawnables;
         foreach (SpawnableObject spawnableObject in loadedLevelDefinition.Spawnables)
         {
-            SpawnNote(spawnableObject.Col, spawnableObject.Row);
+            SpawnNote2(spawnableObject.Col, spawnableObject.Row, spawnableObject.Type, spawnableObject.TrailHeight);
         }
     }
 
@@ -203,95 +223,118 @@ public class LevelEditor : EditorWindow
 
     private void LoadLevel(LevelDefinition levelDefinition)
     {
+        Debug.Log("Level loaded");
         WindowInit();
         loadedLevelDefinition = Instantiate(levelDefinition);
         ClearNotes();
         loadedLevelDefinition.LevelName = levelDefinition.LevelName;
         loadedLevelDefinition.MusicClip = levelDefinition.MusicClip;
-        loadedLevelDefinition.StartOffset = levelDefinition.StartOffset;
-        loadedLevelDefinition.EndOffset = levelDefinition.EndOffset;
+        loadedLevelDefinition.TimeToFirstNote = levelDefinition.TimeToFirstNote;
+        loadedLevelDefinition.TimeFromLastNote = levelDefinition.TimeFromLastNote;
         loadedLevelDefinition.Bpm = levelDefinition.Bpm;
         loadedLevelDefinition.GridHeight = levelDefinition.GridHeight;
         loadedLevelDefinition.Spawnables = levelDefinition.Spawnables;
-        loadedLevelDefinition.NotePrefab = levelDefinition.NotePrefab;
-        loadedLevelDefinition.GridWidth = levelDefinition.GridWidth;
+        loadedLevelDefinition.DownNote = levelDefinition.DownNote;
+        loadedLevelDefinition.GridWidth = 1.8f;
         levelLoaded = true;
-
+        tileRunner.LevelDefinition = loadedLevelDefinition;
         SpawnLevelNotes();
 
         //TODO Handle Spawnable here
     }
     private void SpawnAllNotes()
     {
-        if (loadedLevelDefinition.NotePrefab == null)
-        {
-            Debug.LogError("Prefab not assigned.");
-            return;
-        }
-
-        loadedLevelDefinition.Row = Mathf.CeilToInt(loadedLevelDefinition.Bpm * (loadedLevelDefinition.MusicClip.length - loadedLevelDefinition.StartOffset - loadedLevelDefinition.EndOffset) / 60);
+        float audioTimeHasBeat = (loadedLevelDefinition.MusicClip.length - loadedLevelDefinition.TimeToFirstNote - loadedLevelDefinition.TimeFromLastNote);
+        float x = loadedLevelDefinition.Bpm * audioTimeHasBeat / 60;
+        loadedLevelDefinition.Row = Mathf.CeilToInt(loadedLevelDefinition.Bpm * audioTimeHasBeat / 60);
         Debug.Log($"Number of rows: {loadedLevelDefinition.Row}");
 
         for (int y = 0; y < loadedLevelDefinition.Row; y++)
         {
             SpawnNote(UnityEngine.Random.Range(0, 4), y);
+            //SpawnNote(0, y);
         }
+
+        loadedLevelDefinition.NoteSpeed = (loadedLevelDefinition.Row - 1) * loadedLevelDefinition.GridHeight / audioTimeHasBeat;
+        Debug.Log(loadedLevelDefinition.NoteSpeed);
     }
 
     private void SpawnNote(int col, int row)
     {
         Vector3 cameraPosition = Camera.main.transform.position;
-        Vector3 gridCenter = new Vector3(
-            cameraPosition.x,
-            cameraPosition.y,
-            0
-        );
+        Vector3 NoteSpawnPos = new Vector2(0, Camera.main.orthographicSize + 2.4f);
+        Vector3 gridCenter = new Vector3(0,
+            0,
+            0);
+        tileRunner.NoteRoot.transform.position = NoteSpawnPos;
         Vector3 spawnPosition = new Vector3(
-        gridCenter.x + col * loadedLevelDefinition.GridWidth - loadedLevelDefinition.GridWidth * 1.5f,
-        gridCenter.y + row * loadedLevelDefinition.GridHeight,
+        tileRunner.NoteRoot.transform.position.x + col * loadedLevelDefinition.GridWidth - .5f - 1.2f - 1,
+        tileRunner.NoteRoot.transform.position.y + row * loadedLevelDefinition.GridHeight,
         0
     );
-        Tile tile = (Tile)PrefabUtility.InstantiatePrefab(loadedLevelDefinition.NotePrefab, tileRunner.NoteRoot);
+
+        /*        row = Mathf.FloorToInt((spawnPosition.y) / (loadedLevelDefinition.GridWidth / 4));*/
+        Tile notePrefab = loadedLevelDefinition.DownNote;
+
+        Tile tile = (Tile)PrefabUtility.InstantiatePrefab(notePrefab, tileRunner.NoteRoot);
+        tile.IsSnapToGrid = false;
         tile.LevelDefinition = loadedLevelDefinition;
-        tile.name = $"Tile C: {col} R:{row}";
-        tile.Text.text = $"C: {col} R:{row}";
-        tile.Row = row;
+
         tile.Col = col;
         tile.transform.position = spawnPosition;
+
+        tile.Row = (int)(Mathf.Round(tile.transform.localPosition.y) / (loadedLevelDefinition.GridHeight / 4));
+        tile.name = $"Tile C:{col} R:{tile.Row}";
+        tile.Text.text = $"C:{col} R:{tile.Row}";
+
         tile.SpawnPosition = tile.transform.position;
+
+        //tile.Transform.hasChanged = false;
+        tile.IsSnapToGrid = true;
     }
-    private void OnDrawGizmos()
+
+    private void SpawnNote2(int col, int row, int type, float trailHeight)
     {
-        DrawGrid();
-    }
-
-    private void DrawGrid()
-    {
-        if (loadedLevelDefinition == null || camera == null)
-            return;
-
-        Handles.color = Color.gray;
-
-        float halfWidth = loadedLevelDefinition.GridWidth * 0.5f;
-        float halfHeight = loadedLevelDefinition.GridHeight * 0.5f;
-
-        // Draw vertical lines
-        for (float x = camera.transform.position.x - halfWidth;
-             x <= camera.transform.position.x + halfWidth;
-             x += loadedLevelDefinition.GridWidth)
+        Vector3 cameraPosition = Camera.main.transform.position;
+        Vector3 NoteSpawnPos = new Vector2(0, Camera.main.orthographicSize + 2.4f);
+        Vector3 gridCenter = new Vector3(0,
+            0,
+            0);
+        tileRunner.NoteRoot.transform.position = NoteSpawnPos;
+        Vector3 spawnPosition = new Vector3(
+        tileRunner.NoteRoot.transform.position.x + col * loadedLevelDefinition.GridWidth - .5f - 1.2f - 1,
+        tileRunner.NoteRoot.transform.position.y + row * (loadedLevelDefinition.GridHeight / 4),
+        0
+    );
+        Tile notePrefab;
+        if (type == 0)
         {
-            Handles.DrawLine(new Vector3(x, camera.transform.position.y - halfHeight),
-                             new Vector3(x, camera.transform.position.y + halfHeight));
+            notePrefab = loadedLevelDefinition.DownNote;
         }
-
-        // Draw horizontal lines
-        for (float y = camera.transform.position.y - halfHeight;
-             y <= camera.transform.position.y + halfHeight;
-             y += loadedLevelDefinition.GridHeight)
+        else
         {
-            Handles.DrawLine(new Vector3(camera.transform.position.x - halfWidth, y),
-                             new Vector3(camera.transform.position.x + halfWidth, y));
+            notePrefab = loadedLevelDefinition.TrailNote;
+            notePrefab.GetComponent<TrailTile>().SetTrailHeight(trailHeight* loadedLevelDefinition.GridHeight / 4);
         }
+        /*        row = Mathf.FloorToInt((spawnPosition.y) / (loadedLevelDefinition.GridWidth / 4));*/
+
+
+        Tile tile = (Tile)PrefabUtility.InstantiatePrefab(notePrefab, tileRunner.NoteRoot);
+        tile.IsSnapToGrid = false;
+        tile.LevelDefinition = loadedLevelDefinition;
+
+        tile.Col = col;
+        tile.transform.position = spawnPosition;
+
+        tile.Row = (int)(Mathf.Round(tile.transform.localPosition.y) / (loadedLevelDefinition.GridHeight / 4));
+        tile.name = $"Tile C:{col} R:{tile.Row}";
+        if (tile.Text != null)
+            tile.Text.text = $"C:{col} R:{tile.Row}";
+
+        tile.SpawnPosition = tile.transform.position;
+
+        tile.Transform.hasChanged = true;
+        tile.IsSnapToGrid = true;
     }
 }
 

@@ -437,9 +437,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1bb1203cf30c4446a57a703558ad69e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isDebugAnalytics: 1
+  _isDebugAnalytics: 0
   _isDebugCrashlytics: 0
-  _isDebugRemote: 1
+  _isDebugRemote: 0
   _adsHandler: {fileID: 6448629487763094467}
 --- !u!1 &7073406447881331992
 GameObject:
@@ -580,8 +580,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 071e1ff85fe5da34297c60783bb4890f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isDebugNative: 1
-  _isDebugBanner: 1
-  _isDebugOpen: 1
-  _isDebugRewarded: 1
-  _isDebugInter: 1
+  _isDebugNative: 0
+  _isDebugBanner: 0
+  _isDebugOpen: 0
+  _isDebugRewarded: 0
+  _isDebugInter: 0

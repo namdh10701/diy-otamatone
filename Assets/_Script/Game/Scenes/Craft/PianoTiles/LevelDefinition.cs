@@ -5,32 +5,38 @@ public class LevelDefinition : ScriptableObject
 {
     public string LevelName;
     public AudioClip MusicClip;
-    public float StartOffset;
-    public float EndOffset;
+    public float TimeToFirstNote;
+    public float TimeFromLastNote;
     public float Bpm;
     public float GridHeight;
-    public float GridWidth;
+    public float GridWidth = 1.8f;
     public float Row;
-    public Tile NotePrefab;
+    public float NoteSpeed;
+    public Tile DownNote;
+    public TrailTile TrailNote;
     public SpawnableObject[] Spawnables;
 
     public void SaveValue(LevelDefinition levelDefinition)
     {
+        name = levelDefinition.LevelName;
         LevelName = levelDefinition.LevelName;
         MusicClip = levelDefinition.MusicClip;
-        StartOffset = levelDefinition.StartOffset;
-        EndOffset = levelDefinition.EndOffset;
+        TimeFromLastNote = levelDefinition.TimeFromLastNote;
+        TimeToFirstNote = levelDefinition.TimeToFirstNote;
         Bpm = levelDefinition.Bpm;
         GridHeight = levelDefinition.GridHeight;
         GridHeight = levelDefinition.GridHeight;
         Spawnables = levelDefinition.Spawnables;
-        NotePrefab = levelDefinition.NotePrefab;
+        DownNote = levelDefinition.DownNote;
+        NoteSpeed = levelDefinition.NoteSpeed;
+        TrailNote = levelDefinition.TrailNote;
     }
 
     [System.Serializable]
     public class SpawnableObject
     {
-        public GameObject SpawnablePrefab;
+        public int Type;
+        public float TrailHeight;
         public int Row;
         public int Col;
     }

@@ -7,6 +7,7 @@ public class FitRatioCamera : MonoBehaviour
     public Canvas canvas;
     public SpriteRenderer bg;
     public RectTransform banner;
+    public AnchorToCamera AnchorToCamera;
     private void Awake()
     {
 
@@ -18,6 +19,10 @@ public class FitRatioCamera : MonoBehaviour
 
 
         Camera.main.orthographicSize = targetOrthoSize1;
+        if (AnchorToCamera != null)
+        {
+            AnchorToCamera.Apply();
+        }
         //Camera.main.transform.position = new Vector3(0, +(Camera.main.orthographicSize - cameraOriginalSize), -10);
     }
 }

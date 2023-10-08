@@ -1,5 +1,9 @@
 using Core.Singleton;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
@@ -7,22 +11,27 @@ using UnityEngine.SceneManagement;
 
 public class TileRunner : Singleton<TileRunner>
 {
-    public enum State
-    {
-        Playing, Stop
-    }
-    private State _currentState;
-    [SerializeField] private float _tileSpeed;
-    private LevelDefinition currentLevel;
-    private Tile[] _activeTiles;
-    [SerializeField] private Transform _noteHitLine;
+
     private bool levelEditorMode = false;
     public Transform NoteRoot;
+    public Vector2 NoteSpawnPos = new Vector2(0, 8);
 
+    public enum State
+    {
+        DelayPlay, Playing, Stop
+    }
+
+    public LevelDefinition LevelDefinition;
+    public AudioSource AudioSource;
+    public float offsetTime;
+    [SerializeField] private Transform _noteHitLine;
+
+    [SerializeField] private State _currentState = State.Stop;
+    public List<Tile> ActiveTiles;
     protected override void Awake()
     {
         base.Awake();
-
+        NoteSpawnPos = new Vector2(0, Camera.main.orthographicSize + 2.4f);
         //LoadLevel(LevelSelectionScreen.current);
     }
 
@@ -30,114 +39,47 @@ public class TileRunner : Singleton<TileRunner>
     {
         if (SceneManager.GetActiveScene().name == "LevelEditor")
         {
-            Debug.Log("Awake");
-            levelEditorMode = true;
-            _activeTiles = FindObjectsOfType<Tile>().ToArray();
-            StartGame();
+            ActiveTiles = FindObjectsOfType<Tile>().ToList();
         }
+
     }
-    public void LoadLevel(LevelDefinition levelDefinition)
+
+    public void StartTheGame()
     {
-        currentLevel = levelDefinition;
-        //tiles =
+        _currentState = State.DelayPlay;
+        float timeFirstNoteReachLine = (NoteSpawnPos.y - _noteHitLine.position.y) / LevelDefinition.NoteSpeed;
+        float offsetTimeMinus = timeFirstNoteReachLine - LevelDefinition.TimeToFirstNote;
+        AudioSource.clip = LevelDefinition.MusicClip;
+        AudioSource.Play();
+        StartCoroutine(Delay(Mathf.Abs(offsetTimeMinus)));
+
+    }
+    IEnumerator Delay(float time)
+    {
+        Debug.Log($"Delay time {time}");
+        yield return new WaitForSecondsRealtime(time);
         StartGame();
     }
-
     private void StartGame()
-    {
-        ResetLevel();
-    }
-
-    private void ResetLevel()
     {
         _currentState = State.Playing;
     }
-    private void Update()
+    float elapsedTime = 0;
+    public TextMeshProUGUI text;
+    void Update()
     {
         switch (_currentState)
         {
             case State.Playing:
-                for (int i = 0; i < _activeTiles.Length; i++)
-                {
-                    _activeTiles[i].transform.Translate(Vector3.down * _tileSpeed * Time.deltaTime);
-                }
+                NoteRoot.transform.Translate(Vector3.down * LevelDefinition.NoteSpeed * Time.deltaTime);
                 break;
         }
     }
-
-
-    public static void LoadLevel(LevelDefinition levelDefinition, ref GameObject levelGameObject)
+    public void StopGame()
     {
-        if (levelDefinition == null)
-        {
-            Debug.LogError("Invalid Level!");
-            return;
-        }
-
-        if (levelGameObject != null)
-        {
-            if (Application.isPlaying)
-            {
-                Destroy(levelGameObject);
-            }
-            else
-            {
-                DestroyImmediate(levelGameObject);
-            }
-        }
-
-        /* levelGameObject = new GameObject("LevelManager");
-         LevelManager levelManager = levelGameObject.AddComponent<LevelManager>();
-         levelManager.LevelDefinition = levelDefinition;
-         Transform levelParent = levelGameObject.transform;
-
-         for (int i = 0; i < levelDefinition.Spawnables.Length; i++)
-         {
-             LevelDefinition.SpawnableObject spawnableObject = levelDefinition.Spawnables[i];
-
-             if (spawnableObject.SpawnablePrefab == null)
-             {
-                 continue;
-             }
-
-             Vector3 position = spawnableObject.Position;
-             Vector3 eulerAngles = spawnableObject.EulerAngles;
-             Vector3 scale = spawnableObject.Scale;
-
-             GameObject go = null;
-
-             if (Application.isPlaying)
-             {
-                 go = GameObject.Instantiate(spawnableObject.SpawnablePrefab, position, Quaternion.Euler(eulerAngles));
-             }
-             else
-             {
- #if UNITY_EDITOR
-                 go = (GameObject)PrefabUtility.InstantiatePrefab(spawnableObject.SpawnablePrefab);
-                 go.transform.position = position;
-                 go.transform.eulerAngles = eulerAngles;
- #endif
-             }
-
-             if (go == null)
-             {
-                 return;
-             }
-
-             // Set Base Color
-             Spawnable spawnable = go.GetComponent<Spawnable>();
-             if (spawnable != null)
-             {
-                 spawnable.SetBaseColor(spawnableObject.BaseColor);
-                 spawnable.SetScale(scale);
-                 levelManager.AddSpawnable(spawnable);
-             }
-
-             if (go != null)
-             {
-                 go.transform.SetParent(levelParent);
-             }
-         }*/
+        _currentState = State.Stop;
+        AudioSource.Stop();
+        ActiveTiles = null;
     }
 
 }
