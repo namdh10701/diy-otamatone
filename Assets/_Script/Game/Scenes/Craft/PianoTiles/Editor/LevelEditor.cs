@@ -18,7 +18,7 @@ public class LevelEditor : EditorWindow
     private TileRunner tileRunner;
     private bool levelLoaded;
     private Camera camera;
-
+    
     [MenuItem("Window/Level Editor")]
     static void Init()
     {
@@ -123,7 +123,7 @@ public class LevelEditor : EditorWindow
         loadedLevelDefinition.TimeToFirstNote = EditorGUILayout.FloatField("Time To First Note", loadedLevelDefinition.TimeToFirstNote);
         loadedLevelDefinition.TimeFromLastNote = EditorGUILayout.FloatField("Time From Last Note", loadedLevelDefinition.TimeFromLastNote);
         loadedLevelDefinition.GridHeight = EditorGUILayout.FloatField("Grid Height", loadedLevelDefinition.GridHeight);
-        //loadedLevelDefinition.NoteSpeed = EditorGUILayout.FloatField("Note Speed", loadedLevelDefinition.NoteSpeed);
+        loadedLevelDefinition.NoteSpeed = EditorGUILayout.FloatField("Note Speed", loadedLevelDefinition.NoteSpeed);
         if (loadedLevelDefinition == null)
             return;
 
@@ -198,10 +198,10 @@ public class LevelEditor : EditorWindow
 
     private void SpawnLevelNotes()
     {
-        float audioTimeHasBeat = (loadedLevelDefinition.MusicClip.length - loadedLevelDefinition.TimeToFirstNote - loadedLevelDefinition.TimeFromLastNote);
-        float x = Mathf.CeilToInt(loadedLevelDefinition.Bpm * audioTimeHasBeat / 60);
-        loadedLevelDefinition.NoteSpeed = (x - 1) * loadedLevelDefinition.GridHeight / audioTimeHasBeat;
-
+        float x = loadedLevelDefinition.Bpm * (loadedLevelDefinition.MusicClip.length / 60);
+        loadedLevelDefinition.Row = Mathf.CeilToInt(x);
+        float result = (x - 1) * loadedLevelDefinition.GridHeight / loadedLevelDefinition.MusicClip.length;
+        Debug.LogWarning($"Suggest Note Speed: "+ result);
         loadedLevelDefinition.Spawnables = sourcelevelDefinition.Spawnables;
         foreach (SpawnableObject spawnableObject in loadedLevelDefinition.Spawnables)
         {
@@ -245,18 +245,16 @@ public class LevelEditor : EditorWindow
     private void SpawnAllNotes()
     {
         float audioTimeHasBeat = (loadedLevelDefinition.MusicClip.length - loadedLevelDefinition.TimeToFirstNote - loadedLevelDefinition.TimeFromLastNote);
-        float x = loadedLevelDefinition.Bpm * audioTimeHasBeat / 60;
-        loadedLevelDefinition.Row = Mathf.CeilToInt(loadedLevelDefinition.Bpm * audioTimeHasBeat / 60);
-        Debug.Log($"Number of rows: {loadedLevelDefinition.Row}");
-
+        float x = loadedLevelDefinition.Bpm * (loadedLevelDefinition.MusicClip.length / 60);
+        loadedLevelDefinition.Row = Mathf.CeilToInt(x);
+        float result = (x - 1) * loadedLevelDefinition.GridHeight / loadedLevelDefinition.MusicClip.length;
+        Debug.LogWarning($"Suggest Note Speed: " + result);
         for (int y = 0; y < loadedLevelDefinition.Row; y++)
         {
-            SpawnNote(UnityEngine.Random.Range(0, 4), y);
+            SpawnNote(0, y);
             //SpawnNote(0, y);
         }
-
-        loadedLevelDefinition.NoteSpeed = (loadedLevelDefinition.Row - 1) * loadedLevelDefinition.GridHeight / audioTimeHasBeat;
-        Debug.Log(loadedLevelDefinition.NoteSpeed);
+       
     }
 
     private void SpawnNote(int col, int row)
@@ -285,9 +283,6 @@ public class LevelEditor : EditorWindow
 
         tile.Row = (int)(Mathf.Round(tile.transform.localPosition.y) / (loadedLevelDefinition.GridHeight / 4));
         tile.name = $"Tile C:{col} R:{tile.Row}";
-        tile.Text.text = $"C:{col} R:{tile.Row}";
-
-        tile.SpawnPosition = tile.transform.position;
 
         //tile.Transform.hasChanged = false;
         tile.IsSnapToGrid = true;
@@ -314,7 +309,7 @@ public class LevelEditor : EditorWindow
         else
         {
             notePrefab = loadedLevelDefinition.TrailNote;
-            notePrefab.GetComponent<TrailTile>().SetTrailHeight(trailHeight* loadedLevelDefinition.GridHeight / 4);
+            notePrefab.GetComponent<TrailTile>().SetTrailHeight(trailHeight * loadedLevelDefinition.GridHeight / 4);
         }
         /*        row = Mathf.FloorToInt((spawnPosition.y) / (loadedLevelDefinition.GridWidth / 4));*/
 
@@ -328,10 +323,6 @@ public class LevelEditor : EditorWindow
 
         tile.Row = (int)(Mathf.Round(tile.transform.localPosition.y) / (loadedLevelDefinition.GridHeight / 4));
         tile.name = $"Tile C:{col} R:{tile.Row}";
-        if (tile.Text != null)
-            tile.Text.text = $"C:{col} R:{tile.Row}";
-
-        tile.SpawnPosition = tile.transform.position;
 
         tile.Transform.hasChanged = true;
         tile.IsSnapToGrid = true;

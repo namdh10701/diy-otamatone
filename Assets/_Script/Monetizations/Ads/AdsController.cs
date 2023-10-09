@@ -27,7 +27,7 @@ namespace Monetization.Ads
         private AdsUIController _adsUIController;
 
 
-        private bool _isFreeAdsTimeEnded = false;
+        public bool _isFreeAdsTimeEnded = false;
 
         [HideInInspector] public bool HasBanner;
         [HideInInspector] public bool IsShowingOpenAd;
@@ -312,6 +312,7 @@ namespace Monetization.Ads
         }
         public void ShowReward(Action<bool> watched)
         {
+            Debug.Log("Unlock");
             _onRewardClosed = watched;
             if (!_isRewardOn)
             {
@@ -389,12 +390,18 @@ namespace Monetization.Ads
         public void ShowInter(Action onInterClosed)
         {
             _onInterClosed = onInterClosed;
+
             if (!_isInterOn)
             {
                 _onInterClosed.Invoke();
                 return;
             }
-
+            if (!_isFreeAdsTimeEnded)
+            {
+                Debug.Log("Free Inter time");
+                _onInterClosed.Invoke();
+                return;
+            }
 
             if (IsShowingInterAd || IsShowingOpenAd)
             {

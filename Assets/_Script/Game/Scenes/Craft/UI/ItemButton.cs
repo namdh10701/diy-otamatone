@@ -109,6 +109,7 @@ namespace Game.Craft
 
         public void UnlockByReward()
         {
+            Debug.Log("Unlock");
             AdsController.Instance.ShowReward(
                 watched =>
                 {

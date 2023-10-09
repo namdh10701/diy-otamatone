@@ -14,6 +14,8 @@ public class ArrowButton : MonoBehaviour
     {
         Left, Down, Up, Right
     }
+    public AudioSource AudioSource;
+    public AudioClip clip;
     public Tween ScaleUpTween;
     public Tween ScaleDownTween;
     public ButtonDirection Direction;
@@ -78,6 +80,7 @@ public class ArrowButton : MonoBehaviour
     {
         if (target != null)
         {
+            //AudioSource.PlayOneShot(clip);
             target.OnClicked();
             return true;
         }

@@ -11,10 +11,9 @@ using UnityEngine.SceneManagement;
 
 public class TileRunner : Singleton<TileRunner>
 {
-
+    public AudioSource AudioSource;
     private bool levelEditorMode = false;
     public Transform NoteRoot;
-    public Vector2 NoteSpawnPos = new Vector2(0, 8);
 
     public enum State
     {
@@ -22,8 +21,7 @@ public class TileRunner : Singleton<TileRunner>
     }
 
     public LevelDefinition LevelDefinition;
-    public AudioSource AudioSource;
-    public float offsetTime;
+
     [SerializeField] private Transform _noteHitLine;
 
     [SerializeField] private State _currentState = State.Stop;
@@ -31,23 +29,25 @@ public class TileRunner : Singleton<TileRunner>
     protected override void Awake()
     {
         base.Awake();
-        NoteSpawnPos = new Vector2(0, Camera.main.orthographicSize + 2.4f);
         //LoadLevel(LevelSelectionScreen.current);
     }
 
     private void Start()
     {
-        if (SceneManager.GetActiveScene().name == "LevelEditor")
+        ActiveTiles = FindObjectsOfType<Tile>().ToList();
+        List<TrailTile> TrailTiles = FindObjectsOfType<TrailTile>().ToList();
+        foreach (TrailTile tile in ActiveTiles)
         {
-            ActiveTiles = FindObjectsOfType<Tile>().ToList();
+            tile.TrailMat = tile.Trail.material;
+            tile.TrailMat.SetTexture("_MainTex", tile.Trail.sprite.texture);
+            tile.TrailMat.SetFloat("_IsActive", 0);
         }
-
     }
 
     public void StartTheGame()
     {
         _currentState = State.DelayPlay;
-        float timeFirstNoteReachLine = (NoteSpawnPos.y - _noteHitLine.position.y) / LevelDefinition.NoteSpeed;
+        float timeFirstNoteReachLine = (Camera.main.orthographicSize + 2.4f - _noteHitLine.position.y) / LevelDefinition.NoteSpeed;
         float offsetTimeMinus = timeFirstNoteReachLine - LevelDefinition.TimeToFirstNote;
         AudioSource.clip = LevelDefinition.MusicClip;
         AudioSource.Play();
@@ -64,8 +64,6 @@ public class TileRunner : Singleton<TileRunner>
     {
         _currentState = State.Playing;
     }
-    float elapsedTime = 0;
-    public TextMeshProUGUI text;
     void Update()
     {
         switch (_currentState)
@@ -80,6 +78,11 @@ public class TileRunner : Singleton<TileRunner>
         _currentState = State.Stop;
         AudioSource.Stop();
         ActiveTiles = null;
+    }
+
+    public void ResetGame()
+    {
+
     }
 
 }

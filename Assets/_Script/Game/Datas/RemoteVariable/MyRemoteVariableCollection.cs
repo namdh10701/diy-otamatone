@@ -23,6 +23,7 @@ namespace Game.RemoteVariable
         public RemoteBool MouthTapShowInter;
         public RemoteBool NextBtnTapShowInter;
         public RemoteBool SequenceBtnTapShowInter;
+        public RemoteDouble FreeInterTime;
         public MyRemoteVariableCollection()
         {
             IsInterOn = new RemoteBool("IsInterOn", true);
@@ -42,6 +43,7 @@ namespace Game.RemoteVariable
             MouthTapShowInter = new RemoteBool("MouthTapShowInter", true);
             NextBtnTapShowInter = new RemoteBool("NextBtnTapShowInter", true);
             SequenceBtnTapShowInter = new RemoteBool("SequenceBtnTapShowInter", true);
+            FreeInterTime = new RemoteDouble("FreeInterTime", 10);
         }
 
         public override void AddToFetchQueue()
@@ -63,6 +65,7 @@ namespace Game.RemoteVariable
             AddVariable(MouthTapShowInter);
             AddVariable(NextBtnTapShowInter);
             AddVariable(SequenceBtnTapShowInter);
+            AddVariable(FreeInterTime);
         }
     }
 }

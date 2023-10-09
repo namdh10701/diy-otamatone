@@ -3996,7 +3996,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1659060683}
   m_Direction: 2
   m_Value: 1.000001
-  m_Size: 0.6437083
+  m_Size: 0.6437082
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -5624,6 +5624,7 @@ MonoBehaviour:
   canvas: {fileID: 0}
   bg: {fileID: 1106629583}
   banner: {fileID: 0}
+  AnchorToCamera: {fileID: 0}
 --- !u!1 &314209801
 GameObject:
   m_ObjectHideFlags: 0
@@ -11444,7 +11445,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   _isSpamable: 0
-  _clickCooldownDuration: 0.5
+  _clickCooldownDuration: 2
 --- !u!1 &422759686
 GameObject:
   m_ObjectHideFlags: 0
@@ -16407,8 +16408,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000015258789, y: 2.977499}
-  m_SizeDelta: {x: -21.29, y: -5.9549}
+  m_AnchoredPosition: {x: 0, y: 2.977499}
+  m_SizeDelta: {x: -10.31, y: -5.95}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &783700038
 MonoBehaviour:
@@ -16436,14 +16437,14 @@ MonoBehaviour:
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 4
-    m_MaxSize: 40
+    m_MaxSize: 22
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "c\xE0i \u0111\u1EB7t \u1EE9ng d\u1EE5ng lu\xF4n"
+  m_Text: "C\xE0i \u0110\u1EB7t"
 --- !u!222 &783700039
 CanvasRenderer:
   m_ObjectHideFlags: 0

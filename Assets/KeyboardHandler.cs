@@ -29,5 +29,21 @@ public class KeyboardHandler : MonoBehaviour
         {
             right.OnButton();
         }
+        if (Input.GetKeyUp(KeyCode.W))
+        {
+            up.OnRealease();
+        }
+        if (Input.GetKeyUp(KeyCode.A))
+        {
+            left.OnRealease();
+        }
+        if (Input.GetKeyUp(KeyCode.S))
+        {
+            down.OnRealease();
+        }
+        if (Input.GetKeyUp(KeyCode.D))
+        {
+            right.OnRealease();
+        }
     }
 }

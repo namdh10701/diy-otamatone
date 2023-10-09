@@ -2,18 +2,15 @@ using UnityEngine;
 using Core.Singleton;
 using static Game.Craft.CraftStateSequence;
 using System;
-using Game.Datas;
 using System.Collections;
 using UnityEngine.Events;
 using System.Collections.Generic;
-using System.Reflection;
 using Game.Audio;
 using Monetization.Ads.UI;
 using Monetization.Ads;
 using Services.FirebaseService.Analytics;
-using TMPro;
-using Game.Shared;
-using Core.UI;
+using Game.RemoteVariable;
+using Services.FirebaseService.Remote;
 
 namespace Game.Craft
 {
@@ -83,9 +80,16 @@ namespace Game.Craft
             PartID.Mouth,
             PartID.Background
         };
+
+        public void EndFreeInterTime()
+        {
+            AdsController.Instance._isFreeAdsTimeEnded = true;
+        }
         private void Start()
         {
-            Debug.Log(Screen.safeArea);
+            Game.RemoteVariable.RemoteVariable remoteVariable = Game.RemoteVariable.RemoteVariable.Convert(RemoteVariableManager.Instance.MyRemoteVariables);
+           
+            Invoke("EndFreeInterTime", remoteVariable.FreeInterTime);
             AdsHandler adsHandler = FindFirstObjectByType<AdsHandler>();
             adsHandler.LoadBannerAndNativeAd();
 
@@ -286,7 +290,7 @@ namespace Game.Craft
         {
             if (sequence.PartID == PartID.Monster)
             {
-               
+
             }
             foreach (SequenceButton b in _sequenceButtons)
             {

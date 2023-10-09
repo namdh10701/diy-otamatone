@@ -27,11 +27,6 @@ public class AdsHandler : MonoBehaviour
         return PlayerPrefs.GetInt(Constant.ADS_REMOVED_KEY) == 1;
     }
 
-    public static void SetAdBehavior()
-    {
-
-    }
-
     private void Start()
     {
         ApplyRemoteConfig();
@@ -54,7 +49,7 @@ public class AdsHandler : MonoBehaviour
     public void ApplyRemoteConfig()
     {
         RemoteVariable remoteVariable = RemoteVariable.Convert(RemoteVariableManager.Instance.MyRemoteVariables);
-       
+
         AdsController.Instance.SetInterOn(remoteVariable.IsInterOn);
         AdsController.Instance.SetRewardOn(remoteVariable.IsRewardOn);
         AdsIntervalValidator.INTERVAL_REWARD_INTER = remoteVariable.InterRewardInterval;
@@ -72,7 +67,13 @@ public class AdsHandler : MonoBehaviour
         CraftSequenceManager.SequenceBtnTapShowInter = remoteVariable.SequenceBtnTapShowInter;
         CraftSequenceManager.BeforeWinPanelShowInter = remoteVariable.BeforeWinPanelShowInter;
         CraftSequenceManager.NextBtnTapShowInter = remoteVariable.NextBtnTapShowInter;
+        
         //TODO AdInterval
+    }
+
+    private void EndFreeInterTime()
+    {
+        AdsController.Instance._isFreeAdsTimeEnded = true;
     }
 
     private void TurnBannerOn()

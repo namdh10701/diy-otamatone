@@ -3,26 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteAlways]
 public class TrailTile : Tile
 {
     public SpriteRenderer Trail;
-    public Sprite UpTrail;
-    public Sprite DownTrail;
-    public Sprite LeftTrail;
-    public Sprite RightTrail;
     public float TrailHeight;
     public Material TrailMat;
     public bool IsClicked;
     protected override void Awake()
     {
         base.Awake();
-        TrailMat = Trail.material;
-
-        TrailMat.SetTexture("_MainTex", Trail.sprite.texture);
         Type = NoteType.Trail;
-    }
-    private void Start()
-    {
     }
     protected override void SnapToGrid()
     {
@@ -30,16 +21,16 @@ public class TrailTile : Tile
         switch (Col)
         {
             case 0:
-                Trail.sprite = LeftTrail;
+                Trail.sprite = AssetHolder.Instance.LeftTrail;
                 break;
             case 1:
-                Trail.sprite = DownTrail;
+                Trail.sprite = AssetHolder.Instance.DownTrail;
                 break;
             case 2:
-                Trail.sprite = UpTrail;
+                Trail.sprite = AssetHolder.Instance.UpTrail;
                 break;
             case 3:
-                Trail.sprite = RightTrail;
+                Trail.sprite = AssetHolder.Instance.RightTrail;
                 break;
         }
     }
@@ -66,8 +57,9 @@ public class TrailTile : Tile
         StartCoroutine(LerpMaterialProperty("_IsActive", 1f, .2f));
         GetComponent<SpriteRenderer>().enabled = false;
     }
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
         if (IsClicked)
         {
 

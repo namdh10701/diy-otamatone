@@ -49,13 +49,19 @@ Shader "Unlit/Trail Shader"
 					if (col1.w > .2) {
 						col1.w = .3;
 					}
-					if (_IsActive > .8) {
-						if (col1.w >= .3) {
-							col1.w = .7;
-						}
-					}
+					//if (_IsActive > .8) {
+					//	if (col1.w >= .3) {
+					//		col1.w = .7;
+					//	}
+					//}
+	
+					float fade = 1.0 - saturate((i.uv.y - (1.0 - _Height)) / _Height);
+
+			
+						col1.w = lerp(col1.w, .5, fade); // Fade out the alpha
+			
 					float4 col2 = col1;
-					col2.xyz += .4;
+					col2.xyz += .3;
 					float4 finalCol = lerp(col1, col2, _IsActive);
 
 					if (i.uv.y < (1 - _Height)) {

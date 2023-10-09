@@ -21,6 +21,7 @@ namespace Game.RemoteVariable
         public bool MouthTapShowInter;
         public bool NextBtnTapShowInter;
         public bool SequenceBtnTapShowInter;
+        public float FreeInterTime;
         public static T Convert<T>(RemoteJson remoteJson)
         {
             return JsonUtility.FromJson<T>((string)remoteJson.Value);
@@ -45,7 +46,7 @@ namespace Game.RemoteVariable
             remoteVariable.MouthTapShowInter = myRemoteVariableCollection.MouthTapShowInter.Value;
             remoteVariable.NextBtnTapShowInter = myRemoteVariableCollection.NextBtnTapShowInter.Value;
             remoteVariable.SequenceBtnTapShowInter = myRemoteVariableCollection.SequenceBtnTapShowInter.Value;
-
+            remoteVariable.FreeInterTime = (float)myRemoteVariableCollection.FreeInterTime.Value;
             return remoteVariable;
         }
     }

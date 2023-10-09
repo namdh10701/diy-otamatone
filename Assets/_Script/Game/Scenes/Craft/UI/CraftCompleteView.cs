@@ -50,7 +50,7 @@ namespace Game.Craft
             if ((PlayerPrefs.GetInt(Constant.REVIEWED_BY_PLAYER_KEY, 0)) == 0
                 && CraftSequenceManager.playedTimeCount >= 2)
             {
-                Hide();
+                HideImmediately();
                 ViewManager.Instance.GetView<RatePanel>().Show(
                     () =>
                     {
@@ -61,10 +61,11 @@ namespace Game.Craft
             }
             else
             {
+                HideImmediately();
                 AdsController.Instance.ShowInter(
                     () =>
                     {
-                        Hide();
+                        
                         CloseCurtain();
                     }
                     );

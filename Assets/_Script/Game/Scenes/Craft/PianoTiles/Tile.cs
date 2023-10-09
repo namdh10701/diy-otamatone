@@ -11,17 +11,11 @@ public class Tile : MonoBehaviour
     //TODO Snap To Grid
     public int Row;
     public int Col;
-    public TextMeshProUGUI Text;
     public Transform Transform;
     public LevelDefinition LevelDefinition;
     public bool IsSnapToGrid;
-    public Vector3 Position;
-    public Vector3 SpawnPosition;
     public SpriteRenderer sp;
-    public Sprite UpSprite;
-    public Sprite LeftSprite;
-    public Sprite DownSprite;
-    public Sprite RightSprite;
+
     public NoteType Type;
     public enum NoteType
     {
@@ -55,13 +49,12 @@ public class Tile : MonoBehaviour
         Destroy(gameObject);
     }
 
-    void Update()
+    protected virtual void Update()
     {
-        if (!Application.isPlaying && LevelDefinition != null && SpawnPosition != null)
+        if (!Application.isPlaying && LevelDefinition != null)
         {
             if (Transform.hasChanged)
             {
-                Position = Transform.position;
                 Transform.hasChanged = false;
                 SnapToGrid();
             }
@@ -69,12 +62,10 @@ public class Tile : MonoBehaviour
     }
     protected virtual void SnapToGrid()
     {
-
-        if (!IsSnapToGrid || LevelDefinition == null || SpawnPosition == null)
+        if (!IsSnapToGrid || LevelDefinition == null)
         {
             return;
         }
-
         Vector3 position = transform.position;
         float x = 0;
         float y = 1;
@@ -98,22 +89,21 @@ public class Tile : MonoBehaviour
         Row = (int)Mathf.Round((transform.localPosition.y / (LevelDefinition.GridHeight / 4)));
         //Debug.Log(LevelDefinition.GridWidth / 4);
         name = $"C:{Col} R:{Row}";
-        if (Text != null) Text.text = $"C:{Col} R:{Row}";
         // Do not allow a snap to enable this flag
         Transform.hasChanged = false;
         switch (Col)
         {
             case 0:
-                sp.sprite = LeftSprite;
+                sp.sprite = AssetHolder.Instance.LeftSprite;
                 break;
             case 1:
-                sp.sprite = DownSprite;
+                sp.sprite = AssetHolder.Instance.DownSprite;
                 break;
             case 2:
-                sp.sprite = UpSprite;
+                sp.sprite = AssetHolder.Instance.UpSprite;
                 break;
             case 3:
-                sp.sprite = RightSprite;
+                sp.sprite = AssetHolder.Instance.RightSprite;
                 break;
         }
     }

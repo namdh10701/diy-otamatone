@@ -272,11 +272,12 @@ namespace Game.Craft
                 () =>
                 {
                     Curtain.AnimationState.SetAnimation(0, "Open", false);
-                    Curtain.AnimationState.AddAnimation(0, "Close", false, 1.25f);
+                    Curtain.AnimationState.AddAnimation(0, "Close", false, 1.1f);
                     Curtain.AnimationState.AddAnimation(0, "Open_Idle", false, 0);
                 }
                 ));
-            sequence.AppendInterval(.8f).OnComplete(
+            sequence.AppendInterval(.8f);
+            sequence.Append(transform.DOScaleX(0, 0).OnPlay(
                 () =>
                 {
                     Debug.Log("ShowInter Here");
@@ -287,7 +288,9 @@ namespace Game.Craft
                         }
                         );
                 }
-                );
+                ));
+
+
             sequence.Append(transform.DOMove(_monster.LeftHandIK.transform.position, 0));
             sequence.Append(transform.DORotate(new Vector3(0, 0, 49), 0));
             sequence.Append(transform.DOScale(new Vector3(-.85f, .85f, .85f), .0f).SetEase(Ease.OutBack));
