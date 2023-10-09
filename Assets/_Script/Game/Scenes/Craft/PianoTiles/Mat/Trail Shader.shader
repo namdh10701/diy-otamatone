@@ -45,29 +45,18 @@ Shader "Unlit/Trail Shader"
 
 				float4 frag(v2f i) : SV_Target
 				{
-					float4 col1 = tex2D(_MainTex, i.uv);
-					if (col1.w > .2) {
-						col1.w = .3;
+					float4 col = tex2D(_MainTex, i.uv);
+					bool HeightMask = i.uv.y < 1 - _Height;
+					col = lerp(col, 0, HeightMask);
+					if (col.a > .2) {
+						if (i.uv.y > 1 - _Height) {
+							col.a = lerp(0, 1, i.uv.y);
+						}
 					}
-					//if (_IsActive > .8) {
-					//	if (col1.w >= .3) {
-					//		col1.w = .7;
-					//	}
-					//}
-	
-					float fade = 1.0 - saturate((i.uv.y - (1.0 - _Height)) / _Height);
+					float4 hightlightCol = float4(col.xyz + .3f, col.a);
+					col = lerp(col, hightlightCol, _IsActive);
 
-			
-						col1.w = lerp(col1.w, .5, fade); // Fade out the alpha
-			
-					float4 col2 = col1;
-					col2.xyz += .3;
-					float4 finalCol = lerp(col1, col2, _IsActive);
-
-					if (i.uv.y < (1 - _Height)) {
-						finalCol.w = 0;
-					}
-				return finalCol;
+				return col;
 			}
 			ENDCG
 		}

@@ -235,6 +235,7 @@ MonoBehaviour:
   LevelDefinition: {fileID: 0}
   IsSnapToGrid: 1
   sp: {fileID: 5596524396706041303}
+  IsEditMode: 1
   Type: 1
   Trail: {fileID: 469859685465538464}
   TrailHeight: 8

@@ -36,9 +36,10 @@ public class TileRunner : Singleton<TileRunner>
     {
         ActiveTiles = FindObjectsOfType<Tile>().ToList();
         List<TrailTile> TrailTiles = FindObjectsOfType<TrailTile>().ToList();
-        foreach (TrailTile tile in ActiveTiles)
+        foreach (TrailTile tile in TrailTiles)
         {
             tile.TrailMat = tile.Trail.material;
+            tile.LevelDefinition = this.LevelDefinition;
             tile.TrailMat.SetTexture("_MainTex", tile.Trail.sprite.texture);
             tile.TrailMat.SetFloat("_IsActive", 0);
         }
@@ -53,6 +54,16 @@ public class TileRunner : Singleton<TileRunner>
         AudioSource.Play();
         StartCoroutine(Delay(Mathf.Abs(offsetTimeMinus)));
 
+    }
+
+    public void ResetLevel()
+    {
+        foreach (Tile tile in ActiveTiles)
+        {
+            tile.OnReset();
+        }
+        NoteRoot.position = new Vector2(0, Camera.main.orthographicSize + 2.4f);
+        StartTheGame();
     }
     IEnumerator Delay(float time)
     {
@@ -79,10 +90,4 @@ public class TileRunner : Singleton<TileRunner>
         AudioSource.Stop();
         ActiveTiles = null;
     }
-
-    public void ResetGame()
-    {
-
-    }
-
 }

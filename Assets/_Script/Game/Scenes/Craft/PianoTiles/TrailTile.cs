@@ -59,16 +59,25 @@ public class TrailTile : Tile
     }
     protected override void Update()
     {
-        base.Update();
-        if (IsClicked)
+        if (IsEditMode)
         {
-
-            float gothroughAmount = Mathf.Abs(transform.position.y - (-4.5f));
-            float y = (TrailHeight * (LevelDefinition.GridHeight / 4) - gothroughAmount) / (TrailHeight * (LevelDefinition.GridHeight / 4));
-            SetTrailHeightAlpha(y);
-            if (y < 0)
+            if (!Application.isPlaying && LevelDefinition != null)
             {
-                Destroy(gameObject);
+                if (Transform.hasChanged)
+                {
+                    Transform.hasChanged = false;
+                    SnapToGrid();
+                }
+            }
+        }
+        else
+        {
+            if (IsClicked)
+            {
+
+                float gothroughAmount = Mathf.Abs(transform.position.y - (-4.5f));
+                float y = (TrailHeight * (LevelDefinition.GridHeight / 4) - gothroughAmount) / (TrailHeight * (LevelDefinition.GridHeight / 4));
+                SetTrailHeightAlpha(y);
             }
         }
     }
@@ -92,5 +101,11 @@ public class TrailTile : Tile
     {
         Debug.Log(height);
         TrailMat.SetFloat("_Height", height);
+    }
+
+    public override void OnReset()
+    {
+        base.OnReset();
+        TrailMat.SetFloat("_Height", 1);
     }
 }

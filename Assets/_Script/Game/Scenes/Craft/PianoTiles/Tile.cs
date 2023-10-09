@@ -15,7 +15,7 @@ public class Tile : MonoBehaviour
     public LevelDefinition LevelDefinition;
     public bool IsSnapToGrid;
     public SpriteRenderer sp;
-
+    public bool IsEditMode = true;
     public NoteType Type;
     public enum NoteType
     {
@@ -23,21 +23,24 @@ public class Tile : MonoBehaviour
     }
     protected virtual void Awake()
     {
+
         Type = NoteType.Normal;
         Transform = transform;
         sp = GetComponent<SpriteRenderer>();
+        if (!IsEditMode)
+        {
+            return;
+        }
         TileRunner tileRunner = FindAnyObjectByType<TileRunner>()
             .GetComponent<TileRunner>();
         if (tileRunner != null)
         {
-#if UNITY_EDITOR
             if (PrefabUtility.IsPartOfNonAssetPrefabInstance(gameObject))
             {
                 Transform.SetParent(tileRunner.NoteRoot);
                 LevelDefinition = tileRunner.LevelDefinition;
                 return;
             }
-#endif
             Transform.SetParent(tileRunner.NoteRoot);
 
         }
@@ -45,12 +48,21 @@ public class Tile : MonoBehaviour
 
     public virtual void OnClicked()
     {
-        TileRunner.Instance.ActiveTiles.Remove(this);
-        Destroy(gameObject);
+        //TileRunner.Instance.ActiveTiles.Remove(this);
+        sp.enabled = false;
+    }
+
+    public virtual void OnReset()
+    {
+        sp.enabled = true;
     }
 
     protected virtual void Update()
     {
+        if (!IsEditMode)
+        {
+            return;
+        }
         if (!Application.isPlaying && LevelDefinition != null)
         {
             if (Transform.hasChanged)

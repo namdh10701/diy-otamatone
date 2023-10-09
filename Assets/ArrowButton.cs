@@ -51,8 +51,9 @@ public class ArrowButton : MonoBehaviour
             if (target is TrailTile)
             {
                 ((TrailTile)target).OnRelease();
-                target = null;
+
             }
+            target = null;
         }
         mat.SetFloat("_IsActive", 0);
     }
@@ -119,6 +120,7 @@ public class ArrowButton : MonoBehaviour
                 target = CollidedTiles[i];
             }
         }
+        Debug.Log(target);
         return target != null;
     }
 
@@ -136,6 +138,7 @@ public class ArrowButton : MonoBehaviour
         if (collision.CompareTag("Note"))
         {
             Tile tile = collision.GetComponent<Tile>();
+            Debug.Log(tile);
             CollidedTiles.Remove(tile);
         }
         if (collision.CompareTag("Trail"))

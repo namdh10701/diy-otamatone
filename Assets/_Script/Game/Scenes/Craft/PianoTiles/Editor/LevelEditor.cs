@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -18,7 +19,7 @@ public class LevelEditor : EditorWindow
     private TileRunner tileRunner;
     private bool levelLoaded;
     private Camera camera;
-    
+
     [MenuItem("Window/Level Editor")]
     static void Init()
     {
@@ -150,6 +151,19 @@ public class LevelEditor : EditorWindow
         {
             SaveLevel(loadedLevelDefinition);
         }
+        if (GUILayout.Button("Prepare To Prefab"))
+        {
+            PrepareToPrefab();
+        }
+    }
+
+    private void PrepareToPrefab()
+    {
+        Tile[] spawnables = (Tile[])FindObjectsOfType(typeof(Tile));
+        foreach (Tile tile in spawnables)
+        {
+            tile.IsEditMode = false;
+        }
     }
 
     private void SaveLevel(LevelDefinition levelDefinition)
@@ -201,7 +215,7 @@ public class LevelEditor : EditorWindow
         float x = loadedLevelDefinition.Bpm * (loadedLevelDefinition.MusicClip.length / 60);
         loadedLevelDefinition.Row = Mathf.CeilToInt(x);
         float result = (x - 1) * loadedLevelDefinition.GridHeight / loadedLevelDefinition.MusicClip.length;
-        Debug.LogWarning($"Suggest Note Speed: "+ result);
+        Debug.LogWarning($"Suggest Note Speed: " + result);
         loadedLevelDefinition.Spawnables = sourcelevelDefinition.Spawnables;
         foreach (SpawnableObject spawnableObject in loadedLevelDefinition.Spawnables)
         {
@@ -254,7 +268,7 @@ public class LevelEditor : EditorWindow
             SpawnNote(0, y);
             //SpawnNote(0, y);
         }
-       
+
     }
 
     private void SpawnNote(int col, int row)
