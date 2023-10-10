@@ -94,6 +94,7 @@ namespace Game.Craft
         };
 
         [SerializeField] private Image bg1;
+        [SerializeField] private Image bg2;
         [SerializeField] private SkeletonGraphic bg2Anim;
 
         [SerializeField] private ParticleSystem _musicNotes;
@@ -113,6 +114,8 @@ namespace Game.Craft
         private Transform _originalParent;
         private Vector3 _originalScale;
         private Vector3 _originalPos;
+
+
         private void Awake()
         {
             _sortingGroup = GetComponent<SortingGroup>();
@@ -126,11 +129,9 @@ namespace Game.Craft
             _mouth.gameObject.SetActive(false);
             _head.gameObject.SetActive(false);
         }
-        //private SkeletonAnimation _monster;
         [SerializeField] private SkeletonAnimation _body;
         [SerializeField] private SkeletonAnimation _eye;
         [SerializeField] private SkeletonAnimation _mouth;
-        //[SerializeField] private SkeletonAnimation _head;
         [SerializeField] private SkeletonAnimation _head;
 
         public OtamatoneParts OtamatoneParts;
@@ -227,7 +228,8 @@ namespace Game.Craft
         public void OnBackgroundSelect(int backgroundId)
         {
             _idBackground = backgroundId;
-            bg1.sprite = OtamatoneParts.Parts[4].Sprites[backgroundId];
+            bg1.gameObject.SetActive(false);
+            bg2.sprite = OtamatoneParts.Parts[4].Sprites[backgroundId];
         }
         public void OnMonsterSelect(int monsterId)
         {
@@ -246,6 +248,11 @@ namespace Game.Craft
             _musicNotes.Stop();
             MonsterManager.Instance.HideAllMonster();
             bg1.DOFade(1, 0);
+
+            bg1.gameObject.SetActive(true);
+            bg1.sprite = OtamatoneParts.Parts[6].Sprites[UnityEngine.Random.Range(0, 7)];
+
+
             bg2Anim.DOFade(1, 0);
             bg2Anim.gameObject.SetActive(false);
             _idHead = -1;
@@ -280,7 +287,6 @@ namespace Game.Craft
             sequence.Append(transform.DOScaleX(0, 0).OnPlay(
                 () =>
                 {
-                    Debug.Log("ShowInter Here");
                     AdsController.Instance.ShowInter(
                         () =>
                         {

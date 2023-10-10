@@ -390,7 +390,7 @@ namespace Monetization.Ads
         public void ShowInter(Action onInterClosed)
         {
             _onInterClosed = onInterClosed;
-
+            AdsLogger.Log("Show Inter ", AdType.INTER);
             if (!_isInterOn)
             {
                 _onInterClosed.Invoke();

@@ -35,12 +35,14 @@ public class Tile : MonoBehaviour
             .GetComponent<TileRunner>();
         if (tileRunner != null)
         {
+#if UNITY_EDITOR
             if (PrefabUtility.IsPartOfNonAssetPrefabInstance(gameObject))
             {
                 Transform.SetParent(tileRunner.NoteRoot);
                 LevelDefinition = tileRunner.LevelDefinition;
                 return;
             }
+#endif
             Transform.SetParent(tileRunner.NoteRoot);
 
         }

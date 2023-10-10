@@ -1,3 +1,4 @@
+using Game.Datas;
 using System;
 using UnityEngine;
 using static Game.Craft.CraftStateSequence;
@@ -8,14 +9,21 @@ namespace Game.Craft
         [SerializeField] protected Otamatone _otamatone;
         [SerializeField] protected PartID _partID;
         protected bool _isCompeleted = false;
+        protected bool _reEnter = false;
         protected int _selectedItemIndex = -1;
         public bool IsCompleted => _isCompeleted;
+        public bool ReEnter => _reEnter;
         public int SelectedItemIndex => _selectedItemIndex;
-        
+
+
         public PartID PartID => _partID;
 
         public virtual void Enter()
         {
+            if (_isCompeleted)
+            {
+                _reEnter = true;
+            }
             CraftSequenceManager.Instance.OnSequenceEnter(this);
         }
         public virtual void OnSelect(int index)
@@ -46,11 +54,15 @@ namespace Game.Craft
                 _selectedItemIndex = index;
             }
             _isCompeleted = true;
+
         }
-        public abstract void Exit();
+        public virtual void Exit()
+        {
+        }
 
         public void ResetSequence()
         {
+            _reEnter = false;
             _selectedItemIndex = -1;
             _isCompeleted = false;
         }
@@ -59,6 +71,7 @@ namespace Game.Craft
         {
             get
             {
+                Debug.Log(PartID);
                 switch (PartID)
                 {
                     case PartID.Head:

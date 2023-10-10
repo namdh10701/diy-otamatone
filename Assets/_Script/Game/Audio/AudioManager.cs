@@ -35,6 +35,7 @@ namespace Game.Audio
         [SerializeField] AudioClip[] _monsterVoiceClips;
 
         [SerializeField] AudioClip[] _winClips;
+        [SerializeField] AudioClip[] _otomatuneClips;
         /// <summary>
         /// Unmute/mute the music
         /// </summary>
@@ -139,10 +140,8 @@ namespace Game.Audio
 
         void PlaySound(AudioClip audioClip)
         {
-         
-                _soundSource.PlayOneShot(audioClip);
-                m_LastSoundPlayTime = Time.time;
-      
+            _soundSource.PlayOneShot(audioClip);
+            m_LastSoundPlayTime = Time.time;
         }
 
         /// <summary>
@@ -161,6 +160,11 @@ namespace Game.Audio
             if (soundID == SoundID.Monster_Voice)
             {
                 PlaySound(_monsterVoiceClips[UnityEngine.Random.Range(0, _monsterVoiceClips.Length)]);
+                return;
+            }
+            if (soundID == SoundID.Otomatune_Event)
+            {
+                PlaySound(_otomatuneClips[UnityEngine.Random.Range(0, _otomatuneClips.Length)]);
                 return;
             }
             PlaySound(_clips[soundID]);

@@ -9,7 +9,7 @@ namespace Game.Craft
     {
         public enum PartID
         {
-            Head = 0, Body = 1,Eye = 2, Mouth = 3, Background = 4, Monster = 5 
+            Head = 0, Body = 1,Eye = 2, Mouth = 3, Background = 4, Monster = 5 , OldBg = 6
         }
         private LinkedList<Sequence> _craftStateSequence = new LinkedList<Sequence>();
         private LinkedListNode<Sequence> _currentState;

@@ -274,6 +274,7 @@ public class Monster : MonoBehaviour
     {
         if (e.Data.Name == "Bop")
         {
+            AudioManager.Instance.PlaySound(SoundID.Otomatune_Event);
             OnBop.Invoke();
         }
         else

@@ -11,6 +11,7 @@ using Monetization.Ads;
 using Services.FirebaseService.Analytics;
 using Game.RemoteVariable;
 using Services.FirebaseService.Remote;
+using Game.Datas;
 
 namespace Game.Craft
 {
@@ -46,6 +47,7 @@ namespace Game.Craft
         public Otamatone otamatone;
         [SerializeField] private SequenceButton[] _sequenceButtons;
 
+        public UpdateNoteVisual UpdateNoteVisual;
 
         private Dictionary<int, string> _skinIdNameMap = new Dictionary<int, string>()
     {
@@ -88,7 +90,7 @@ namespace Game.Craft
         private void Start()
         {
             Game.RemoteVariable.RemoteVariable remoteVariable = Game.RemoteVariable.RemoteVariable.Convert(RemoteVariableManager.Instance.MyRemoteVariables);
-           
+
             Invoke("EndFreeInterTime", remoteVariable.FreeInterTime);
             AdsHandler adsHandler = FindFirstObjectByType<AdsHandler>();
             adsHandler.LoadBannerAndNativeAd();
@@ -209,6 +211,13 @@ namespace Game.Craft
                 PlayerPrefs.SetInt("Background_" + (index + 1), selectedTimeCount);
                 FirebaseAnalytics.LogEvent("Next_BG_" + versionName + "_" + (index + 1) + "_" + selectedTimeCount);
             }
+
+            if (CurrentSeqeuence.IsCompleted && !CurrentSeqeuence.ReEnter)
+            {
+                /*GameDataManager.Instance.UpdateNote(1);
+                GameDataManager.Instance.SaveDatas2();
+                UpdateNoteVisual.Play();*/
+            }
             _craftStateSequence.Next();
             if (_craftStateSequence.IsLastState)
             {
@@ -243,6 +252,7 @@ namespace Game.Craft
             if (_sequences[(int)partID].IsCompleted)
             {
                 _craftStateSequence.SetCurrentSequence(_sequences[(int)partID]);
+                Debug.Log("Sequence");
                 OnActionTaken.Invoke();
             }
 
@@ -288,10 +298,7 @@ namespace Game.Craft
         }
         public void OnSequenceEnter(Sequence sequence)
         {
-            if (sequence.PartID == PartID.Monster)
-            {
-
-            }
+            
             foreach (SequenceButton b in _sequenceButtons)
             {
                 if (b.Sequence == _craftStateSequence.CurrentState)
@@ -318,6 +325,14 @@ namespace Game.Craft
 
         public void OnFinishCraft()
         {
+            // TODO : Note here
+            if (CurrentSeqeuence.IsCompleted && !CurrentSeqeuence.ReEnter)
+            {
+              /*  GameDataManager.Instance.UpdateNote(1);
+                GameDataManager.Instance.SaveDatas2();
+                UpdateNoteVisual.Play();*/
+            }
+            CurrentSeqeuence.Exit();
             StopAllCoroutines();
             AudioManager.Instance.PlaySound(SoundID.Win);
             AudioManager.Instance.StopMusic();

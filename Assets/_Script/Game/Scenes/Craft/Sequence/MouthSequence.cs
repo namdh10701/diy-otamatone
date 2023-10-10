@@ -7,9 +7,5 @@ namespace Game.Craft
             base.Enter();
         }
 
-        public override void Exit()
-        {
-
-        }
     }
 }

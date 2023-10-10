@@ -102,6 +102,13 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 7bf87811d4a46c442be83166974d9e4f, type: 3}
   - {fileID: 8300000, guid: 53f219b68a93c33428e7921e6ef01716, type: 3}
   - {fileID: 8300000, guid: 20d363aa8e08b454b9df366dd580086f, type: 3}
+  _otomatuneClips:
+  - {fileID: 8300000, guid: 13b0d6ec17fc5444e93034bf7c08b346, type: 3}
+  - {fileID: 8300000, guid: 571ace58b48ca1c49ad21e36b32d5d7a, type: 3}
+  - {fileID: 8300000, guid: fd6fb9d90a402bd498d41b14349a6a75, type: 3}
+  - {fileID: 8300000, guid: 0b3e7ea848613e94a9362724e10de665, type: 3}
+  - {fileID: 8300000, guid: 418207f911832e84897609e9a4627e5b, type: 3}
+  - {fileID: 8300000, guid: 37dbada6d51ad934d8fb2c12611b3a79, type: 3}
 --- !u!1 &2182742288952164643
 GameObject:
   m_ObjectHideFlags: 0
@@ -309,7 +316,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.9
+  m_Volume: 0.6
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -485,7 +492,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48cb437794d3fb44a981586ba71566fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _env: 0
+  _env: 1
   debuglog: 1
 --- !u!1 &8298727344560900388
 GameObject:

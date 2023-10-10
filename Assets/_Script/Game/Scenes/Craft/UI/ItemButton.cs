@@ -1,4 +1,4 @@
-using Core.UI;
+﻿using Core.UI;
 using DG.Tweening;
 using Game.Audio;
 using Game.Datas;
@@ -163,6 +163,7 @@ namespace Game.Craft
         {
             if (CraftSequenceManager.Instance.CurrentSeqeuence.IsShowInter)
             {
+                Debug.Log("Hể1");
                 AdsController.Instance.ShowInter(
                     () =>
                     {
@@ -172,6 +173,8 @@ namespace Game.Craft
             }
             else
             {
+                Debug.Log("Hể2");
+
                 CraftSequenceManager.Instance.OnItemSelected(_index);
                 _background.sprite = ItemButtonBackground.Selected;
                 _selectorHighlight.gameObject.SetActive(true);

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6418aa01e60a9744aa25c65b7506567f, type: 3}
+  m_Name: OldBg
+  m_EditorClassIdentifier: 
+  PartID: 6
+  Sprites:
+  - {fileID: 21300000, guid: 54c8f344a98eb764bb02aee58ff4efdb, type: 3}
+  - {fileID: 21300000, guid: ed9c4a4baf0ed144b91881c4f85a0833, type: 3}
+  - {fileID: 21300000, guid: fdbf1b79d7aee064a8899bad8fa372d2, type: 3}
+  - {fileID: 21300000, guid: 03b061eab3ff1e74cb3f3cc7f2f8c11b, type: 3}
+  - {fileID: 21300000, guid: bd51b0db3cb791b49abab9c013187229, type: 3}
+  - {fileID: 21300000, guid: 05168905a8f21954a91b5e4c2f3df10d, type: 3}
+  - {fileID: 21300000, guid: d1a7a1b27ba7afe43ab55545e78a03d3, type: 3}

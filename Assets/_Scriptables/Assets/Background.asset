@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PartID: 4
   Sprites:
-  - {fileID: 21300000, guid: 54c8f344a98eb764bb02aee58ff4efdb, type: 3}
-  - {fileID: 21300000, guid: ed9c4a4baf0ed144b91881c4f85a0833, type: 3}
-  - {fileID: 21300000, guid: fdbf1b79d7aee064a8899bad8fa372d2, type: 3}
-  - {fileID: 21300000, guid: 03b061eab3ff1e74cb3f3cc7f2f8c11b, type: 3}
-  - {fileID: 21300000, guid: bd51b0db3cb791b49abab9c013187229, type: 3}
-  - {fileID: 21300000, guid: 05168905a8f21954a91b5e4c2f3df10d, type: 3}
-  - {fileID: 21300000, guid: d1a7a1b27ba7afe43ab55545e78a03d3, type: 3}
+  - {fileID: 21300000, guid: 3c48efc285b21b148b78d2c92207053c, type: 3}
+  - {fileID: 21300000, guid: 5ad164af7d87cf14da7ded9f111190bb, type: 3}
+  - {fileID: 21300000, guid: 53b906113e01d904eb582a70468bced5, type: 3}
+  - {fileID: 21300000, guid: b2135ca9817022a44bbaa1f02f7a940a, type: 3}
+  - {fileID: 21300000, guid: 4034a35e00589bf4fa019026b88516b7, type: 3}
+  - {fileID: 21300000, guid: 502145f954210df4e9d51c7195cd0897, type: 3}
+  - {fileID: 21300000, guid: 0aa24047502aae64c9a7ad2313aa0f74, type: 3}

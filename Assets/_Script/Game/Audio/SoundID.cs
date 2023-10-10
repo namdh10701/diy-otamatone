@@ -15,7 +15,8 @@ namespace Game.Audio
         Swoosh,
         Unlock_Item,
         Cat_Sound,
-        Next_Button_Click
+        Next_Button_Click,
+        Otomatune_Event
     }
 }
 

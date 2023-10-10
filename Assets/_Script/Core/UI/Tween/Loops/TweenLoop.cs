@@ -27,12 +27,12 @@ namespace Core.UI
 
         protected virtual void OnEnable()
         {
-            _loop.Pause();
+            _loop.Play();
         }
 
         protected virtual void OnDisable()
         {
-            _loop.Play();
+            _loop.Pause();
         }
     }
 }

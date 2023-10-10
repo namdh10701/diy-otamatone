@@ -99,7 +99,6 @@ public class TrailTile : Tile
 
     public void SetTrailHeightAlpha(float height)
     {
-        Debug.Log(height);
         TrailMat.SetFloat("_Height", height);
     }
 

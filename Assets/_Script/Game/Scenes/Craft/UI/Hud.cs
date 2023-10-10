@@ -1,6 +1,7 @@
 using DG.Tweening;
 using Game.Audio;
 using Game.Datas;
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -11,7 +12,9 @@ namespace Game.UI
     {
         SoundID _updateCoin;
         [SerializeField] TextMeshProUGUI cointText;
+        [SerializeField] TextMeshProUGUI noteText;
         [SerializeField] Transform _coinUI;
+        private int currentNote;
         private int currentCoin;
         private int targetCoin;
 
@@ -21,13 +24,23 @@ namespace Game.UI
         private void OnEnable()
         {
             cointText.text = GameDataManager.Instance.GameDatas.Coin.ToString();
+            noteText.text = GameDataManager.Instance.GameDatas2.Notes.ToString();
+            currentNote = GameDataManager.Instance.GameDatas2.Notes;
             targetCoin = GameDataManager.Instance.GameDatas.Coin;
             currentCoin = targetCoin;
             GameDataManager.Instance.OnGoldUpdate.AddListener(amount => UpdateGoldText(amount));
+            GameDataManager.Instance.OnNoteUpdate.AddListener(amount => UpdateNoteText(amount));
         }
         private void OnDisable()
         {
             GameDataManager.Instance.OnGoldUpdate.RemoveListener(amount => UpdateGoldText(amount));
+            GameDataManager.Instance.OnNoteUpdate.RemoveListener(amount => UpdateNoteText(amount));
+        }
+
+        private void UpdateNoteText(int amount)
+        {
+            currentNote += amount;
+            noteText.text = currentNote.ToString();
         }
 
         public void UpdateGoldText(int amount)
