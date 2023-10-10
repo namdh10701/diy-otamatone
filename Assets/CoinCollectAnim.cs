@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using UnityEngine;
-
+using Game.Audio;
 public class CoinCollectAnim : MonoBehaviour
 {
     [SerializeField] Transform[] _coins;
@@ -25,7 +25,7 @@ public class CoinCollectAnim : MonoBehaviour
             coin.DOLocalMove(targetPos, 1).SetEase(Ease.OutBack);
         }
         yield return new WaitForSecondsRealtime(1);
-
+        AudioManager.Instance.PlaySound(SoundID.Coin_Retrieve);
         foreach (var coin in _coins)
         {
             coin.DOMove(_coinUI.position, .5f).SetEase(Ease.OutBack).OnComplete(

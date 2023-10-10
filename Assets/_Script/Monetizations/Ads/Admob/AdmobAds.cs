@@ -155,9 +155,10 @@ namespace Monetization.Ads
                         MobileAdsEventExecutor.ExecuteInUpdate(() =>
                         {
                             AdsIntervalValidator.SetInterval(AdsController.AdType.OPEN);
-                            LoadAppOpenAd();
+                            LoadAppOpenAd(); 
+                            AdsController.Instance.IsShowingOpenAd = false;
                         });
-                        AdsController.Instance.IsShowingOpenAd = false;
+                       
                     };
                 }
                 void HandleOpenAdShowFailed(AppOpenAd ad)

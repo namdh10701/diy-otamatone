@@ -312,7 +312,6 @@ namespace Monetization.Ads
         }
         public void ShowReward(Action<bool> watched)
         {
-            Debug.Log("Unlock");
             _onRewardClosed = watched;
             if (!_isRewardOn)
             {
@@ -326,6 +325,9 @@ namespace Monetization.Ads
             }
             if (IsShowingInterAd || IsShowingOpenAd)
             {
+                Debug.Log(IsShowingOpenAd);
+
+                Debug.Log(IsShowingInterAd);
                 return;
             }
             if (_ironsource.IsRewardReady)

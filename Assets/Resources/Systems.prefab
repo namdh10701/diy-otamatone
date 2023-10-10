@@ -72,6 +72,8 @@ MonoBehaviour:
     m_AudioClip: {fileID: 8300000, guid: 173acc080ddd2e745895da2eb423fd2f, type: 3}
   - m_SoundID: 11
     m_AudioClip: {fileID: 8300000, guid: 5ac42786132d5994cbfedf0d7e61a2c5, type: 3}
+  - m_SoundID: 15
+    m_AudioClip: {fileID: 8300000, guid: 9850bd47fe7453547a21720d7735da01, type: 3}
   _tapItemClips:
   - {fileID: 8300000, guid: e7287787b1dab5c4b9332a2db08eb4b8, type: 3}
   - {fileID: 8300000, guid: e7b27857de8700648b986df5ddd5ec05, type: 3}
@@ -492,7 +494,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48cb437794d3fb44a981586ba71566fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _env: 1
+  _env: 0
   debuglog: 1
 --- !u!1 &8298727344560900388
 GameObject:

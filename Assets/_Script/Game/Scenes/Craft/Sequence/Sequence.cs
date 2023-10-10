@@ -1,59 +1,53 @@
-using Game.Datas;
-using System;
-using UnityEngine;
 using static Game.Craft.CraftStateSequence;
 namespace Game.Craft
 {
-    public abstract class Sequence : MonoBehaviour
+    public class Sequence
     {
-        [SerializeField] protected Otamatone _otamatone;
-        [SerializeField] protected PartID _partID;
-        protected bool _isCompeleted = false;
-        protected bool _reEnter = false;
-        protected int _selectedItemIndex = -1;
-        public bool IsCompleted => _isCompeleted;
-        public bool ReEnter => _reEnter;
-        public int SelectedItemIndex => _selectedItemIndex;
-
-
-        public PartID PartID => _partID;
-
+        public PartID PartID;
+        public bool IsCompleted;
+        public bool ReEnter;
+        public int SelectedItemIndex = -1;
+        
+        public Sequence(PartID partId)
+        {
+            PartID = partId;
+        }
         public virtual void Enter()
         {
-            if (_isCompeleted)
+            if (IsCompleted)
             {
-                _reEnter = true;
+                ReEnter = true;
             }
             CraftSequenceManager.Instance.OnSequenceEnter(this);
         }
         public virtual void OnSelect(int index)
         {
-            if (_selectedItemIndex != index)
+            if (SelectedItemIndex != index)
             {
-                switch (_partID)
+                switch (PartID)
                 {
                     case PartID.Head:
-                        _otamatone.OnHeadSelect(index);
+                        CraftSequenceManager.Instance.Otamatone.OnHeadSelect(index);
                         break;
                     case PartID.Body:
-                        _otamatone.OnBodySelect(index);
+                        CraftSequenceManager.Instance.Otamatone.OnBodySelect(index);
                         break;
                     case PartID.Mouth:
-                        _otamatone.OnMouthSelect(index);
+                        CraftSequenceManager.Instance.Otamatone.OnMouthSelect(index);
                         break;
                     case PartID.Eye:
-                        _otamatone.OnEyeSelect(index);
+                        CraftSequenceManager.Instance.Otamatone.OnEyeSelect(index);
                         break;
                     case PartID.Background:
-                        _otamatone.OnBackgroundSelect(index);
+                        CraftSequenceManager.Instance.Otamatone.OnBackgroundSelect(index);
                         break;
                     case PartID.Monster:
-                        _otamatone.OnMonsterSelect(index);
+                        CraftSequenceManager.Instance.Otamatone.OnMonsterSelect(index);
                         break;
                 }
-                _selectedItemIndex = index;
+                SelectedItemIndex = index;
             }
-            _isCompeleted = true;
+            IsCompleted = true;
 
         }
         public virtual void Exit()
@@ -62,16 +56,15 @@ namespace Game.Craft
 
         public void ResetSequence()
         {
-            _reEnter = false;
-            _selectedItemIndex = -1;
-            _isCompeleted = false;
+            ReEnter = false;
+            SelectedItemIndex = -1;
+            IsCompleted = false;
         }
 
         public bool IsShowInter
         {
             get
             {
-                Debug.Log(PartID);
                 switch (PartID)
                 {
                     case PartID.Head:

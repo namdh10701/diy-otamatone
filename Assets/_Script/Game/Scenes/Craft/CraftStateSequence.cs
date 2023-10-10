@@ -15,15 +15,14 @@ namespace Game.Craft
         private LinkedListNode<Sequence> _currentState;
 
         public CraftStateSequence(
-            Sequence first, Sequence second,
-            Sequence third, Sequence fourth, Sequence fifth, Sequence sixth)
+            Sequence[] sequences)
         {
-            _craftStateSequence.AddLast(first);
-            _craftStateSequence.AddLast(second);
-            _craftStateSequence.AddLast(third);
-            _craftStateSequence.AddLast(fourth);
-            _craftStateSequence.AddLast(fifth);
-            _craftStateSequence.AddLast(sixth);
+            _craftStateSequence.AddLast(sequences[0]);
+            _craftStateSequence.AddLast(sequences[1]);
+            _craftStateSequence.AddLast(sequences[2]);
+            _craftStateSequence.AddLast(sequences[3]);
+            _craftStateSequence.AddLast(sequences[4]);
+            _craftStateSequence.AddLast(sequences[5]);
             _currentState = _craftStateSequence.First;
         }
 

@@ -36,52 +36,22 @@ namespace Game.Craft
         public static bool BeforeWinPanelShowInter = true;
         public static bool NextBtnTapShowInter = true;
         public static bool IsNextClicked = false;
+
         private CraftStateSequence _craftStateSequence;
-        [SerializeField] private Sequence[] _sequences;
+        private Sequence[] _sequences = new Sequence[6];
         [SerializeField] private Booth _booth;
         public NextButton NextButton;
-        public GameObject _confirmButton;
-        public CraftCompleteView _craftCompleteView;
+        public GameObject ConfirmButton;
+        public CraftCompleteView CraftCompleteView;
         public bool IsCompleted;
-        Sequence first; Sequence second; Sequence third; Sequence fourth; Sequence fifth; Sequence sixth;
-        public Otamatone otamatone;
+        public Otamatone Otamatone;
         [SerializeField] private SequenceButton[] _sequenceButtons;
 
         public UpdateNoteVisual UpdateNoteVisual;
 
-        private Dictionary<int, string> _skinIdNameMap = new Dictionary<int, string>()
-    {
-        {0,"default"},
-        {1,"Joyville"},
-        {2,"Banana Cat"},
-        {3,"Rainbow Blue"},
-        {4,"Banban"},
-        {5,"Amanda"},
-        {6,"Wednesday"},
-        {7,"Jumbo Josh"}
-    };
-
-
-
-
-        public Sequence CurrentSeqeuence
-        {
-            get
-            {
-                return _craftStateSequence.CurrentState;
-            }
-        }
+        public Sequence CurrentSeqeuence => _craftStateSequence.CurrentState;
 
         public Booth Booth => _booth;
-        public PartID[] Order =
-        {
-            PartID.Monster,
-            PartID.Head,
-            PartID.Body,
-            PartID.Eye,
-            PartID.Mouth,
-            PartID.Background
-        };
 
         public void EndFreeInterTime()
         {
@@ -89,54 +59,33 @@ namespace Game.Craft
         }
         private void Start()
         {
-            Game.RemoteVariable.RemoteVariable remoteVariable = Game.RemoteVariable.RemoteVariable.Convert(RemoteVariableManager.Instance.MyRemoteVariables);
-
+            RemoteVariable.RemoteVariable remoteVariable = Game.RemoteVariable.RemoteVariable.Convert(RemoteVariableManager.Instance.MyRemoteVariables);
             Invoke("EndFreeInterTime", remoteVariable.FreeInterTime);
             AdsHandler adsHandler = FindFirstObjectByType<AdsHandler>();
             adsHandler.LoadBannerAndNativeAd();
 
             AdsController.Instance.ShowNativeAd(_nativeAdPanel);
+            AudioManager.Instance.PlayMusic(SoundID.Menu_BGM, true);
 
             versionName = Application.version;
             versionName = versionName.Replace(".", "");
             MicCheck();
-            AudioManager.Instance.PlayMusic(SoundID.Menu_BGM, true);
-            foreach (Sequence sequence in _sequences)
-            {
-                if (sequence.PartID == PartID.Monster)
-                {
-                    first = sequence;
-                }
-                if (sequence.PartID == PartID.Head)
-                {
-                    second = sequence;
-                }
-                if (sequence.PartID == PartID.Body)
-                {
-                    third = sequence;
-                }
-                if (sequence.PartID == PartID.Eye)
-                {
-                    fourth = sequence;
-                }
-                if (sequence.PartID == PartID.Mouth)
-                {
-                    fifth = sequence;
-                }
-                if (sequence.PartID == PartID.Background)
-                {
-                    sixth = sequence;
-                }
-            }
-            _craftStateSequence = new CraftStateSequence(first, second, third,
-                fourth, fifth, sixth);
+            _sequences = new Sequence[] {
+                new Sequence(PartID.Monster),
+                new Sequence(PartID.Head),
+                new Sequence(PartID.Body),
+                new Sequence(PartID.Mouth),
+                new Sequence(PartID.Eye),
+                new Sequence(PartID.Background)
+            };
 
-            _sequenceButtons[0].SetData(first);
-            _sequenceButtons[1].SetData(second);
-            _sequenceButtons[2].SetData(third);
-            _sequenceButtons[3].SetData(fourth);
-            _sequenceButtons[4].SetData(fifth);
-            _sequenceButtons[5].SetData(sixth);
+            _craftStateSequence = new CraftStateSequence(_sequences);
+            _sequenceButtons[0].SetData(_sequences[0]);
+            _sequenceButtons[1].SetData(_sequences[1]);
+            _sequenceButtons[2].SetData(_sequences[2]);
+            _sequenceButtons[3].SetData(_sequences[3]);
+            _sequenceButtons[4].SetData(_sequences[4]);
+            _sequenceButtons[5].SetData(_sequences[5]);
             _craftStateSequence.CurrentState.Enter();
 
         }
@@ -252,14 +201,13 @@ namespace Game.Craft
             if (_sequences[(int)partID].IsCompleted)
             {
                 _craftStateSequence.SetCurrentSequence(_sequences[(int)partID]);
-                Debug.Log("Sequence");
                 OnActionTaken.Invoke();
             }
 
             if (_craftStateSequence.IsLastState || IsCompleted)
             {
                 NextButton.gameObject.SetActive(false);
-                _confirmButton.gameObject.SetActive(true);
+                ConfirmButton.gameObject.SetActive(true);
             }
             else if (_craftStateSequence.CurrentState.IsCompleted)
             {
@@ -289,7 +237,7 @@ namespace Game.Craft
             {
                 IsCompleted = true;
                 NextButton.gameObject.SetActive(false);
-                _confirmButton.gameObject.SetActive(true);
+                ConfirmButton.gameObject.SetActive(true);
             }
             else
             {
@@ -298,7 +246,6 @@ namespace Game.Craft
         }
         public void OnSequenceEnter(Sequence sequence)
         {
-            
             foreach (SequenceButton b in _sequenceButtons)
             {
                 if (b.Sequence == _craftStateSequence.CurrentState)
@@ -328,9 +275,9 @@ namespace Game.Craft
             // TODO : Note here
             if (CurrentSeqeuence.IsCompleted && !CurrentSeqeuence.ReEnter)
             {
-              /*  GameDataManager.Instance.UpdateNote(1);
-                GameDataManager.Instance.SaveDatas2();
-                UpdateNoteVisual.Play();*/
+                /*  GameDataManager.Instance.UpdateNote(1);
+                  GameDataManager.Instance.SaveDatas2();
+                  UpdateNoteVisual.Play();*/
             }
             CurrentSeqeuence.Exit();
             StopAllCoroutines();
@@ -339,7 +286,7 @@ namespace Game.Craft
             FirebaseAnalytics.LogEvent("Done_" + versionName + "_" + playedTimeCount);
             OnDoneClicked.Invoke();
             _booth.HideContents();
-            otamatone.FinishCraft();
+            Otamatone.FinishCraft();
 
         }
 
@@ -349,31 +296,28 @@ namespace Game.Craft
             OtamatoneCompleted = false;
             IsCompleted = false;
             NextButton.gameObject.SetActive(true);
-            _confirmButton.SetActive(false);
-            otamatone.ResetOtamatone();
+            ConfirmButton.SetActive(false);
+            Otamatone.ResetOtamatone();
             foreach (Sequence sequence in _sequences)
             {
                 sequence.ResetSequence();
             }
-            _craftStateSequence = new CraftStateSequence(first, second, third,
-                fourth, fifth, sixth);
-
-            _sequenceButtons[0].SetData(first);
-            _sequenceButtons[1].SetData(second);
-            _sequenceButtons[2].SetData(third);
-            _sequenceButtons[3].SetData(fourth);
-            _sequenceButtons[4].SetData(fifth);
-            _sequenceButtons[5].SetData(sixth);
+            _craftStateSequence = new CraftStateSequence(_sequences);
+            _sequenceButtons[0].SetData(_sequences[0]);
+            _sequenceButtons[1].SetData(_sequences[1]);
+            _sequenceButtons[2].SetData(_sequences[2]);
+            _sequenceButtons[3].SetData(_sequences[3]);
+            _sequenceButtons[4].SetData(_sequences[4]);
+            _sequenceButtons[5].SetData(_sequences[5]);
             _craftStateSequence.CurrentState.Enter();
-
             _booth.ShowContent();
-            otamatone.ResetOtamatone();
+            Otamatone.ResetOtamatone();
 
         }
 
         public void ShowFinishPanel()
         {
-            _craftCompleteView.Show();
+            CraftCompleteView.Show();
         }
 
         protected override void OnApplicationQuit()

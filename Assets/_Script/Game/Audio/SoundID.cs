@@ -16,7 +16,8 @@ namespace Game.Audio
         Unlock_Item,
         Cat_Sound,
         Next_Button_Click,
-        Otomatune_Event
+        Otomatune_Event,
+        Coin_Retrieve
     }
 }
 
