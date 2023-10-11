@@ -27,7 +27,7 @@ public class TabGroup : MonoBehaviour
             int index = i;
             _tabs[index].AddSelectEvent(() => OnTabClick(index));
         }
-        _currentTabIndex = 1;
+        _currentTabIndex = 0;
         for (int i = 0; i < _tabs.Length; i++)
         {
             int index = i;

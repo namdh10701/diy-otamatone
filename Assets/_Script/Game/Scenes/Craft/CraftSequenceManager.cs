@@ -12,6 +12,7 @@ using Services.FirebaseService.Analytics;
 using Game.RemoteVariable;
 using Services.FirebaseService.Remote;
 using Game.Datas;
+using UnityEngine.SceneManagement;
 
 namespace Game.Craft
 {
@@ -353,6 +354,11 @@ namespace Game.Craft
         public void EnterPianoTilesMode()
         {
             throw new NotImplementedException();
+        }
+
+        public void EnterHome()
+        {
+            SceneManager.LoadScene("HomeScene");
         }
     }
 }

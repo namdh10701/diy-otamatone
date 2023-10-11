@@ -7,6 +7,7 @@ public class ResizeUI : MonoBehaviour
     private RectTransform rectTransform;
     private float originalScale;
     public ScaleToHeight scaleToHeight;
+    public RetainHeight retainHeight;
 
     private void Awake()
     {
@@ -26,7 +27,11 @@ public class ResizeUI : MonoBehaviour
             rectTransform.localScale = new Vector3(originalScale, originalScale, originalScale) * (factor);
             if (scaleToHeight != null)
             {
-                scaleToHeight.ApplyScale(factor);
+                scaleToHeight.ApplyScale(originalScale - factor);
+            }
+            if (retainHeight != null)
+            {
+                retainHeight.Apply(originalScale - factor);
             }
         }
         else
@@ -34,6 +39,6 @@ public class ResizeUI : MonoBehaviour
             // Screen aspect ratio is wider, retain the original size or reset it to a default size
             rectTransform.localScale = new Vector3(originalScale, originalScale, originalScale);
         }
-        
+
     }
 }

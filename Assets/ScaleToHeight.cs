@@ -6,7 +6,6 @@ public class ScaleToHeight : MonoBehaviour
     [SerializeField] private Scrollbar scrollBar;
 
     private RectTransform rectTransform;
-    public ScaleToHeight scaleToHeight;
 
     private void Awake()
     {
@@ -14,7 +13,11 @@ public class ScaleToHeight : MonoBehaviour
     }
     public void ApplyScale(float factor)
     {
-        rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, rectTransform.sizeDelta.y * (1 + factor * 0.15f));
-        scrollBar.value = 1;
+        Debug.Log(1 + factor);
+        rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, rectTransform.sizeDelta.y * (1 + factor*.8f));
+        if (scrollBar != null)
+        {
+            scrollBar.value = 1;
+        }
     }
 }
