@@ -288,14 +288,20 @@ namespace Monetization.Ads
         public void ShowAppOpenAd()
         {
             if (RemoveAds || Core.Env.Environment.ENV == Core.Env.Environment.Env.DEV)
+            {
+                AdsLogger.Log("Removed ad", AdType.OPEN);
                 return;
+            }
+                
             if (RewardedAdJustClose)
             {
+                AdsLogger.Log("Go in here", AdType.OPEN);
                 RewardedAdJustClose = false;
                 return;
             }
             if (!AdsIntervalValidator.IsValidInterval(AdType.OPEN))
             {
+                AdsLogger.Log("Show failed due to interval", AdType.OPEN);
                 return;
             }
             if (_admob.IsAppOpenAdAvailable)
@@ -325,9 +331,6 @@ namespace Monetization.Ads
             }
             if (IsShowingInterAd || IsShowingOpenAd)
             {
-                Debug.Log(IsShowingOpenAd);
-
-                Debug.Log(IsShowingInterAd);
                 return;
             }
             if (_ironsource.IsRewardReady)
@@ -439,6 +442,11 @@ namespace Monetization.Ads
         public void SetRewardOn(bool isRewardOn)
         {
             _isRewardOn = isRewardOn;
+        }
+
+        public void LoadOpenAd()
+        {
+            _admob.LoadAppOpenAd();
         }
         #endregion
 

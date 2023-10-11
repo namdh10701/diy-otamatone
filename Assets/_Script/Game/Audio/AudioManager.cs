@@ -138,9 +138,9 @@ namespace Game.Audio
             _musicSource.volume = startVolume;
         }
 
-        void PlaySound(AudioClip audioClip)
+        void PlaySound(AudioClip audioClip, float volume)
         {
-            _soundSource.PlayOneShot(audioClip);
+            _soundSource.PlayOneShot(audioClip,volume);
             m_LastSoundPlayTime = Time.time;
         }
 
@@ -148,27 +148,32 @@ namespace Game.Audio
         /// Play a sound effect based on its sound ID
         /// </summary>
         /// <param name="soundID">The ID of the sound effect</param>
-        public void PlaySound(SoundID soundID)
+        public void PlaySound(SoundID soundID, float volume = 0)
         {
+            if (volume == 0)
+            {
+                volume = _soundSource.volume;
+            }
             if (soundID == SoundID.None)
                 return;
             if (soundID == SoundID.Tap_Item)
             {
-                PlaySound(_tapItemClips[UnityEngine.Random.Range(0, _tapItemClips.Length)]);
+                PlaySound(_tapItemClips[UnityEngine.Random.Range(0, _tapItemClips.Length)], volume);
                 return;
             }
             if (soundID == SoundID.Monster_Voice)
             {
-                PlaySound(_monsterVoiceClips[UnityEngine.Random.Range(0, _monsterVoiceClips.Length)]);
+                PlaySound(_monsterVoiceClips[UnityEngine.Random.Range(0, _monsterVoiceClips.Length)], volume);
                 return;
             }
             if (soundID == SoundID.Otomatune_Event)
             {
-                PlaySound(_otomatuneClips[UnityEngine.Random.Range(0, _otomatuneClips.Length)]);
+                PlaySound(_otomatuneClips[UnityEngine.Random.Range(0, _otomatuneClips.Length)], volume);
                 return;
             }
-            PlaySound(_clips[soundID]);
+            PlaySound(_clips[soundID], volume);
         }
+
         public void CrossfadeMusic(SoundID soundID, float fadeDuration)
         {
             CrossfadeMusic(_clips[soundID], fadeDuration);

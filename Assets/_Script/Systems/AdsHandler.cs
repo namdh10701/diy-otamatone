@@ -43,6 +43,7 @@ public class AdsHandler : MonoBehaviour
         {
             InvokeRepeating("TurnBannerOn", 0, 5);
             InvokeRepeating("LoadNativeAd", 30, 30);
+            InvokeRepeating("LoadOpenAd", 0, 20);
         }
     }
 
@@ -67,7 +68,7 @@ public class AdsHandler : MonoBehaviour
         CraftSequenceManager.SequenceBtnTapShowInter = remoteVariable.SequenceBtnTapShowInter;
         CraftSequenceManager.BeforeWinPanelShowInter = remoteVariable.BeforeWinPanelShowInter;
         CraftSequenceManager.NextBtnTapShowInter = remoteVariable.NextBtnTapShowInter;
-        
+
         //TODO AdInterval
     }
 
@@ -84,12 +85,19 @@ public class AdsHandler : MonoBehaviour
     {
         AdsController.Instance.LoadNativeAds();
     }
+
+    private void LoadOpenAd()
+    {
+        AdsController.Instance.LoadOpenAd();
+    }
+
     public void OnAppStateChanged(AppState state)
     {
         MobileAdsEventExecutor.ExecuteInUpdate(() =>
         {
             if (state == AppState.Foreground)
             {
+                AdsLogger.Log("show ad from app state changed", adType: AdsController.AdType.OPEN);
                 AdsController.Instance.ShowAppOpenAd();
             }
         });

@@ -74,8 +74,8 @@ namespace Game.Craft
                 new Sequence(PartID.Monster),
                 new Sequence(PartID.Head),
                 new Sequence(PartID.Body),
-                new Sequence(PartID.Mouth),
                 new Sequence(PartID.Eye),
+                new Sequence(PartID.Mouth),
                 new Sequence(PartID.Background)
             };
 
@@ -193,15 +193,22 @@ namespace Game.Craft
 
         private void ProcessStateSelect(PartID partID)
         {
+
             OnActionTaken.Invoke();
             if (partID == _craftStateSequence.CurrentState.PartID)
             {
                 return;
             }
-            if (_sequences[(int)partID].IsCompleted)
+            foreach (Sequence s in _sequences)
             {
-                _craftStateSequence.SetCurrentSequence(_sequences[(int)partID]);
-                OnActionTaken.Invoke();
+                if (s.PartID == partID)
+                {
+                    if (s.IsCompleted)
+                    {
+                        _craftStateSequence.SetCurrentSequence(s);
+                        OnActionTaken.Invoke();
+                    }
+                }
             }
 
             if (_craftStateSequence.IsLastState || IsCompleted)

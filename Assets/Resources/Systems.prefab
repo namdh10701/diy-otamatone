@@ -318,7 +318,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.6
+  m_Volume: 0.7
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -494,8 +494,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48cb437794d3fb44a981586ba71566fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _env: 0
-  debuglog: 1
+  _env: 2
+  debuglog: 0
 --- !u!1 &8298727344560900388
 GameObject:
   m_ObjectHideFlags: 0
@@ -592,6 +592,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isDebugNative: 0
   _isDebugBanner: 0
-  _isDebugOpen: 0
+  _isDebugOpen: 1
   _isDebugRewarded: 0
   _isDebugInter: 0

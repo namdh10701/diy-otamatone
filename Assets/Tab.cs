@@ -15,7 +15,7 @@ public class Tab : MonoBehaviour
     [SerializeField] private GameObject[] _showOnSelected;
     [SerializeField] private GameObject[] _hideOnDeselected;
 
-    public Button _button;
+    private Button _button;
 
     private void Awake()
     {

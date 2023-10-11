@@ -146,7 +146,7 @@ namespace Game.Craft
             _head.ClearState();
             _head.Skeleton.SetSkin("Head/Head_" + idHead_Mouth[_idHead]);
             _head.AnimationState.SetAnimation(0, "Appear_Head", false);
-            _head.AnimationState.Complete += AnimationState_Complete;
+
             _head.Skeleton.SetSlotsToSetupPose();
             _head.AnimationState.Apply(_head.Skeleton);
         }
@@ -176,7 +176,7 @@ namespace Game.Craft
 
             _mouth.Skeleton.SetSkin("Mouth/Mouth_" + idMouth[_idMouth]);
             _mouth.AnimationState.SetAnimation(0, "Appear_Mouth", false);
-            _mouth.AnimationState.Complete += AnimationState_Complete;
+
             _mouth.Skeleton.SetSlotsToSetupPose();
             _mouth.AnimationState.Apply(_head.Skeleton);
         }
@@ -199,9 +199,21 @@ namespace Game.Craft
             _eye.ClearState();
             _eye.Skeleton.SetSkin("Eye/Eye_" + temp);
             _eye.AnimationState.SetAnimation(0, "Appear_Eye", false);
-            _eye.AnimationState.Complete += AnimationState_Complete;
             _eye.Skeleton.SetSlotsToSetupPose();
             _eye.AnimationState.Apply(_head.Skeleton);
+        }
+
+        private void OnEnable()
+        {
+            _head.AnimationState.Complete += AnimationState_Complete;
+            _mouth.AnimationState.Complete += AnimationState_Complete;
+            _eye.AnimationState.Complete += AnimationState_Complete;
+        }
+        private void OnDisable()
+        {
+            _head.AnimationState.Complete -= AnimationState_Complete;
+            _mouth.AnimationState.Complete -= AnimationState_Complete;
+            _eye.AnimationState.Complete -= AnimationState_Complete;
         }
 
         private void AnimationState_Complete(Spine.TrackEntry trackEntry)
@@ -315,7 +327,7 @@ namespace Game.Craft
                     }
                     else if (_idMonster == 1)
                     {
-                        transform.localRotation = Quaternion.Euler(0, 0, -100);
+                        transform.localRotation = Quaternion.Euler(0, 0, -105);
                         transform.localPosition = new Vector3(-0f, 0.25f, 0);
                     }
                     else if (_idMonster == 2)
@@ -366,7 +378,7 @@ namespace Game.Craft
                 }
                 )
                 );
-            sequence.AppendInterval(2f).OnPlay(
+            sequence.AppendInterval(4f).OnPlay(
                 () =>
                 {
                 }

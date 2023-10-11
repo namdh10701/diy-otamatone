@@ -7,6 +7,7 @@ using GoogleMobileAds.Common;
 using Core.Env;
 using Game.Shared;
 using Services.Adjust;
+using static Monetization.Ads.AdsController;
 
 namespace Monetization.Ads
 {
@@ -111,8 +112,7 @@ namespace Monetization.Ads
             }
             if (appOpenAd != null)
             {
-                AdsLogger.Log($"Error: != null", AdsController.AdType.OPEN);
-                DestroyAppOpenAd();
+                return;
             }
             AdsLogger.Log($"Requesting", AdsController.AdType.OPEN);
             FirebaseAnalytics.LogEvent(Constant.AD_REQUEST);
@@ -128,7 +128,7 @@ namespace Monetization.Ads
                 if (loadError != null)
                 {
                     AdsLogger.Log($"Error: {loadError.ToString()}", AdsController.AdType.OPEN);
-                    return;
+
                 }
                 appOpenAd = ad;
                 FirebaseAnalytics.LogEvent(Constant.AD_REQUEST_SUCCEED);
@@ -143,7 +143,6 @@ namespace Monetization.Ads
                 {
                     ad.OnAdFullScreenContentOpened += () =>
                     {
-                        _isRequestingAppOpenAd = false;
                         AdsController.Instance.IsShowingOpenAd = true;
                         FirebaseAnalytics.LogEvent("ad_open_show");
                     };
@@ -155,16 +154,23 @@ namespace Monetization.Ads
                         MobileAdsEventExecutor.ExecuteInUpdate(() =>
                         {
                             AdsIntervalValidator.SetInterval(AdsController.AdType.OPEN);
-                            LoadAppOpenAd(); 
+                            DestroyAppOpenAd();
+                            LoadAppOpenAd();
+                            AdsLogger.Log("On Close", AdType.OPEN);
                             AdsController.Instance.IsShowingOpenAd = false;
                         });
-                       
+
                     };
                 }
                 void HandleOpenAdShowFailed(AppOpenAd ad)
                 {
-                    AdsController.Instance.IsShowingOpenAd = false;
-                    ad.OnAdFullScreenContentFailed += (AdError error) => LoadAppOpenAd();
+                    ad.OnAdFullScreenContentFailed += (AdError error) =>
+                    {
+                        AdsController.Instance.IsShowingOpenAd = false;
+                        DestroyAppOpenAd();
+                        LoadAppOpenAd();
+                        AdsLogger.Log("Error show failed: " + error.ToString(), AdType.OPEN);
+                    };
                 }
             }
         }
@@ -186,11 +192,13 @@ namespace Monetization.Ads
             yield return new WaitForSeconds(.1f);
             if (AdsController.Instance.RewardedAdJustClose)
             {
+                AdsLogger.Log("Go in here reward just closed", AdType.OPEN);
                 AdsController.Instance.RewardedAdJustClose = false;
                 yield break;
             }
             if (AdsController.Instance.IsShowingInterAd || AdsController.Instance.IsShowingOpenAd)
             {
+                AdsLogger.Log("Go in here is showing open or inter", AdType.OPEN);
                 yield break;
             }
             AdsLogger.Log("All conditions pass \n Show", AdsController.AdType.OPEN);

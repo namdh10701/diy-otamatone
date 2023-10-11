@@ -19,7 +19,7 @@ namespace Gameplay
             progressBarMaterial = progressBar.material;
             Application.targetFrameRate = 60;
             if (Environment.ENV == Environment.Env.DEV)
-                SceneManager.LoadScene("CraftScene");
+                SceneManager.LoadScene("DIYScene");
             else
                 StartCoroutine(LoadGameScene());
         }
@@ -30,7 +30,7 @@ namespace Gameplay
             float startTime = Time.time;
             float timeout = 4;
             AsyncOperation asyncOperation;
-            asyncOperation = SceneManager.LoadSceneAsync("CraftScene");
+            asyncOperation = SceneManager.LoadSceneAsync("DIYScene");
             asyncOperation.allowSceneActivation = false;
             bool openAdShowed = false;
             float minAdditionalTimeout = 1.5f;

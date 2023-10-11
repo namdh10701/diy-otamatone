@@ -12,15 +12,28 @@ using UnityEngine;
 using Game.Shared;
 using DG.Tweening;
 using UnityEngine.UI;
+using System.Drawing.Text;
 
 namespace Game.Craft
 {
     public class CraftCompleteView : BasePopup
     {
         public SkeletonGraphic Curtain;
+        public Button LoseItBtn;
         private void OnEnable()
         {
+            LoseItBtn.gameObject.SetActive(false);
+            LoseItBtn.GetComponentInChildren<TextMeshProUGUI>().DOFade(0, 0);
+            //LoseItBtn.GetComponentInChildren<Image>().DOFade(0, 0);
             pointer.GetComponent<Animator>().enabled = true;
+            StartCoroutine(ShowLoseItBtn());
+        }
+        private IEnumerator ShowLoseItBtn()
+        {
+            yield return new WaitForSecondsRealtime(2);
+            LoseItBtn.gameObject.SetActive(true);
+            LoseItBtn.GetComponentInChildren<TextMeshProUGUI>().DOFade(1, 1);
+            //LoseItBtn.GetComponentInChildren<Image>().DOFade(1, 1);
         }
 
         public void OnGetCoin()
