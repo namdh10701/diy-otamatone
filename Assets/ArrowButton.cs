@@ -63,6 +63,7 @@ public class ArrowButton : MonoBehaviour
         IsClickedOn = true;
         if (ScaleDownTween != null)
         {
+            return;
             ScaleDownTween.Kill();
         }
         if (ScaleUpTween != null)
@@ -120,7 +121,6 @@ public class ArrowButton : MonoBehaviour
                 target = CollidedTiles[i];
             }
         }
-        Debug.Log(target);
         return target != null;
     }
 
@@ -138,7 +138,6 @@ public class ArrowButton : MonoBehaviour
         if (collision.CompareTag("Note"))
         {
             Tile tile = collision.GetComponent<Tile>();
-            Debug.Log(tile);
             CollidedTiles.Remove(tile);
         }
         if (collision.CompareTag("Trail"))

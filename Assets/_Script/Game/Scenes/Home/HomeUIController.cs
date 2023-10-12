@@ -17,4 +17,9 @@ public class HomeUIController : MonoBehaviour
     {
         SceneManager.LoadScene("DIYScene");
     }
+
+    public void EnterPVP()
+    {
+        SceneManager.LoadScene("PVPScene");
+    }
 }

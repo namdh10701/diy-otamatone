@@ -17,7 +17,8 @@ namespace Game.Audio
         Cat_Sound,
         Next_Button_Click,
         Otomatune_Event,
-        Coin_Retrieve
+        Coin_Retrieve,
+        Beep
     }
 }
 

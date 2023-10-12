@@ -897,9 +897,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 50
+  m_SortingLayerID: -1699086031
+  m_SortingLayer: 2
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 85a5f55379e79b248ad42b5cd2ef27dc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1211,9 +1211,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 50
+  m_SortingLayerID: -1699086031
+  m_SortingLayer: 2
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 05be7edbc9215cf49b2a4193c443d2d1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1816,7 +1816,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1684597366}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: TileRunner, Assembly-CSharp
         m_MethodName: ResetLevel
         m_Mode: 1
@@ -2016,9 +2016,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 50
+  m_SortingLayerID: -1699086031
+  m_SortingLayer: 2
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: bbce258aa39fd0243bd7a672a6a38fcb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2299,17 +2299,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.289671, y: 1.4276092}
   m_EdgeRadius: 0
---- !u!114 &1684597366 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5252667173427614575, guid: 9b8c54fc58cd7394f92fef07b7a5dad4, type: 3}
-  m_PrefabInstance: {fileID: 1931320560}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98f8234b637e18e4b9158e4db2aeeacf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1704514314
 GameObject:
   m_ObjectHideFlags: 0
@@ -2394,6 +2383,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1783149245
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1783149246}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1783149246
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1783149245}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1803051625}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1803051624
 GameObject:
   m_ObjectHideFlags: 0
@@ -2404,7 +2424,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1803051625}
   m_Layer: 0
-  m_Name: NoTouch
+  m_Name: Root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2427,6 +2447,8 @@ Transform:
   - {fileID: 1222750907}
   - {fileID: 952364897}
   - {fileID: 245738652}
+  - {fileID: 1931320561}
+  - {fileID: 1783149246}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1815340328
@@ -2512,7 +2534,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1684597366}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: TileRunner, Assembly-CSharp
         m_MethodName: StartTheGame
         m_Mode: 1
@@ -2568,7 +2590,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1803051625}
     m_Modifications:
     - target: {fileID: 571962798102030379, guid: 9b8c54fc58cd7394f92fef07b7a5dad4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2614,15 +2636,36 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tile Runner Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 5191121432232251716, guid: 9b8c54fc58cd7394f92fef07b7a5dad4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5252667173427614575, guid: 9b8c54fc58cd7394f92fef07b7a5dad4, type: 3}
       propertyPath: LevelDefinition
       value: 
       objectReference: {fileID: 11400000, guid: bad3549505e13c647bc0d0f8d5081bd4, type: 2}
+    - target: {fileID: 8600091664189856534, guid: 9b8c54fc58cd7394f92fef07b7a5dad4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8600091664189856534, guid: 9b8c54fc58cd7394f92fef07b7a5dad4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8600091664189856534, guid: 9b8c54fc58cd7394f92fef07b7a5dad4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9b8c54fc58cd7394f92fef07b7a5dad4, type: 3}
+--- !u!4 &1931320561 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8600091664189856534, guid: 9b8c54fc58cd7394f92fef07b7a5dad4, type: 3}
+  m_PrefabInstance: {fileID: 1931320560}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2004619886
 GameObject:
   m_ObjectHideFlags: 0
@@ -2846,4 +2889,3 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1803051625}
-  - {fileID: 1931320560}

@@ -23,6 +23,7 @@ namespace Core.UI
         private bool _clickedDown = false;
         private bool _isDragging;
         private Vector3 _pointerDownPos;
+        Tween tween;
         protected override void Awake()
         {
             _clickCooldownDuration = .2f;
@@ -39,12 +40,12 @@ namespace Core.UI
         }
         public void OnPointerDown(PointerEventData eventData)
         {
-            if (_button.interactable&& _button.enabled && !_isCooldown)
+            if (_button.interactable && _button.enabled && !_isCooldown)
             {
                 _pointerDownPos = eventData.position;
                 _clickedDown = true;
                 _isDragging = false;
-                _transform.DOScale(.9f, .1f);
+                tween = _transform.DOScale(.9f, .1f);
             }
         }
 
@@ -52,7 +53,7 @@ namespace Core.UI
         {
             if (_button.interactable && _button.enabled && !_isCooldown && _clickedDown)
             {
-                _transform.DOScale(1f, .1f).SetEase(Ease.OutBack);
+                tween = _transform.DOScale(1f, .1f).SetEase(Ease.OutBack);
                 if (!_isDragging)
                 {
                     _onClickEvent?.Invoke();
@@ -68,7 +69,12 @@ namespace Core.UI
             }
         }
 
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            tween.Kill();
 
+        }
         private void CompleteCooldown()
         {
             _isCooldown = false;

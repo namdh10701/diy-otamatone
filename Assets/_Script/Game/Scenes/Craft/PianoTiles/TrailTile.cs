@@ -40,8 +40,6 @@ public class TrailTile : Tile
     public void SetTrailHeight(float trailHeight)
     {
         TrailHeight = trailHeight;
-        Debug.Log(TrailHeight);
-        Debug.Log(Trail.bounds.size.y);
         Trail.transform.localScale = new Vector3(1,
         trailHeight / 0.5f, 1);
     }
@@ -75,7 +73,7 @@ public class TrailTile : Tile
             if (IsClicked)
             {
 
-                float gothroughAmount = Mathf.Abs(transform.position.y - (-4.5f));
+                float gothroughAmount = Mathf.Abs(transform.position.y - (-3.5f));
                 float y = (TrailHeight * (LevelDefinition.GridHeight / 4) - gothroughAmount) / (TrailHeight * (LevelDefinition.GridHeight / 4));
                 SetTrailHeightAlpha(y);
             }
