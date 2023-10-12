@@ -23,7 +23,7 @@ public class AnchorToCamera : MonoBehaviour
 
     public void Apply()
     {
-        transform.position = new Vector3(0, (-Camera.main.orthographicSize + 2.9f), transform.position.z);
+        transform.position = new Vector3(0, (-Camera.main.orthographicSize + 2.4f), transform.position.z);
     }
 }
 

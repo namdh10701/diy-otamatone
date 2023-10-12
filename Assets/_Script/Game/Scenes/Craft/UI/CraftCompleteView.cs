@@ -16,6 +16,7 @@ using System.Drawing.Text;
 
 namespace Game.Craft
 {
+    //TODO bring 
     public class CraftCompleteView : BasePopup
     {
         public SkeletonGraphic Curtain;
@@ -123,7 +124,6 @@ namespace Game.Craft
 
 
         public Transform pointer;
-        public DG.Tweening.Sequence spinSequence;
         public int coinMutiplier = 1;
         public void StopSpin()
         {
