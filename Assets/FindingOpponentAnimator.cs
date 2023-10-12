@@ -2,21 +2,24 @@ using UnityEngine;
 using Game.Audio;
 using UnityEngine.Events;
 using System.Collections;
+using UnityEngine.UI;
+using DG.Tweening;
 
 public class FindingOpponentAnimator : MonoBehaviour
 {
-    Animator animator;
+    public Animator animator;
     public Transform playground;
     public GameObject levelPrefab;
-    private void Awake()
-    {
-        animator = GetComponent<Animator>();
-    }
+    public Image bg;
     IEnumerator Start()
     {
         Instantiate(levelPrefab, playground);
         yield return new WaitForSecondsRealtime(3);
         animator.SetTrigger("Disappear");
+    }
+    public void FadeBg()
+    {
+        bg.DOFade(0, .5f);
     }
     public void OnCountDown()
     {

@@ -8,34 +8,29 @@ using UnityEngine.UI;
 public class Tab : MonoBehaviour
 {
     [Header("Colors")]
-    [SerializeField] private Graphic[] _graphics;
-    [SerializeField] private Color[] _activeColors;
-    [SerializeField] private Color[] _inactiveColors;
+    [SerializeField] private Sprite _activeSprite;
+    [SerializeField] private Sprite _inactiveSprite;
     [Header("Game Objects")]
     [SerializeField] private GameObject[] _showOnSelected;
     [SerializeField] private GameObject[] _hideOnDeselected;
 
     private Button _button;
+    private Image _image;
 
     private void Awake()
     {
         _button = GetComponent<Button>();
+        _image = GetComponent<Image>();
     }
 
     public void Deselect()
     {
-        for (int i = 0; i < _graphics.Length; i++)
-        {
-            _graphics[i].color = _inactiveColors[i];
-        }
+        _image.sprite = _inactiveSprite;
     }
 
     public void Select()
     {
-        for (int i = 0; i < _graphics.Length; i++)
-        {
-            _graphics[i].color = _activeColors[i];
-        }
+        _image.sprite = _activeSprite;
     }
 
     public void AddSelectEvent(UnityAction action)

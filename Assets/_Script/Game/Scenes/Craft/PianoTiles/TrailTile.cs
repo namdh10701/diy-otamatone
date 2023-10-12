@@ -73,7 +73,7 @@ public class TrailTile : Tile
             if (IsClicked)
             {
 
-                float gothroughAmount = Mathf.Abs(transform.position.y - (-3.5f));
+                float gothroughAmount = Mathf.Abs(transform.position.y - (-4f));
                 float y = (TrailHeight * (LevelDefinition.GridHeight / 4) - gothroughAmount) / (TrailHeight * (LevelDefinition.GridHeight / 4));
                 SetTrailHeightAlpha(y);
             }

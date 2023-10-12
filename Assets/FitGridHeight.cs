@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class FitGridHeight : MonoBehaviour
 {
-    public FlexibleGridLayout flexibleGridLayout;
     public Scrollbar scrollbar;
     public void UpdateHeight()
     {

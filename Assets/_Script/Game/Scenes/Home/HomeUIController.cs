@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class HomeUIController : MonoBehaviour
 {
+   
     void Start()
     {
         
@@ -22,4 +23,6 @@ public class HomeUIController : MonoBehaviour
     {
         SceneManager.LoadScene("PVPScene");
     }
+
+    
 }

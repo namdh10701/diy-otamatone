@@ -48,11 +48,11 @@ Shader "Unlit/Trail Shader"
 					float4 col = tex2D(_MainTex, i.uv);
 					bool HeightMask = i.uv.y < 1 - _Height;
 					col = lerp(col, 0, HeightMask);
-					if (col.a > .2) {
-						if (i.uv.y > 1 - _Height) {
-							col.a = lerp(0, 1, i.uv.y);
-						}
-					}
+    return col;
+    if (i.uv.y > 1 - _Height)
+    {
+        col.a = lerp(0, 1, i.uv.y);
+    }
 					float4 hightlightCol = float4(col.xyz + .3f, col.a);
 					col = lerp(col, hightlightCol, _IsActive);
 
