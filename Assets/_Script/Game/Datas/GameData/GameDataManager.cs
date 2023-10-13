@@ -93,8 +93,8 @@ namespace Game.Datas
 
         public void UpdateNote(int amount)
         {
-            //GameDatas2.Notes += amount;
-            //OnNoteUpdate.Invoke(amount);
+            GameDatas2.Notes += amount;
+            OnNoteUpdate.Invoke(amount);
         }
     }
 }

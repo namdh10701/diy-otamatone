@@ -164,9 +164,9 @@ namespace Game.Craft
 
             if (CurrentSeqeuence.IsCompleted && !CurrentSeqeuence.ReEnter)
             {
-                /*GameDataManager.Instance.UpdateNote(1);
+                GameDataManager.Instance.UpdateNote(1);
                 GameDataManager.Instance.SaveDatas2();
-                UpdateNoteVisual.Play();*/
+                UpdateNoteVisual.Play();
             }
             _craftStateSequence.Next();
             if (_craftStateSequence.IsLastState)
@@ -283,9 +283,9 @@ namespace Game.Craft
             // TODO : Note here
             if (CurrentSeqeuence.IsCompleted && !CurrentSeqeuence.ReEnter)
             {
-                /*  GameDataManager.Instance.UpdateNote(1);
+                  GameDataManager.Instance.UpdateNote(1);
                   GameDataManager.Instance.SaveDatas2();
-                  UpdateNoteVisual.Play();*/
+                  UpdateNoteVisual.Play();
             }
             CurrentSeqeuence.Exit();
             StopAllCoroutines();

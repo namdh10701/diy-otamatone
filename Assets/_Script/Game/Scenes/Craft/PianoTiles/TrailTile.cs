@@ -52,11 +52,13 @@ public class TrailTile : Tile
     }
     public void OnRelease()
     {
+        Debug.Log("OnRelease");
         IsClicked = false;
         StartCoroutine(LerpMaterialProperty("_IsActive", 0f, .2f));
     }
     public override void OnClicked()
     {
+        Debug.Log("OnClick");
         IsClicked = true;
 
         StartCoroutine(LerpMaterialProperty("_IsActive", 1f, .2f));
@@ -79,8 +81,7 @@ public class TrailTile : Tile
         {
             if (IsClicked)
             {
-
-                float gothroughAmount = Mathf.Abs(transform.position.y - (-4f));
+                float gothroughAmount = Mathf.Abs(transform.position.y - (-TileRunner.Instance.CameraYBound + 2.4f));
                 float y = (0.6945f * Trail.transform.localScale.y - gothroughAmount) / (0.6945f * Trail.transform.localScale.y);
                 SetTrailHeightAlpha(y);
                 if (y <= 0)

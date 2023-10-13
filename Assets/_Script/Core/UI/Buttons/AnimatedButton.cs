@@ -73,7 +73,6 @@ namespace Core.UI
         {
             base.OnDisable();
             tween.Kill();
-
         }
         private void CompleteCooldown()
         {

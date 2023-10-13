@@ -193,7 +193,8 @@ public class LevelEditor : EditorWindow
                         Type = (int)spawnables[i].Type,
                         TrailHeight = 0,
                         Row = spawnables[i].Row,
-                        Col = spawnables[i].Col
+                        Col = spawnables[i].Col,
+                        IsP2Turn = spawnables[i].IsP2Turn
                     };
                 }
 
@@ -219,7 +220,8 @@ public class LevelEditor : EditorWindow
         loadedLevelDefinition.Spawnables = sourcelevelDefinition.Spawnables;
         foreach (SpawnableObject spawnableObject in loadedLevelDefinition.Spawnables)
         {
-            SpawnNote2(spawnableObject.Col, spawnableObject.Row, spawnableObject.Type, spawnableObject.TrailHeight);
+            SpawnNote2(spawnableObject.Col, spawnableObject.Row, spawnableObject.Type, spawnableObject.TrailHeight,
+                spawnableObject.IsP2Turn);
         }
     }
 
@@ -302,7 +304,7 @@ public class LevelEditor : EditorWindow
         tile.IsSnapToGrid = true;
     }
 
-    private void SpawnNote2(int col, int row, int type, float trailHeight)
+    private void SpawnNote2(int col, int row, int type, float trailHeight, bool isP2Turn)
     {
         Vector3 cameraPosition = Camera.main.transform.position;
         Vector3 NoteSpawnPos = new Vector2(0, Camera.main.orthographicSize + 2.4f);
@@ -331,7 +333,7 @@ public class LevelEditor : EditorWindow
         Tile tile = (Tile)PrefabUtility.InstantiatePrefab(notePrefab, tileRunner.NoteRoot);
         tile.IsSnapToGrid = false;
         tile.LevelDefinition = loadedLevelDefinition;
-
+        tile.IsP2Turn = isP2Turn;
         tile.Col = col;
         tile.transform.position = spawnPosition;
 

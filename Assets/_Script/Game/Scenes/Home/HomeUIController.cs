@@ -1,17 +1,22 @@
+using Game.Datas;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class HomeUIController : MonoBehaviour
 {
-   
-    void Start()
-    {
-        
-    }
+    [SerializeField] TextMeshProUGUI coinText;
+    [SerializeField] TextMeshProUGUI noteText;
 
-    void Update()
+    GameData2 gameData2;
+    GameData gameData;
+    private void Start()
     {
-        
+        gameData2 = GameDataManager.Instance.GameDatas2;
+        gameData = GameDataManager.Instance.GameDatas;
+
+        coinText.text = gameData.Coin.ToString();
+        noteText.text = gameData2.Notes.ToString();
     }
 
     public void EnterDIY()
@@ -21,8 +26,10 @@ public class HomeUIController : MonoBehaviour
 
     public void EnterPVP()
     {
+        gameData2.Notes -= 5;
+        GameDataManager.Instance.SaveDatas2();
         SceneManager.LoadScene("PVPScene");
     }
 
-    
+
 }

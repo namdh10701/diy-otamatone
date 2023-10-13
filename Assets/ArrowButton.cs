@@ -27,6 +27,7 @@ public class ArrowButton : MonoBehaviour
     public Coroutine darkCoroutine;
     public State CurrentState;
     public bool IsClickedOn;
+    public bool IsP2Playing = false;
     private void Awake()
     {
         mat = GetComponent<SpriteRenderer>().material;
@@ -35,6 +36,10 @@ public class ArrowButton : MonoBehaviour
 
     public void OnRealease()
     {
+        if (IsP2Playing)
+        {
+            return;
+        }
         IsClickedOn = false;
         if (ScaleDownTween != null)
         {
@@ -60,6 +65,10 @@ public class ArrowButton : MonoBehaviour
 
     public void OnButton()
     {
+        if (IsP2Playing)
+        {
+            return;
+        }
         IsClickedOn = true;
         if (ScaleDownTween != null)
         {
@@ -125,15 +134,6 @@ public class ArrowButton : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Note"))
-        {
-            Tile tile = collision.GetComponent<Tile>();
-            CollidedTiles.Add(tile);
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
         if (collision.CompareTag("Endgame"))
         {
             TileRunner.Instance.StopGame();
@@ -141,7 +141,52 @@ public class ArrowButton : MonoBehaviour
         if (collision.CompareTag("Note"))
         {
             Tile tile = collision.GetComponent<Tile>();
-            CollidedTiles.Remove(tile);
+            if (!tile.IsP2Turn)
+                CollidedTiles.Add(tile);
+        }
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Note"))
+        {
+            Tile tile = collision.GetComponent<Tile>();
+            if (tile.IsP2Turn)
+            {
+                if (tile.transform.position.y <= transform.position.y)
+                {
+                    StartCoroutine(P2Play(tile));
+                }
+            }
+        }
+    }
+
+    private IEnumerator P2Play(Tile tile)
+    {
+        IsP2Playing = true;
+        mat.SetFloat("_IsP2Turn", 1);
+        mat.SetFloat("_IsActive", 1);
+        target = tile;
+
+        ScaleUpTween = transform.DOScale(1f, 0f);
+        Process();
+        yield return new WaitForSeconds(.2f);
+
+        ScaleUpTween = transform.DOScale(1f, 0f);
+        target = null;
+        mat.SetFloat("_IsP2Turn", 0);
+        mat.SetFloat("_IsActive", 0);
+        IsP2Playing = false;
+
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+
+        if (collision.CompareTag("Note"))
+        {
+            Tile tile = collision.GetComponent<Tile>();
+            if (!tile.IsP2Turn)
+                CollidedTiles.Remove(tile);
         }
         if (collision.CompareTag("Trail"))
         {

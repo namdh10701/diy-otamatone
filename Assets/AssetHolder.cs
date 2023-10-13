@@ -19,6 +19,12 @@ public class AssetHolder : Singleton<AssetHolder>
     public Sprite DownTrailTop;
     public Sprite LeftTrailTop;
     public Sprite RightTrailTop;
+
+    public Sprite P2UpSprite;
+    public Sprite P2DownSprite;
+    public Sprite P2LeftSprite;
+    public Sprite P2RightSprite;
+
     private void OnEnable()
     {
         base.Awake();

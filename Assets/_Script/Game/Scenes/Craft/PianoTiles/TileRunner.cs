@@ -16,7 +16,8 @@ public class TileRunner : Singleton<TileRunner>
     public AudioSource AudioSource;
     private bool levelEditorMode = false;
     public Transform NoteRoot;
-
+    private Camera camera;
+    public float CameraYBound => camera.orthographicSize;
     public enum State
     {
         DelayPlay, Playing, Stop
@@ -36,6 +37,7 @@ public class TileRunner : Singleton<TileRunner>
 
     private void Start()
     {
+        camera = Camera.main;
         ActiveTiles = FindObjectsOfType<Tile>().ToList();
         List<TrailTile> TrailTiles = FindObjectsOfType<TrailTile>().ToList();
         foreach (TrailTile tile in TrailTiles)

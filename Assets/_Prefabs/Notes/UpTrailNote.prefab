@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4808378156994982682}
   - component: {fileID: 469859685465538464}
   - component: {fileID: 6315985481878594721}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Trail
   m_TagString: Trail
   m_Icon: {fileID: 0}
@@ -140,7 +140,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1136411584997840191}
   - component: {fileID: 6285895476792755997}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: TrailTop
   m_TagString: Trail
   m_Icon: {fileID: 0}
@@ -226,7 +226,7 @@ GameObject:
   - component: {fileID: 5596524396706041303}
   - component: {fileID: 1435220035835637354}
   - component: {fileID: 8336163233530490212}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: UpTrailNote
   m_TagString: Note
   m_Icon: {fileID: 0}
@@ -322,6 +322,7 @@ MonoBehaviour:
   sp: {fileID: 5596524396706041303}
   IsEditMode: 1
   Type: 1
+  IsP2Turn: 0
   Trail: {fileID: 469859685465538464}
   TrailTop: {fileID: 6285895476792755997}
   TrailHeight: 6

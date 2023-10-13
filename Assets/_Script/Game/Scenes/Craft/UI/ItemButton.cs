@@ -227,6 +227,7 @@ namespace Game.Craft
                 );
         }
 
+
         public void FullyDisplay()
         {
             IsDisplaying = false;

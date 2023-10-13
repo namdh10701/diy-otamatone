@@ -39,5 +39,6 @@ public class LevelDefinition : ScriptableObject
         public float TrailHeight;
         public int Row;
         public int Col;
+        public bool IsP2Turn;
     }
 }

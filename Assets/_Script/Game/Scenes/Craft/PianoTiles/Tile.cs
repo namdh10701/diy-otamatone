@@ -17,6 +17,7 @@ public class Tile : MonoBehaviour
     public SpriteRenderer sp;
     public bool IsEditMode = true;
     public NoteType Type;
+    public bool IsP2Turn;
     public enum NoteType
     {
         Normal, Trail
@@ -51,6 +52,7 @@ public class Tile : MonoBehaviour
     public virtual void OnClicked()
     {
         //TileRunner.Instance.ActiveTiles.Remove(this);
+        
         sp.enabled = false;
     }
 
@@ -105,20 +107,41 @@ public class Tile : MonoBehaviour
         name = $"C:{Col} R:{Row}";
         // Do not allow a snap to enable this flag
         Transform.hasChanged = false;
-        switch (Col)
+        if (!IsP2Turn)
         {
-            case 0:
-                sp.sprite = AssetHolder.Instance.LeftSprite;
-                break;
-            case 1:
-                sp.sprite = AssetHolder.Instance.DownSprite;
-                break;
-            case 2:
-                sp.sprite = AssetHolder.Instance.UpSprite;
-                break;
-            case 3:
-                sp.sprite = AssetHolder.Instance.RightSprite;
-                break;
+            switch (Col)
+            {
+                case 0:
+                    sp.sprite = AssetHolder.Instance.LeftSprite;
+                    break;
+                case 1:
+                    sp.sprite = AssetHolder.Instance.DownSprite;
+                    break;
+                case 2:
+                    sp.sprite = AssetHolder.Instance.UpSprite;
+                    break;
+                case 3:
+                    sp.sprite = AssetHolder.Instance.RightSprite;
+                    break;
+            }
+        }
+        else
+        {
+            switch (Col)
+            {
+                case 0:
+                    sp.sprite = AssetHolder.Instance.P2LeftSprite;
+                    break;
+                case 1:
+                    sp.sprite = AssetHolder.Instance.P2DownSprite;
+                    break;
+                case 2:
+                    sp.sprite = AssetHolder.Instance.P2UpSprite;
+                    break;
+                case 3:
+                    sp.sprite = AssetHolder.Instance.P2RightSprite;
+                    break;
+            }
         }
     }
 }
