@@ -54,7 +54,6 @@ v2f vert(appdata_t v)
 fixed4 frag(v2f i) : SV_Target
 {
     float4 col1 = tex2D(_MainTex, i.uv);
-    return col1;
     float4 col2 = tex2D(_AlterTex, i.uv);
     col2.xyz += 0.2;
     float4 finalCol = lerp(col1, col2, _IsActive);

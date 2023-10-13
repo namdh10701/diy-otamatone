@@ -54,9 +54,9 @@ Shader "Unlit/Battle Progress Shader"
 					float4 p2IconCol = tex2D(_P2Icon, i.uv);
 
 					bool P1Mask = i.uv.x < _P1Progress;
-					float pulseMask = sin(_Time.y * 3 - (i.uv.x + .2));
-					p1TexCol.xyz = lerp(p1TexCol.xyz, p1TexCol.xyz * 1.3, pulseMask);
-					p2TexCol.xyz = lerp(p2TexCol.xyz, p2TexCol.xyz * 1.3, pulseMask);
+					float pulseMask = sin(_Time.y * 6 - (i.uv.x + .2));
+					p1TexCol.xyz = lerp(p1TexCol.xyz, p1TexCol.xyz * 1.4, pulseMask);
+					p2TexCol.xyz = lerp(p2TexCol.xyz, p2TexCol.xyz * 1.4, pulseMask);
 
 				return lerp(p2TexCol, p1TexCol, P1Mask);
 			}

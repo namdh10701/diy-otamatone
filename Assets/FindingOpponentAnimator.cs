@@ -9,11 +9,10 @@ public class FindingOpponentAnimator : MonoBehaviour
 {
     public Animator animator;
     public Transform playground;
-    public GameObject levelPrefab;
     public Image bg;
     IEnumerator Start()
     {
-        Instantiate(levelPrefab, playground);
+        PVPManager.Instance.InitLevel();
         yield return new WaitForSecondsRealtime(3);
         animator.SetTrigger("Disappear");
     }
@@ -28,6 +27,6 @@ public class FindingOpponentAnimator : MonoBehaviour
 
     public void OnBegin()
     {
-        TileRunner.Instance.StartTheGame();
+        PVPManager.Instance.StartGame();
     }
 }

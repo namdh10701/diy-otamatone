@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -11,6 +12,7 @@ using UnityEngine.SceneManagement;
 
 public class TileRunner : Singleton<TileRunner>
 {
+    public UnityEvent StopGameEvent = new UnityEvent();
     public AudioSource AudioSource;
     private bool levelEditorMode = false;
     public Transform NoteRoot;
@@ -38,9 +40,13 @@ public class TileRunner : Singleton<TileRunner>
         List<TrailTile> TrailTiles = FindObjectsOfType<TrailTile>().ToList();
         foreach (TrailTile tile in TrailTiles)
         {
+            tile.TrailTopMat = tile.TrailTop.material;
             tile.TrailMat = tile.Trail.material;
             tile.LevelDefinition = this.LevelDefinition;
             tile.TrailMat.SetTexture("_MainTex", tile.Trail.sprite.texture);
+            tile.TrailTopMat.SetFloat("_IsActive", 0);
+            tile.TrailTopMat.SetFloat("_IsFade", 0);
+            tile.TrailMat.SetFloat("_IsFade", 1);
             tile.TrailMat.SetFloat("_IsActive", 0);
         }
     }
@@ -88,6 +94,6 @@ public class TileRunner : Singleton<TileRunner>
     {
         _currentState = State.Stop;
         AudioSource.Stop();
-        ActiveTiles = null;
+        StopGameEvent.Invoke();
     }
 }

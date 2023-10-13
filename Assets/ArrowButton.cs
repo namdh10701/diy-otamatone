@@ -63,14 +63,13 @@ public class ArrowButton : MonoBehaviour
         IsClickedOn = true;
         if (ScaleDownTween != null)
         {
-            return;
             ScaleDownTween.Kill();
         }
         if (ScaleUpTween != null)
         {
             ScaleUpTween.Kill();
         }
-        ScaleUpTween = transform.DOScale(1.3f, .1f);
+        ScaleUpTween = transform.DOScale(1.15f, .1f);
         if (Peek())
         {
             mat.SetFloat("_IsActive", 1);
@@ -135,6 +134,10 @@ public class ArrowButton : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        if (collision.CompareTag("Endgame"))
+        {
+            TileRunner.Instance.StopGame();
+        }
         if (collision.CompareTag("Note"))
         {
             Tile tile = collision.GetComponent<Tile>();

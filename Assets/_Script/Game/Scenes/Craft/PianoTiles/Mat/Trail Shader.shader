@@ -1,4 +1,4 @@
-Shader "Unlit/Trail Shader"
+Shader"Unlit/Trail Shader"
 {
 	Properties
 	{
@@ -6,6 +6,7 @@ Shader "Unlit/Trail Shader"
 		_IsActive("Is Active", range(0,1)) = 0
 		_NoteTex("Note Tex", 2D) = "white"{}
 		_Height("Height", range(0,1)) = 1
+		_IsFade("Is Fade", float) = 1
 	}
 		SubShader
 		{
@@ -39,6 +40,7 @@ Shader "Unlit/Trail Shader"
 				float4 _MainTex_ST;
 				float _IsActive;
 				float _Height;
+				float _IsFade;
 				v2f vert(appdata v)
 				{
 					v2f o;
@@ -53,11 +55,16 @@ Shader "Unlit/Trail Shader"
 					float4 col = tex2D(_MainTex, i.uv);
 					bool HeightMask = i.uv.y < 1 - _Height;
 					col = lerp(col, 0, HeightMask);
-					if (i.uv.y > 1 - _Height)
+					if (_IsFade)
 					{
-						col.a = lerp(col.a * .4, col.a * 1.5f, i.uv.y);
+					
+							if (i.uv.y > 1 - _Height)
+							{
+								col.a = lerp(col.a * .01, col.a, i.uv.y-.01);
+							}
+			
 					}
-					float4 hightlightCol = float4(col.xyz + .3f, col.a);
+					float4 hightlightCol = float4(col.xyz + .2f, col.a);
 					col = lerp(col, hightlightCol, _IsActive);
 
 				return col;
