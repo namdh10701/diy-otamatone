@@ -14,13 +14,14 @@ public class ArrowButton : MonoBehaviour
     {
         Left, Down, Up, Right
     }
-    public AudioSource AudioSource;
-    public AudioClip clip;
+    public Texture sparkTex;
+    public ParticleSystem spark;
+    public ParticleSystem OnHitSpark;
     public Tween ScaleUpTween;
     public Tween ScaleDownTween;
     public ButtonDirection Direction;
     public List<Tile> CollidedTiles;
-
+    public Coroutine p2PlayCoroutine;
     public Material mat;
     public Tile target;
     public Coroutine lightCoroutine;
@@ -30,6 +31,7 @@ public class ArrowButton : MonoBehaviour
     public bool IsP2Playing = false;
     private void Awake()
     {
+        spark.GetComponent<Renderer>().material.SetTexture("_MainTex", sparkTex);
         mat = GetComponent<SpriteRenderer>().material;
         CurrentState = State.Draken;
     }
@@ -56,7 +58,7 @@ public class ArrowButton : MonoBehaviour
             if (target is TrailTile)
             {
                 ((TrailTile)target).OnRelease();
-
+                spark.Stop();
             }
             target = null;
         }
@@ -90,17 +92,19 @@ public class ArrowButton : MonoBehaviour
     {
         if (target != null)
         {
+            if (target is TrailTile)
+            {
+                spark.Play();
+            }
+            else
+            {
+                OnHitSpark.Play();
+            }
             //AudioSource.PlayOneShot(clip);
             target.OnClicked();
             return true;
         }
         return false;
-    }
-    private void Update()
-    {
-        if (CurrentState == State.Lighting)
-        {
-        }
     }
 
     private IEnumerator LerpMaterialProperty(string propertyName, float targetValue, float duration)
@@ -154,7 +158,10 @@ public class ArrowButton : MonoBehaviour
             {
                 if (tile.transform.position.y <= transform.position.y)
                 {
-                    StartCoroutine(P2Play(tile));
+                    if (p2PlayCoroutine == null)
+                    {
+                        p2PlayCoroutine = StartCoroutine(P2Play(tile));
+                    }
                 }
             }
         }
@@ -166,16 +173,15 @@ public class ArrowButton : MonoBehaviour
         mat.SetFloat("_IsP2Turn", 1);
         mat.SetFloat("_IsActive", 1);
         target = tile;
-
         ScaleUpTween = transform.DOScale(1f, 0f);
         Process();
         yield return new WaitForSeconds(.2f);
-
         ScaleUpTween = transform.DOScale(1f, 0f);
         target = null;
         mat.SetFloat("_IsP2Turn", 0);
         mat.SetFloat("_IsActive", 0);
         IsP2Playing = false;
+        p2PlayCoroutine = null;
 
     }
 
@@ -194,6 +200,7 @@ public class ArrowButton : MonoBehaviour
             {
                 target = null;
                 mat.SetFloat("_IsActive", 0);
+                spark.Stop();
             }
         }
     }
