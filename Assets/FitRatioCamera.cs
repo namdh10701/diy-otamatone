@@ -8,6 +8,7 @@ public class FitRatioCamera : MonoBehaviour
     public SpriteRenderer bg;
     public RectTransform banner;
     public AnchorToCamera AnchorToCamera;
+    public Camera camera;
     private void Awake()
     {
 
@@ -15,10 +16,7 @@ public class FitRatioCamera : MonoBehaviour
         float bgHeight = bg.bounds.size.y;
         float targetOrthoSize1 = Mathf.Max(bgWidth * 0.5f / Camera.main.aspect, bgHeight * 0.5f);
 
-
-
-
-        Camera.main.orthographicSize = targetOrthoSize1;
+        camera.orthographicSize = targetOrthoSize1;
         if (AnchorToCamera != null)
         {
             AnchorToCamera.Apply();
