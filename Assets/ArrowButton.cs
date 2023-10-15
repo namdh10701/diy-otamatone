@@ -92,15 +92,11 @@ public class ArrowButton : MonoBehaviour
     {
         if (target != null)
         {
+            OnHitSpark.Play();
             if (target is TrailTile)
             {
                 spark.Play();
             }
-            else
-            {
-                OnHitSpark.Play();
-            }
-            //AudioSource.PlayOneShot(clip);
             target.OnClicked();
             return true;
         }
@@ -140,7 +136,10 @@ public class ArrowButton : MonoBehaviour
     {
         if (collision.CompareTag("Endgame"))
         {
-            TileRunner.Instance.StopGame();
+            if (PVPManager.Instance.CurrentState == PVPManager.State.Playing)
+            {
+                TileRunner.Instance.StopGame();
+            }
         }
         if (collision.CompareTag("Note"))
         {

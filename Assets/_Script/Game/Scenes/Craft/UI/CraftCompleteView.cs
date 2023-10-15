@@ -117,12 +117,6 @@ namespace Game.Craft
             Invoke("EnterPianoTilesMode", 1);
 
         }
-        private void EnterPianoTilesMode()
-        {
-            PianoTilesManager.Instance.EnterPianoTilesMode();
-        }
-
-
         public Transform pointer;
         public int coinMutiplier = 1;
         public void StopSpin()
