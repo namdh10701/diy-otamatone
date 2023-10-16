@@ -137,6 +137,7 @@ public class TileRunner : Singleton<TileRunner>
 
     private IEnumerator ReverseAudio()
     {
+        // TODO: clear destroyed notes when reverse
         _currentState = State.Pause;
         ReverseAudioSource.volume = .7f;
         ReverseAudioSource.Play();

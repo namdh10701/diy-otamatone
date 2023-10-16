@@ -1,11 +1,9 @@
-
-using System;
-using TMPro;
+using DG.Tweening;
 using UnityEditor;
 using UnityEngine;
 using static LevelDefinition;
 
-[ExecuteInEditMode]
+[ExecuteAlways]
 public class Tile : MonoBehaviour
 {
     //TODO Snap To Grid
@@ -16,15 +14,23 @@ public class Tile : MonoBehaviour
     public bool IsSnapToGrid;
     public SpriteRenderer sp;
     public bool IsEditMode = true;
+
+    public virtual void SeftDestroy()
+    {
+        IsDestroyed = true;
+        sp.DOFade(0, .2f);
+    }
+
     public NoteType Type;
     public bool IsP2Turn;
+    public bool IsDestroyed;
     public enum NoteType
     {
         Normal, Trail
     }
     protected virtual void Awake()
     {
-
+        IsDestroyed = false;
         Type = NoteType.Normal;
         Transform = transform;
         sp = GetComponent<SpriteRenderer>();
@@ -52,12 +58,14 @@ public class Tile : MonoBehaviour
     public virtual void OnClicked()
     {
         //TileRunner.Instance.ActiveTiles.Remove(this);
-        
+        IsDestroyed = true;
         sp.enabled = false;
     }
 
     public virtual void OnReset()
     {
+        IsDestroyed = false;
+        sp.DOFade(1, 0);
         sp.enabled = true;
     }
 

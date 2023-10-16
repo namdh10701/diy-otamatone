@@ -24,7 +24,7 @@ public class PVPManager : Singleton<PVPManager>
     public SongDefinition SelectedSongDefinition;
 
     public DancingMonster[] dancingMonsterPrefabs;
-
+    public CameraFx cameraFx;
 
 
     [SerializeField] private Game.Timer timer;
@@ -110,14 +110,17 @@ public class PVPManager : Singleton<PVPManager>
 
     public void Revive()
     {
+        HpManager.Instance.ResetHp();
         StartCoroutine(ReviveCoroutine());
     }
 
     private IEnumerator ReviveCoroutine()
     {
+        cameraFx.ToGrayScale();
         TileRunner.Instance.Reverse3Seconds();
         yield return new WaitForSecondsRealtime(2);
         _ui.StartCountdownAfterRevive();
+        cameraFx.ToColor();
     }
 
     public void OnLevelLose()
@@ -128,7 +131,8 @@ public class PVPManager : Singleton<PVPManager>
 
     public void StartLevel()
     {
-        CurrentState = State.Playing;
+        
+           CurrentState = State.Playing;
         TileRunner.Instance.StartTheGame();
     }
 

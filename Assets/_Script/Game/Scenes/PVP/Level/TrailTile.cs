@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 [ExecuteAlways]
 public class TrailTile : Tile
@@ -12,7 +13,6 @@ public class TrailTile : Tile
     public Material TrailMat;
     public Material TrailTopMat;
     public bool IsClicked;
-    public bool IsDestroyed;
     protected override void Awake()
     {
         base.Awake();
@@ -53,16 +53,14 @@ public class TrailTile : Tile
     }
     public bool OnRelease()
     {
-        Debug.Log("OnRelease");
         IsClicked = false;
         StartCoroutine(LerpMaterialProperty("_IsActive", 0f, .2f));
         return IsDestroyed;
     }
     public override void OnClicked()
     {
-        Debug.Log("OnClick");
         IsClicked = true;
-
+        IsDestroyed = true;
         StartCoroutine(LerpMaterialProperty("_IsActive", 1f, .2f));
         GetComponent<SpriteRenderer>().enabled = false;
     }
@@ -88,7 +86,7 @@ public class TrailTile : Tile
                 SetTrailHeightAlpha(y);
                 if (y <= 0)
                 {
-                    IsDestroyed = true;
+                    IsClicked = true;
                     TrailTopMat.SetFloat("_Height", y);
                 }
             }
@@ -118,10 +116,19 @@ public class TrailTile : Tile
         TrailMat.SetFloat("_Height", height);
     }
 
+    public override void SeftDestroy()
+    {
+        IsDestroyed = true;
+        sp.DOFade(0, .2f);
+        StartCoroutine(LerpMaterialProperty("_IsExist", 0f, .2f));
+    }
     public override void OnReset()
     {
         base.OnReset();
         IsDestroyed = false;
+        sp.DOFade(1, 0);
+        TrailMat.SetFloat("_IsExist", 1);
+        TrailTopMat.SetFloat("_IsExist", 1);
         TrailMat.SetFloat("_Height", 1);
         TrailTopMat.SetFloat("_Height", 1);
     }

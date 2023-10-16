@@ -102,10 +102,6 @@ public class ArrowButton : MonoBehaviour
         target = Peek();
         if (target == null)
         {
-            if (PVPManager.Instance != null)
-            {
-                PVPManager.Instance.OnNoteMissed.Invoke(PVPManager.Player.P1);
-            }
             Invoke("ResetClick", CooldownTime);
             ScaleUpTween = transform.DOScale(_originalScale * 1.15f, animationTime / 2f).OnComplete(
             () =>
@@ -159,7 +155,6 @@ public class ArrowButton : MonoBehaviour
     {
         if (target != null)
         {
-            Debug.Log("Here");
             target.OnClicked();
             OnHitSpark.Play();
             spark.Play();

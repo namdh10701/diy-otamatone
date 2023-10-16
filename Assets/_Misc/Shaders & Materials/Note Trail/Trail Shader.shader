@@ -7,6 +7,7 @@ Shader"Unlit/Trail Shader"
 		_NoteTex("Note Tex", 2D) = "white"{}
 		_Height("Height", range(0,1)) = 1
 		_IsFade("Is Fade", float) = 1
+		_IsExist("Is Exist", range(0,1)) = 1
 	}
 		SubShader
 		{
@@ -41,6 +42,7 @@ Shader"Unlit/Trail Shader"
 				float _IsActive;
 				float _Height;
 				float _IsFade;
+				float _IsExist;
 				v2f vert(appdata v)
 				{
 					v2f o;
@@ -66,7 +68,7 @@ Shader"Unlit/Trail Shader"
 					}
 					float4 hightlightCol = float4(col.xyz + .2f, col.a);
 					col = lerp(col, hightlightCol, _IsActive);
-
+					col.a = lerp(0, col.a, _IsExist);
 				return col;
 			}
 			ENDCG

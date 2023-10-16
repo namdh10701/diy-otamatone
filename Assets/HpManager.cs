@@ -11,7 +11,7 @@ public class HpManager : Singleton<HpManager>
     public TextMeshProUGUI P1HealthCount;
     public UnityEvent OnZeroHp = new UnityEvent();
 
-    int CurrentP1Heath;
+    public int CurrentP1Heath;
     Tween tween;
     private void Start()
     {
