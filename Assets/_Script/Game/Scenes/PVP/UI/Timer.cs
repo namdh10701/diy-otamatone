@@ -1,10 +1,11 @@
+using Core.Singleton;
 using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
 namespace Game
 {
-    public class Timer : MonoBehaviour
+    public class Timer : Singleton<Timer>
     {
         [SerializeField] private TextMeshProUGUI text;
         public float currentTime;

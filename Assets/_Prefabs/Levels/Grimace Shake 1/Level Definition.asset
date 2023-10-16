@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6020ed4e11b362e4b8cfd2e851079ae8, type: 3}
-  m_Name: Level Definition
+  m_Name: Grimace Shake 1
   m_EditorClassIdentifier: 
   Diff: 0
   SongDefinition: {fileID: 11400000, guid: 3d27f944d8e5edc408666096b04c0a59, type: 2}

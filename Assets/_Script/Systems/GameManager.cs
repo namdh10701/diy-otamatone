@@ -1,4 +1,5 @@
 ﻿using Core.Env;
+using Game.Datas;
 using Game.Settings;
 using UnityEngine;
 
@@ -20,6 +21,11 @@ namespace Game
             if (Environment.ENV == Environment.Env.PROD)
             {
                 Debug.unityLogger.logEnabled = debuglog;
+            }
+            else
+            {
+                GameDataManager.Instance.GameDatas.Coin = 5000;
+                GameDataManager.Instance.SaveDatas();
             }
         }
         private static void SpecifySystemsSetting()

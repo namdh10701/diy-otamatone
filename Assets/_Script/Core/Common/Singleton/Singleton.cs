@@ -20,7 +20,6 @@ namespace Core.Singleton
         protected virtual void OnApplicationQuit()
         {
             Instance = null;
-            Destroy(gameObject);
         }
     }
 }

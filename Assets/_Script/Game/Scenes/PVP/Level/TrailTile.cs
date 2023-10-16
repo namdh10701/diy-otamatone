@@ -12,6 +12,7 @@ public class TrailTile : Tile
     public Material TrailMat;
     public Material TrailTopMat;
     public bool IsClicked;
+    public bool IsDestroyed;
     protected override void Awake()
     {
         base.Awake();
@@ -50,11 +51,12 @@ public class TrailTile : Tile
         trailHeight, 2);
         TrailTop.transform.localPosition = new Vector3(0, 0.6945f * Trail.transform.localScale.y, 0);
     }
-    public void OnRelease()
+    public bool OnRelease()
     {
         Debug.Log("OnRelease");
         IsClicked = false;
         StartCoroutine(LerpMaterialProperty("_IsActive", 0f, .2f));
+        return IsDestroyed;
     }
     public override void OnClicked()
     {
@@ -86,7 +88,7 @@ public class TrailTile : Tile
                 SetTrailHeightAlpha(y);
                 if (y <= 0)
                 {
-               
+                    IsDestroyed = true;
                     TrailTopMat.SetFloat("_Height", y);
                 }
             }
@@ -112,12 +114,15 @@ public class TrailTile : Tile
 
     public void SetTrailHeightAlpha(float height)
     {
+        Debug.Log("here");
         TrailMat.SetFloat("_Height", height);
     }
 
     public override void OnReset()
     {
         base.OnReset();
+        IsDestroyed = false;
         TrailMat.SetFloat("_Height", 1);
+        TrailTopMat.SetFloat("_Height", 1);
     }
 }

@@ -6,120 +6,212 @@ using UnityEngine;
 
 public class ArrowButton : MonoBehaviour
 {
-    public enum State
-    {
-        Lighting, Draken
-    }
-    public enum ButtonDirection
-    {
-        Left, Down, Up, Right
-    }
+    private List<Tile> CollidedTiles;
     public Texture sparkTex;
     public ParticleSystem spark;
     public ParticleSystem OnHitSpark;
+
     public Tween ScaleUpTween;
     public Tween ScaleDownTween;
-    public ButtonDirection Direction;
-    public List<Tile> CollidedTiles;
-    public Coroutine p2PlayCoroutine;
+
+    private bool isAbleToBeClicked = true;
+    public float CooldownTime = .05f;
+    private float animationTime = 0.1f;
+
     public Material mat;
     public Tile target;
     public Coroutine lightCoroutine;
     public Coroutine darkCoroutine;
-    public State CurrentState;
-    public bool IsClickedOn;
+
+    private bool IsClickedOn;
     public bool IsP2Playing = false;
+    private Coroutine p2PlayCoroutine;
+
+    private float _originalScale;
     private void Awake()
     {
+        _originalScale = transform.localScale.x;
         spark.GetComponent<Renderer>().material.SetTexture("_MainTex", sparkTex);
         mat = GetComponent<SpriteRenderer>().material;
-        CurrentState = State.Draken;
+        CollidedTiles = new List<Tile>();
     }
 
-    public void OnRealease()
-    {
-        if (IsP2Playing)
+    /*   public void OnRealease()
         {
-            return;
-        }
-        IsClickedOn = false;
-        if (ScaleDownTween != null)
-        {
-            ScaleDownTween.Kill();
-        }
-        if (ScaleUpTween != null)
-        {
-            ScaleUpTween.Kill();
-        }
-        ScaleUpTween = transform.DOScale(1f, .1f);
-
-        if (target != null)
-        {
-            if (target is TrailTile)
+            if (IsP2Playing)
             {
-                ((TrailTile)target).OnRelease();
-                spark.Stop();
+                return;
             }
-            target = null;
+            IsClickedOn = false;
+            if (ScaleDownTween != null)
+            {
+                ScaleDownTween.Kill();
+            }
+            if (ScaleUpTween != null)
+            {
+                ScaleUpTween.Kill();
+            }
+            ScaleUpTween = transform.DOScale(1f, .1f);
+
+            if (target != null)
+            {
+                if (target is TrailTile)
+                {
+                    ((TrailTile)target).OnRelease();
+                    spark.Stop();
+                }
+                target = null;
+            }
+            mat.SetFloat("_IsActive", 0);
         }
-        mat.SetFloat("_IsActive", 0);
-    }
+
+        public void OnButton()
+        {
+            if (IsP2Playing)
+            {
+                return;
+            }
+            IsClickedOn = true;
+            if (ScaleDownTween != null)
+            {
+                ScaleDownTween.Kill();
+            }
+            if (ScaleUpTween != null)
+            {
+                ScaleUpTween.Kill();
+            }
+            ScaleUpTween = transform.DOScale(1.15f, .1f);
+            if (Peek())
+            {
+                mat.SetFloat("_IsActive", 1);
+                Process();
+            }
+
+
+
+        }
+    */
 
     public void OnButton()
     {
-        if (IsP2Playing)
+        if (!isAbleToBeClicked)
+            return;
+
+        IsClickedOn = true;
+        isAbleToBeClicked = false;
+        target = Peek();
+        if (target == null)
         {
+            if (PVPManager.Instance != null)
+            {
+                PVPManager.Instance.OnNoteMissed.Invoke(PVPManager.Player.P1);
+            }
+            Invoke("ResetClick", CooldownTime);
+            ScaleUpTween = transform.DOScale(_originalScale * 1.15f, animationTime / 2f).OnComplete(
+            () =>
+            {
+                ScaleDownTween = transform.DOScale(_originalScale, animationTime);
+            }
+            );
             return;
         }
-        IsClickedOn = true;
-        if (ScaleDownTween != null)
+        else
         {
-            ScaleDownTween.Kill();
-        }
-        if (ScaleUpTween != null)
-        {
-            ScaleUpTween.Kill();
-        }
-        ScaleUpTween = transform.DOScale(1.15f, .1f);
-        if (Peek())
-        {
+            if (PVPManager.Instance != null)
+            {
+                PVPManager.Instance.OnNoteHit.Invoke(IsP2Playing ? PVPManager.Player.P2 : PVPManager.Player.P1);
+            }
             mat.SetFloat("_IsActive", 1);
-            Process();
+            if (target.Type == Tile.NoteType.Normal)
+            {
+                Invoke("ResetClick", CooldownTime);
+                ScaleUpTween = transform.DOScale(_originalScale * 1.15f, animationTime / 2f).OnComplete(
+                () =>
+                {
+                    ProcessNormalTile();
+                    ScaleDownTween = transform.DOScale(_originalScale, animationTime).OnComplete(
+                        () =>
+                        {
+                            mat.SetFloat("_IsActive", 0);
+                        }
+                        );
+                }
+                );
+
+            }
+            else if (target.Type == Tile.NoteType.Trail)
+            {
+                ScaleUpTween = transform.DOScale(_originalScale * 1.15f, .1f);
+                ProcessTrailTile();
+            }
         }
     }
 
-    public bool Process()
+    private void ProcessNormalTile()
     {
         if (target != null)
         {
             OnHitSpark.Play();
-            if (target is TrailTile)
-            {
-                spark.Play();
-            }
             target.OnClicked();
-            return true;
         }
-        return false;
     }
-
-    private IEnumerator LerpMaterialProperty(string propertyName, float targetValue, float duration)
+    private void ProcessTrailTile()
     {
-        float startTime = Time.time;
-        float startValue = mat.GetFloat(propertyName);
-
-        while (Time.time - startTime < duration)
+        if (target != null)
         {
-            float t = (Time.time - startTime) / duration;
-            float lerpedValue = Mathf.Lerp(startValue, targetValue, t);
-            mat.SetFloat(propertyName, lerpedValue);
-            yield return null; // Wait for the next frame
+            Debug.Log("Here");
+            target.OnClicked();
+            OnHitSpark.Play();
+            spark.Play();
         }
-
-        mat.SetFloat(propertyName, targetValue); // Ensure it reaches the exact target value
     }
-    private bool Peek()
+
+    public void OnRealease()
     {
+        if (target != null)
+        {
+            if (target.Type == Tile.NoteType.Trail)
+            {
+                mat.SetFloat("_IsActive", 0);
+                ScaleDownTween = transform.DOScale(_originalScale, animationTime).OnComplete(
+                       () =>
+                       {
+                           Invoke("ResetClick", 0);
+                       }
+                       );
+                spark.Stop();
+                bool hit = ((TrailTile)target).OnRelease();
+                if (hit)
+                {
+                    if (PVPManager.Instance != null)
+                    {
+                        PVPManager.Instance.OnNoteHit.Invoke(IsP2Playing ? PVPManager.Player.P2 : PVPManager.Player.P1);
+                    }
+                }
+                else
+                {
+                    if (PVPManager.Instance != null)
+                    {
+                        PVPManager.Instance.OnNoteMissed.Invoke(IsP2Playing ? PVPManager.Player.P2 : PVPManager.Player.P1);
+                    }
+                }
+            }
+        }
+    }
+
+
+
+
+
+
+    private void ResetClick()
+    {
+        isAbleToBeClicked = true;
+    }
+
+    private Tile Peek()
+    {
+        target = null;
         int lowestInRow = 10000;
         for (int i = 0; i < CollidedTiles.Count; i++)
         {
@@ -129,7 +221,7 @@ public class ArrowButton : MonoBehaviour
                 target = CollidedTiles[i];
             }
         }
-        return target != null;
+        return target;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -159,6 +251,10 @@ public class ArrowButton : MonoBehaviour
                 {
                     if (p2PlayCoroutine == null)
                     {
+                        if (PVPManager.Instance != null)
+                        {
+                            PVPManager.Instance.OnNoteHit.Invoke(PVPManager.Player.P2);
+                        }
                         p2PlayCoroutine = StartCoroutine(P2Play(tile));
                     }
                 }
@@ -173,7 +269,10 @@ public class ArrowButton : MonoBehaviour
         mat.SetFloat("_IsActive", 1);
         target = tile;
         ScaleUpTween = transform.DOScale(1f, 0f);
-        Process();
+        if (tile.Type == Tile.NoteType.Normal)
+        {
+            ProcessNormalTile();
+        }
         yield return new WaitForSeconds(.2f);
         ScaleUpTween = transform.DOScale(1f, 0f);
         target = null;
@@ -197,9 +296,7 @@ public class ArrowButton : MonoBehaviour
         {
             if (collision.GetComponentInParent<Tile>() == target)
             {
-                target = null;
-                mat.SetFloat("_IsActive", 0);
-                spark.Stop();
+                OnRealease();
             }
         }
     }

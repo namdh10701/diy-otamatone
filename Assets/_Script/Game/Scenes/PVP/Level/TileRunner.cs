@@ -1,4 +1,5 @@
 using Core.Singleton;
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,13 +15,12 @@ public class TileRunner : Singleton<TileRunner>
 {
     public UnityEvent StopGameEvent = new UnityEvent();
     public AudioSource AudioSource;
+    public AudioSource ReverseAudioSource;
     private bool levelEditorMode = false;
     public Transform NoteRoot;
-    private Camera camera;
-    public float CameraYBound => camera.orthographicSize;
     public enum State
     {
-        DelayPlay, Playing, Stop
+        DelayPlay, Playing, Stop, Pause
     }
 
     public LevelDefinition LevelDefinition;
@@ -29,16 +29,17 @@ public class TileRunner : Singleton<TileRunner>
 
     [SerializeField] private State _currentState = State.Stop;
     public List<Tile> ActiveTiles;
+    public float CameraYBound;
+    public UnityEvent GameStarted = new UnityEvent();
     protected override void Awake()
     {
-        base.Awake();
+        base.Awake(); AudioSource.DOFade(.7f, 0);
         //LoadLevel(LevelSelectionScreen.current);
     }
 
     private void Start()
     {
-        Debug.Log("Start here");
-        camera = Camera.main;
+        ReverseAudioSource.volume = 0;
         ActiveTiles = gameObject.GetComponentsInChildren<Tile>().ToList();
         List<TrailTile> TrailTiles = FindObjectsOfType<TrailTile>().ToList();
         foreach (TrailTile tile in TrailTiles)
@@ -56,10 +57,13 @@ public class TileRunner : Singleton<TileRunner>
 
     public void StartTheGame()
     {
+        CameraYBound = Camera.main.orthographicSize;
         _currentState = State.DelayPlay;
         float timeFirstNoteReachLine = (Camera.main.orthographicSize + 2.4f - _noteHitLine.position.y) / LevelDefinition.NoteSpeed;
         float offsetTimeMinus = timeFirstNoteReachLine - LevelDefinition.TimeToFirstNote;
         AudioSource.clip = LevelDefinition.MusicClip;
+        ReverseAudioSource.clip = LevelDefinition.MusicClip;
+        ReverseAudioSource.Play();
         AudioSource.Play();
         StartCoroutine(Delay(Mathf.Abs(offsetTimeMinus)));
 
@@ -71,9 +75,13 @@ public class TileRunner : Singleton<TileRunner>
         {
             tile.OnReset();
         }
+        AudioSource.DOFade(.7f, 0);
+        AudioSource.Stop();
         NoteRoot.position = new Vector2(0, Camera.main.orthographicSize + 2.4f);
-        StartTheGame();
+
     }
+
+
     IEnumerator Delay(float time)
     {
         Debug.Log($"Delay time {time}");
@@ -82,6 +90,7 @@ public class TileRunner : Singleton<TileRunner>
     }
     private void StartGame()
     {
+
         _currentState = State.Playing;
     }
     void Update()
@@ -98,5 +107,58 @@ public class TileRunner : Singleton<TileRunner>
         _currentState = State.Stop;
         AudioSource.Stop();
         StopGameEvent.Invoke();
+    }
+
+    public float pausedTimeee = 0;
+    public void PauseGame()
+    {
+        StopAllCoroutines();
+        _currentState = State.Pause;
+        pausedTimeee = AudioSource.time;
+        pausedPos = NoteRoot.position;
+        AudioSource.DOFade(0, 0.3f).OnComplete(
+            () =>
+            {
+
+                ReverseAudioSource.Pause();
+                AudioSource.Pause();
+                AudioSource.DOFade(.7f, 0);
+            }
+            );
+    }
+
+    public Vector3 pausedPos;
+    public float pausedTime;
+
+    public void Reverse3Seconds()
+    {
+        StartCoroutine(ReverseAudio());
+    }
+
+    private IEnumerator ReverseAudio()
+    {
+        _currentState = State.Pause;
+        ReverseAudioSource.volume = .7f;
+        ReverseAudioSource.Play();
+        ReverseAudioSource.pitch = -2;
+        Vector3 currentPos = new Vector3(NoteRoot.transform.position.x, NoteRoot.transform.position.y, NoteRoot.transform.position.z);
+        float elapsedTime = 0;
+       while (elapsedTime <= 1)
+        {
+            elapsedTime += Time.deltaTime;
+            NoteRoot.transform.Translate(Vector3.up * LevelDefinition.NoteSpeed * 2 * Time.deltaTime);
+            yield return null;
+        }
+        ReverseAudioSource.Pause();
+        ReverseAudioSource.pitch = 1;
+
+        NoteRoot.transform.position = currentPos + Vector3.up * LevelDefinition.NoteSpeed * 2;
+        AudioSource.time -= 2.3f;
+    }
+
+    public void Continue()
+    {
+        AudioSource.Play();
+        _currentState = State.Playing;
     }
 }

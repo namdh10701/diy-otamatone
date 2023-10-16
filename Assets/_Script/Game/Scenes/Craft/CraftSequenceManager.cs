@@ -4,15 +4,14 @@ using static Game.Craft.CraftStateSequence;
 using System;
 using System.Collections;
 using UnityEngine.Events;
-using System.Collections.Generic;
 using Game.Audio;
 using Monetization.Ads.UI;
 using Monetization.Ads;
 using Services.FirebaseService.Analytics;
 using Game.RemoteVariable;
-using Services.FirebaseService.Remote;
-using Game.Datas;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using Game.Datas;
 
 namespace Game.Craft
 {
@@ -53,6 +52,10 @@ namespace Game.Craft
         public Sequence CurrentSeqeuence => _craftStateSequence.CurrentState;
 
         public Booth Booth => _booth;
+
+
+        public GameObject[] hideObjects;
+        public Image[] fadeImages;
 
         public void EndFreeInterTime()
         {
@@ -283,9 +286,9 @@ namespace Game.Craft
             // TODO : Note here
             if (CurrentSeqeuence.IsCompleted && !CurrentSeqeuence.ReEnter)
             {
-                  GameDataManager.Instance.UpdateNote(1);
-                  GameDataManager.Instance.SaveDatas2();
-                  UpdateNoteVisual.Play();
+                GameDataManager.Instance.UpdateNote(1);
+                GameDataManager.Instance.SaveDatas2();
+                UpdateNoteVisual.Play();
             }
             CurrentSeqeuence.Exit();
             StopAllCoroutines();
@@ -359,6 +362,23 @@ namespace Game.Craft
         public void EnterHome()
         {
             SceneManager.LoadScene("HomeScene");
+        }
+
+
+        public void HideUI()
+        {
+            foreach (GameObject o in hideObjects)
+            {
+                o.SetActive(false);
+            }
+        }
+
+        public void ShowUI()
+        {
+            foreach (GameObject o in hideObjects)
+            {
+                o.SetActive(true);
+            }
         }
     }
 }

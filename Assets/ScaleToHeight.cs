@@ -14,7 +14,7 @@ public class ScaleToHeight : MonoBehaviour
     public void ApplyScale(float factor)
     {
         Debug.Log(1 + factor);
-        rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, rectTransform.sizeDelta.y * (1 + factor*.8f));
+        rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, rectTransform.sizeDelta.y * (1 + factor*.5f));
         if (scrollBar != null)
         {
             scrollBar.value = 1;

@@ -1,5 +1,8 @@
 using Core.Singleton;
 using DG.Tweening;
+using Game;
+using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -18,94 +21,120 @@ public class PVPManager : Singleton<PVPManager>
 
     public State CurrentState;
     public SongDefinition[] songDefinitions;
-    public TextMeshProUGUI songTitle;
     public SongDefinition SelectedSongDefinition;
 
     public DancingMonster[] dancingMonsterPrefabs;
 
-    private DancingMonster P1Monster;
-    private DancingMonster P2Monster;
-    private int P1MonsterIndex;
-    private int P2MonsterIndex;
+
 
     [SerializeField] private Game.Timer timer;
-    [SerializeField] private GameObject endgamePanel;
-    [SerializeField] private Animator playgroundAnimator;
-    [SerializeField] private Transform arrows;
-    [SerializeField] private PVPSceneUIController ui;
+    [SerializeField] private PVPSceneUIController _ui;
 
-    [HideInInspector] public UnityEvent<PVPManager.Player> OnNoteMissed;
-    [HideInInspector] public UnityEvent<PVPManager.Player> OnNoteHit;
+    [HideInInspector] public UnityEvent<PVPManager.Player> OnNoteMissed = new UnityEvent<PVPManager.Player>();
+    [HideInInspector] public UnityEvent<PVPManager.Player> OnNoteHit = new UnityEvent<Player>();
     private GameObject levelGO;
 
-    private Vector3 originalArrowPos;
+    private int reviveCount = 0;
+
+    public RevivePanel reviePanel;
+
     private void Start()
     {
-        originalArrowPos = arrows.transform.position;
-        SelectRandomSong();
-        InitLevel();
+        CurrentState = State.Stop;
+        SelectedSongDefinition = SelectRandomSong();
+        _ui.UpdateSongTitle(SelectedSongDefinition.SongName);
+        InstantiateLevel();
+        TileRunner.Instance.StopGameEvent.RemoveListener(() => OnGameStop());
+        TileRunner.Instance.StopGameEvent.AddListener(() => OnGameStop());
+        HpManager.Instance.OnZeroHp.AddListener(() => OnDeath());
     }
-    public void ResetArrows()
+    private SongDefinition SelectRandomSong()
     {
-        arrows.DOMove(originalArrowPos, 0f);
+        SongDefinition songDef = Instantiate(songDefinitions[UnityEngine.Random.Range(0, songDefinitions.Length)]);
+        return songDef;
     }
-    public void StartGame()
+    public void InstantiateLevel()
     {
-        timer.StartTimer();
-        arrows.DOMove(originalArrowPos, 0f);
-        TileRunner.Instance.StopGameEvent.RemoveListener(() => HideHUD());
-        TileRunner.Instance.StopGameEvent.AddListener(() => HideHUD());
+        levelGO = Instantiate(SelectedSongDefinition.HardLevel);
+        TileRunner.Instance = levelGO.GetComponent<TileRunner>();
+    }
+    public void ResetLevel()
+    {
+        if (reviveCount == 1)
+        {
+            reviveCount = 0;
+        }
+        HpManager.Instance.ResetHp();
+        ScoreManager.Instance.ResetScore();
+        Timer.Instance.ResetTimer();
+        _ui.ResetUI();
         TileRunner.Instance.ResetLevel();
-        CurrentState = State.Playing;
-    }
-
-    private void SelectRandomSong()
-    {
-        SelectedSongDefinition = Instantiate(songDefinitions[UnityEngine.Random.Range(0, songDefinitions.Length)]);
-        songTitle.text = "-" + SelectedSongDefinition.SongName + "-";
-    }
-
-    public void PauseGame()
-    {
-
     }
 
     public void ResetGameForNewMatch()
     {
         Destroy(levelGO);
         TileRunner.Instance = null;
-        InitLevel();
-        ui.ResetGameForNewMatch();
         SelectRandomSong();
-
+        InstantiateLevel();
     }
 
 
 
-    public void HideHUD()
+    public void OnGameStop()
     {
         CurrentState = State.Stop;
-        ui.HideHUD();
-        arrows.DOMoveY(arrows.transform.position.y - 4.8f, 1f);
     }
 
     public void DisplayEndgameUI()
     {
-        endgamePanel.SetActive(true);
+        _ui.DisplayEndgameUI();
     }
 
-    public void InitLevel()
+    public void OnDeath()
     {
-        levelGO = Instantiate(SelectedSongDefinition.HardLevel);
-        TileRunner.Instance = levelGO.GetComponent<TileRunner>();
+        CurrentState = State.Pause;
+        TileRunner.Instance.PauseGame();
+        if (reviveCount < 1)
+        {
+            reviveCount++;
+            reviePanel.Show();
+        }
+        else
+        {
+            OnLevelLose();
+        }
     }
 
-    public void OnOpponentSelected(int index)
-    {
-        /* P2Monster = Instantiate(dancingMonstersPrefab[index]);
-         P1Monster = Instantiate(dancingMonstersPrefab[P1MonsterIndex]);
 
-         P1Monster.Init(OnNoteMissed, OnNoteHit, Player.P1);
-         P2Monster.Init(OnNoteMissed, OnNoteHit, Player.P2);*/
+
+    public void Revive()
+    {
+        StartCoroutine(ReviveCoroutine());
+    }
+
+    private IEnumerator ReviveCoroutine()
+    {
+        TileRunner.Instance.Reverse3Seconds();
+        yield return new WaitForSecondsRealtime(2);
+        _ui.StartCountdownAfterRevive();
+    }
+
+    public void OnLevelLose()
+    {
+        _ui.HideHUD();
+        _ui.OnLevelLose();
+    }
+
+    public void StartLevel()
+    {
+        CurrentState = State.Playing;
+        TileRunner.Instance.StartTheGame();
+    }
+
+    public void ContinueLevel()
+    {
+        CurrentState = State.Playing;
+        TileRunner.Instance.Continue();
     }
 }

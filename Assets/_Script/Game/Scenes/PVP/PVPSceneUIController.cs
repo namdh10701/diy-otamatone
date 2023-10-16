@@ -1,4 +1,5 @@
 using Core.Singleton;
+using DG.Tweening;
 using Game.Audio;
 using System;
 using System.Collections;
@@ -10,105 +11,87 @@ using UnityEngine.UI;
 
 public class PVPSceneUIController : Singleton<PVPSceneUIController>
 {
-    public Animator animator;
-    public Sprite[] sprites;
-    public Image monsterLoading;
-    public Image avatarLoading;
-    public Image monster;
-    public Image avatar;
-    public TextMeshProUGUI monsterName;
-    public int SelectedMonsterIndex;
-    public WinLosePanel winLosePanel;
+    [SerializeField] private Transform arrows;
+    private Vector3 _originalArrowPos;
+
+    [SerializeField] Animator _animator;
+    [SerializeField] WinLosePanel _winLosePanel;
+    [SerializeField] CountdownText _text;
+    [SerializeField] PVPHud _pvpHUD;
+    [SerializeField] FindingOpponentScreen _findingOpponentScreen;
+
+
+    [SerializeField] private TextMeshProUGUI[] _songTitiles;
     private void Start()
     {
-        StartCoroutine(FindOpponent());
+        TileRunner.Instance.StopGameEvent.RemoveListener(() => HideHUD());
+        TileRunner.Instance.StopGameEvent.AddListener(() => HideHUD());
+
+        _originalArrowPos = arrows.transform.position;
+        _findingOpponentScreen.StartFindOpponent();
     }
 
     public void StartUpdateScore()
     {
-        winLosePanel.StartUpdateScore();
-        Debug.Log("sd");
+        _winLosePanel.StartUpdateScore();
     }
-
-    public void ResetGameForNewMatch()
+    public void ResetArrows()
     {
-        StartCoroutine(FindOpponent());
-    }
-
-    private IEnumerator FindOpponent()
-    {
-        avatar.gameObject.SetActive(false);
-        monster.gameObject.SetActive(false);
-        animator.SetTrigger("FindingUIAppear");
-        float elapsedTime = 0;
-        int imageIndex = 0;
-        int previousImageIndex = -1;
-
-        while (elapsedTime <= 3)
-        {
-            monsterLoading.sprite = sprites[imageIndex];
-            avatarLoading.sprite = sprites[imageIndex];
-            previousImageIndex = imageIndex;
-            while (imageIndex == previousImageIndex)
-            {
-                imageIndex = UnityEngine.Random.Range(0, sprites.Length);
-            }
-            elapsedTime += 0.35f;
-            yield return new WaitForSeconds(0.35f);
-        }
-        avatar.sprite = avatarLoading.sprite;
-        monster.sprite = monsterLoading.sprite;
-        avatar.gameObject.SetActive(true);
-        monster.gameObject.SetActive(true);
-        monsterName.text = "User@" + "666";
-        PVPManager.Instance.OnOpponentSelected(imageIndex);
-        yield return new WaitForSeconds(1f);
-        OnFoundOpponent();
+        arrows.DOMove(_originalArrowPos, 0f);
     }
 
 
-    public void OnFoundOpponent()
-    {
-        animator.SetTrigger("SelectingSongAppear");
-    }
-
-    public void OnSelectingSongAppeared()
-    {
-        animator.SetTrigger("FindingUIDisappear");
-    }
-
-    public void OnDisappeared()
-    {
-        PVPManager.Instance.DisplayEndgameUI();
-    }
-    public void OnCountdownEvent()
-    {
-        AudioManager.Instance.PlaySound(SoundID.Beep);
-    }
 
     public void HideHUD()
     {
-
-        animator.SetTrigger("HUD Dissappear");
-    }
-
-    public void OnScoreCalculated()
-    {
-        animator.SetTrigger("WinLoseAppear");
-    }
-
-    public void StartCountdown()
-    {
-        PVPManager.Instance.ResetArrows();
-        animator.SetTrigger("StartCountdown");
-    }
-    public void OnBeginEvent()
-    {
-        PVPManager.Instance.StartGame();
+        _pvpHUD.HideHud();
+        arrows.DOMoveY(arrows.transform.position.y - 4.8f, 1f);
     }
 
     public void EnterHome()
     {
         SceneManager.LoadScene("HomeScene");
+    }
+
+    public void UpdateSongTitle(string songName)
+    {
+        foreach (TextMeshProUGUI title in _songTitiles)
+        {
+            title.text = "- " + songName + " -";
+        }
+
+    }
+
+    public void ResetUI()
+    {
+        ResetArrows();
+    }
+
+    public void SetGameState(WinLosePanel.State state)
+    {
+        _winLosePanel.SetState(state);
+    }
+
+    public void OnLevelLose()
+    {
+        _winLosePanel.SetState(WinLosePanel.State.Lose);
+    }
+
+    public void DisplayEndgameUI()
+    {
+        _winLosePanel.gameObject.SetActive(true);
+    }
+
+    public void StartCountdownAfterRevive()
+    {
+        _animator.SetTrigger("CountdownAfterRevive");
+    }
+    public void OnCountdownEvent1()
+    {
+        AudioManager.Instance.PlaySound(SoundID.Beep);
+    }
+    public void OnContinueEvent()
+    {
+        PVPManager.Instance.ContinueLevel();
     }
 }
