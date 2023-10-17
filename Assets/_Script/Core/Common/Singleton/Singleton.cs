@@ -17,6 +17,12 @@ namespace Core.Singleton
                 Instance = this as T;
             }
         }
+
+        private void OnDestroy()
+        {
+            Instance = null;
+        }
+
         protected virtual void OnApplicationQuit()
         {
             Instance = null;

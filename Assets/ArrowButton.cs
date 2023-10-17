@@ -16,7 +16,7 @@ public class ArrowButton : MonoBehaviour
 
     private bool isAbleToBeClicked = true;
     public float CooldownTime = .05f;
-    private float animationTime = 0.1f;
+    private float animationTime = 0.075f;
 
     public Material mat;
     public Tile target;
@@ -113,10 +113,11 @@ public class ArrowButton : MonoBehaviour
         }
         else
         {
-            if (PVPManager.Instance != null)
+            if (target.IsDestroyed)
             {
-                PVPManager.Instance.OnNoteHit.Invoke(IsP2Playing ? PVPManager.Player.P2 : PVPManager.Player.P1);
+                return;
             }
+            TileRunner.Instance.OnNoteHit.Invoke(IsP2Playing ? TileRunner.Player.P2 : TileRunner.Player.P1);
             mat.SetFloat("_IsActive", 1);
             if (target.Type == Tile.NoteType.Normal)
             {
@@ -167,28 +168,20 @@ public class ArrowButton : MonoBehaviour
         {
             if (target.Type == Tile.NoteType.Trail)
             {
+                Invoke("ResetClick", 0);
                 mat.SetFloat("_IsActive", 0);
                 ScaleDownTween = transform.DOScale(_originalScale, animationTime).OnComplete(
                        () =>
                        {
-                           Invoke("ResetClick", 0);
+                           
                        }
                        );
                 spark.Stop();
-                bool hit = ((TrailTile)target).OnRelease();
-                if (hit)
+                bool IsTotallyCleared = ((TrailTile)target).OnRelease();
+                if (IsTotallyCleared)
                 {
-                    if (PVPManager.Instance != null)
-                    {
-                        PVPManager.Instance.OnNoteHit.Invoke(IsP2Playing ? PVPManager.Player.P2 : PVPManager.Player.P1);
-                    }
-                }
-                else
-                {
-                    if (PVPManager.Instance != null)
-                    {
-                        PVPManager.Instance.OnNoteMissed.Invoke(IsP2Playing ? PVPManager.Player.P2 : PVPManager.Player.P1);
-                    }
+                    target = null;
+                    TileRunner.Instance.OnNoteHit.Invoke(IsP2Playing ? TileRunner.Player.P2 : TileRunner.Player.P1);
                 }
             }
         }
@@ -223,10 +216,9 @@ public class ArrowButton : MonoBehaviour
     {
         if (collision.CompareTag("Endgame"))
         {
-            if (PVPManager.Instance.CurrentState == PVPManager.State.Playing)
-            {
-                TileRunner.Instance.StopGame();
-            }
+
+            TileRunner.Instance.StopGame();
+
         }
         if (collision.CompareTag("Note"))
         {
@@ -246,10 +238,7 @@ public class ArrowButton : MonoBehaviour
                 {
                     if (p2PlayCoroutine == null)
                     {
-                        if (PVPManager.Instance != null)
-                        {
-                            PVPManager.Instance.OnNoteHit.Invoke(PVPManager.Player.P2);
-                        }
+                        TileRunner.Instance.OnNoteHit.Invoke(TileRunner.Player.P2);
                         p2PlayCoroutine = StartCoroutine(P2Play(tile));
                     }
                 }

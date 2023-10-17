@@ -15,16 +15,15 @@ public class HpManager : Singleton<HpManager>
     Tween tween;
     private void Start()
     {
-        PVPManager.Instance.OnNoteMissed.AddListener(player => OnNoteMissed(player));
     }
 
-    public void OnNoteMissed(PVPManager.Player player)
+    public void OnNoteMissed(TileRunner.Player player)
     {
         if (CurrentP1Heath == 0)
         {
             return;
         }
-        if (player == PVPManager.Player.P1)
+        if (player == TileRunner.Player.P1)
         {
             CurrentP1Heath--;
         }
@@ -43,6 +42,7 @@ public class HpManager : Singleton<HpManager>
 
     public void ResetHp()
     {
+        Debug.Log("Reset HP");
         CurrentP1Heath = 3;
         P1HealthCount.text = CurrentP1Heath.ToString();
     }

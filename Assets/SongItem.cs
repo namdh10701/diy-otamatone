@@ -1,8 +1,11 @@
+using Game.Datas;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class SongItem : MonoBehaviour
 {
@@ -11,13 +14,39 @@ public class SongItem : MonoBehaviour
     public LevelDefinition.Difficulty Difficulty = LevelDefinition.Difficulty.Normal;
     public GameObject[] Difficulties;
     public GameObject[] Stars;
-    public void Init(SongDefinition songDefinition)
+    public int EasyStar;
+    public int NormalStar;
+    public int HardStar;
+    public void Init(SongDefinition songDefinition, SongProgress sp)
     {
+        EasyStar = sp.Easy.BestStar;
+        NormalStar = sp.Normal.BestStar;
+        HardStar = sp.Hard.BestStar;
         SongDefinition = songDefinition;
         SongTitle.text = songDefinition.SongName;
+        UpdateStar();
+
+    }
+
+    private void UpdateStar()
+    {
+        int srcStar = 0;
+        switch (Difficulty)
+        {
+            case LevelDefinition.Difficulty.Easy:
+                srcStar = EasyStar;
+                break;
+            case LevelDefinition.Difficulty.Normal:
+                srcStar = NormalStar;
+                break;
+            case LevelDefinition.Difficulty.Hard:
+                srcStar = HardStar;
+                break;
+        }
+
         for (int i = 0; i < Stars.Length; i++)
         {
-            if (i < songDefinition.Stars)
+            if (i < srcStar)
             {
                 Stars[i].gameObject.SetActive(true);
             }
@@ -32,6 +61,7 @@ public class SongItem : MonoBehaviour
     {
         PlayBotManager.SelectedSong = SongDefinition;
         PlayBotManager.SelectedDifficulty = Difficulty;
+        HomeUIController.Instance.EnterPlayBot(this);
         //TODO : Load new to PlayBotScene
     }
     public void IncreaseDifficulty()
@@ -46,6 +76,7 @@ public class SongItem : MonoBehaviour
             Difficulty++;
         }
         Difficulties[(int)Difficulty].SetActive(true);
+        UpdateStar();
     }
 
     public void DecreaseDifficulty()
@@ -60,5 +91,6 @@ public class SongItem : MonoBehaviour
             Difficulty--;
         }
         Difficulties[(int)Difficulty].SetActive(true);
+        UpdateStar();
     }
 }

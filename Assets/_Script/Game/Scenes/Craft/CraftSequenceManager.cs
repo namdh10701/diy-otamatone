@@ -128,6 +128,7 @@ namespace Game.Craft
                 selectedTimeCount++;
                 PlayerPrefs.SetInt("Monster_" + (index + 1), selectedTimeCount);
                 FirebaseAnalytics.LogEvent("Next_monster_" + versionName + "_" + (index + 1) + "_" + selectedTimeCount);
+               
             }
             if (CurrentSeqeuence.PartID == PartID.Head)
             {
@@ -241,6 +242,10 @@ namespace Game.Craft
                     OtamatoneCompleted = true;
                     OnOtamatoneCompeleted.Invoke();
                 }
+            }
+            if(CurrentSeqeuence.PartID == PartID.Monster)
+            {
+                LoadingMonsterManager.MonsterIndex = index;
             }
 
             _craftStateSequence.CurrentState.OnSelect(index);

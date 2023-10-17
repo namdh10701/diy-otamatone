@@ -10,6 +10,8 @@ namespace Game
         [SerializeField] private Environment.Env _env;
         [SerializeField] private bool debuglog;
 
+
+
         private void Awake()
         {
             SpecifyEnviroment();

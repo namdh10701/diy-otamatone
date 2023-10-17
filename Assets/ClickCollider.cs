@@ -7,26 +7,14 @@ public class ClickCollider : MonoBehaviour
     [SerializeField] private ArrowButton ArrowButton;
     private void OnMouseUp()
     {
-        switch (PVPManager.Instance.CurrentState)
-        {
-            case PVPManager.State.Playing:
-                {
-                    ArrowButton.OnRealease();
-                }
-                break;
-        }
+
+        ArrowButton.OnRealease();
 
     }
 
     private void OnMouseDown()
     {
-        switch (PVPManager.Instance.CurrentState)
-        {
-            case PVPManager.State.Playing:
-                {
-                    ArrowButton.OnButton();
-                }
-                break;
-        }
+        ArrowButton.OnButton();
+
     }
 }

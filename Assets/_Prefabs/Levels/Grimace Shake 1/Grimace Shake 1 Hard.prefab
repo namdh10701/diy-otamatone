@@ -48,12 +48,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98f8234b637e18e4b9158e4db2aeeacf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnNoteMissed:
+    m_PersistentCalls:
+      m_Calls: []
+  OnNoteHit:
+    m_PersistentCalls:
+      m_Calls: []
   StopGameEvent:
     m_PersistentCalls:
       m_Calls: []
-  AudioSource: {fileID: 930642340235734124}
-  ReverseAudioSource: {fileID: 4384012490754079046}
+  PrimaryAudioSource: {fileID: 930642340235734124}
+  SecondaryAudioSource: {fileID: 4384012490754079046}
   NoteRoot: {fileID: 1063408916979196542}
+  cooldownTime: 0.1
   LevelDefinition: {fileID: 11400000, guid: bad3549505e13c647bc0d0f8d5081bd4, type: 2}
   _noteHitLine: {fileID: 4911970695256475609}
   _currentState: 2
@@ -62,9 +69,7 @@ MonoBehaviour:
   GameStarted:
     m_PersistentCalls:
       m_Calls: []
-  pausedTimeee: 0
   pausedPos: {x: 0, y: 0, z: 0}
-  pausedTime: 0
 --- !u!1 &2914823631790854773
 GameObject:
   m_ObjectHideFlags: 0
@@ -255,7 +260,7 @@ GameObject:
   - component: {fileID: 7420195247517989203}
   - component: {fileID: 4384012490754079046}
   m_Layer: 6
-  m_Name: AudioSource (1)
+  m_Name: SecondaryAudioSource
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -383,7 +388,7 @@ GameObject:
   - component: {fileID: 6012339330825777578}
   - component: {fileID: 930642340235734124}
   m_Layer: 6
-  m_Name: AudioSource
+  m_Name: PrimaryAudioSource
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -1,3 +1,43 @@
 {
-  "Notes": 0
+  "Version": "0.0.6",
+  "Notes": 0,
+  "SongProgresses": [
+    {
+      "Id": 0,
+      "Easy": {
+        "Difficulty": 0,
+        "BestStar": 1,
+        "BestScore": 10050
+      },
+      "Normal": {
+        "Difficulty": 1,
+        "BestStar": 2,
+        "BestScore": 10050
+      },
+      "Hard": {
+        "Difficulty": 2,
+        "BestStar": 3,
+        "BestScore": 10050
+      }
+    },
+    {
+      "Id": 1,
+      "Easy": {
+        "Difficulty": 0,
+        "BestStar": 1,
+        "BestScore": 10050
+      },
+      "Normal": {
+        "Difficulty": 1,
+        "BestStar": 2,
+        "BestScore": 10050
+      },
+      "Hard": {
+        "Difficulty": 2,
+        "BestStar": 3,
+        "BestScore": 10050
+      }
+    }
+
+  ]
 }

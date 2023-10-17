@@ -13,6 +13,7 @@ public class TrailTile : Tile
     public Material TrailMat;
     public Material TrailTopMat;
     public bool IsClicked;
+    public bool IsTotallyDestroyed;
     protected override void Awake()
     {
         base.Awake();
@@ -55,7 +56,7 @@ public class TrailTile : Tile
     {
         IsClicked = false;
         StartCoroutine(LerpMaterialProperty("_IsActive", 0f, .2f));
-        return IsDestroyed;
+        return IsTotallyDestroyed;
     }
     public override void OnClicked()
     {
@@ -79,14 +80,14 @@ public class TrailTile : Tile
         }
         else
         {
-            if (IsClicked)
+            if (IsClicked && !IsTotallyDestroyed)
             {
-                float gothroughAmount = Mathf.Abs(transform.position.y - (-TileRunner.Instance.CameraYBound + 2.4f));
+                float gothroughAmount = Mathf.Abs(transform.position.y - (-TileRunner.Instance.CameraYBound + 3));
                 float y = (0.6945f * Trail.transform.localScale.y - gothroughAmount) / (0.6945f * Trail.transform.localScale.y);
                 SetTrailHeightAlpha(y);
                 if (y <= 0)
                 {
-                    IsClicked = true;
+                    IsTotallyDestroyed = true;
                     TrailTopMat.SetFloat("_Height", y);
                 }
             }
@@ -112,7 +113,6 @@ public class TrailTile : Tile
 
     public void SetTrailHeightAlpha(float height)
     {
-        Debug.Log("here");
         TrailMat.SetFloat("_Height", height);
     }
 
@@ -126,6 +126,7 @@ public class TrailTile : Tile
     {
         base.OnReset();
         IsDestroyed = false;
+        IsTotallyDestroyed = false;
         sp.DOFade(1, 0);
         TrailMat.SetFloat("_IsExist", 1);
         TrailTopMat.SetFloat("_IsExist", 1);

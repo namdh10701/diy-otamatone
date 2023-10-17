@@ -10,14 +10,22 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using static PVPManager;
 
 public class TileRunner : Singleton<TileRunner>
 {
+    public enum Player
+    {
+        P1, P2
+    }
+    [HideInInspector] public UnityEvent<Player> OnNoteMissed = new UnityEvent<Player>();
+    [HideInInspector] public UnityEvent<Player> OnNoteHit = new UnityEvent<Player>();
     public UnityEvent StopGameEvent = new UnityEvent();
-    public AudioSource AudioSource;
-    public AudioSource ReverseAudioSource;
+    public AudioSource PrimaryAudioSource;
+    public AudioSource SecondaryAudioSource;
     private bool levelEditorMode = false;
     public Transform NoteRoot;
+    public float cooldownTime = .1f;
     public enum State
     {
         DelayPlay, Playing, Stop, Pause
@@ -33,13 +41,14 @@ public class TileRunner : Singleton<TileRunner>
     public UnityEvent GameStarted = new UnityEvent();
     protected override void Awake()
     {
-        base.Awake(); AudioSource.DOFade(.7f, 0);
+        base.Awake();
+        PrimaryAudioSource.DOFade(.7f, 0);
         //LoadLevel(LevelSelectionScreen.current);
     }
 
     private void Start()
     {
-        ReverseAudioSource.volume = 0;
+        SecondaryAudioSource.volume = 0;
         ActiveTiles = gameObject.GetComponentsInChildren<Tile>().ToList();
         List<TrailTile> TrailTiles = FindObjectsOfType<TrailTile>().ToList();
         foreach (TrailTile tile in TrailTiles)
@@ -59,12 +68,13 @@ public class TileRunner : Singleton<TileRunner>
     {
         CameraYBound = Camera.main.orthographicSize;
         _currentState = State.DelayPlay;
-        float timeFirstNoteReachLine = (Camera.main.orthographicSize + 2.4f - _noteHitLine.position.y) / LevelDefinition.NoteSpeed;
+        float timeFirstNoteReachLine = (Camera.main.orthographicSize + 2.4f - (-Camera.main.orthographicSize + 3.25f)) / LevelDefinition.NoteSpeed;
         float offsetTimeMinus = timeFirstNoteReachLine - LevelDefinition.TimeToFirstNote;
-        AudioSource.clip = LevelDefinition.MusicClip;
-        ReverseAudioSource.clip = LevelDefinition.MusicClip;
-        ReverseAudioSource.Play();
-        AudioSource.Play();
+        PrimaryAudioSource.clip = LevelDefinition.MusicClip;
+        SecondaryAudioSource.clip = LevelDefinition.MusicClip;
+        SecondaryAudioSource.Play();
+        PrimaryAudioSource.Play();
+        PrimaryAudioSource.pitch = 1;
         StartCoroutine(Delay(Mathf.Abs(offsetTimeMinus)));
 
     }
@@ -75,8 +85,10 @@ public class TileRunner : Singleton<TileRunner>
         {
             tile.OnReset();
         }
-        AudioSource.DOFade(.7f, 0);
-        AudioSource.Stop();
+        SecondaryAudioSource.DOFade(0, 0);
+        SecondaryAudioSource.Stop();
+        PrimaryAudioSource.DOFade(.7f, 0);
+        PrimaryAudioSource.Stop();
         NoteRoot.position = new Vector2(0, Camera.main.orthographicSize + 2.4f);
 
     }
@@ -105,30 +117,29 @@ public class TileRunner : Singleton<TileRunner>
     public void StopGame()
     {
         _currentState = State.Stop;
-        AudioSource.Stop();
+        PrimaryAudioSource.Stop();
         StopGameEvent.Invoke();
     }
 
-    public float pausedTimeee = 0;
     public void PauseGame()
     {
         StopAllCoroutines();
         _currentState = State.Pause;
-        pausedTimeee = AudioSource.time;
+        float pausedTime = PrimaryAudioSource.time;
+        SecondaryAudioSource.time = pausedTime;
         pausedPos = NoteRoot.position;
-        AudioSource.DOFade(0, 0.3f).OnComplete(
+        SecondaryAudioSource.Pause();
+        PrimaryAudioSource.DOFade(0, 0.3f).OnComplete(
             () =>
             {
 
-                ReverseAudioSource.Pause();
-                AudioSource.Pause();
-                AudioSource.DOFade(.7f, 0);
+                PrimaryAudioSource.Pause();
+                PrimaryAudioSource.DOFade(.7f, 0);
             }
             );
     }
 
     public Vector3 pausedPos;
-    public float pausedTime;
 
     public void Reverse3Seconds()
     {
@@ -139,27 +150,25 @@ public class TileRunner : Singleton<TileRunner>
     {
         // TODO: clear destroyed notes when reverse
         _currentState = State.Pause;
-        ReverseAudioSource.volume = .7f;
-        ReverseAudioSource.Play();
-        ReverseAudioSource.pitch = -2;
-        Vector3 currentPos = new Vector3(NoteRoot.transform.position.x, NoteRoot.transform.position.y, NoteRoot.transform.position.z);
+        PrimaryAudioSource.Play();
+        PrimaryAudioSource.pitch = -2;
         float elapsedTime = 0;
-       while (elapsedTime <= 1)
+        while (elapsedTime <= 2)
         {
-            elapsedTime += Time.deltaTime;
+            elapsedTime += Time.deltaTime * 2;
             NoteRoot.transform.Translate(Vector3.up * LevelDefinition.NoteSpeed * 2 * Time.deltaTime);
             yield return null;
         }
-        ReverseAudioSource.Pause();
-        ReverseAudioSource.pitch = 1;
-
-        NoteRoot.transform.position = currentPos + Vector3.up * LevelDefinition.NoteSpeed * 2;
-        AudioSource.time -= 2.3f;
+        PrimaryAudioSource.Pause();
+        PrimaryAudioSource.mute = true;
+        SecondaryAudioSource.time -= elapsedTime;
+        NoteRoot.transform.position = pausedPos + Vector3.up * LevelDefinition.NoteSpeed * elapsedTime;
     }
 
     public void Continue()
     {
-        AudioSource.Play();
+        SecondaryAudioSource.DOFade(.7f, .2f);
+        SecondaryAudioSource.Play();
         _currentState = State.Playing;
     }
 }

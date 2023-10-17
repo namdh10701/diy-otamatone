@@ -9,10 +9,7 @@ using UnityEngine.Events;
 
 public class PVPManager : Singleton<PVPManager>
 {
-    public enum Player
-    {
-        P1, P2
-    }
+    
 
     public enum State
     {
@@ -30,24 +27,12 @@ public class PVPManager : Singleton<PVPManager>
     [SerializeField] private Game.Timer timer;
     [SerializeField] private PVPSceneUIController _ui;
 
-    [HideInInspector] public UnityEvent<PVPManager.Player> OnNoteMissed = new UnityEvent<PVPManager.Player>();
-    [HideInInspector] public UnityEvent<PVPManager.Player> OnNoteHit = new UnityEvent<Player>();
     private GameObject levelGO;
 
     private int reviveCount = 0;
 
     public RevivePanel reviePanel;
 
-    private void Start()
-    {
-        CurrentState = State.Stop;
-        SelectedSongDefinition = SelectRandomSong();
-        _ui.UpdateSongTitle(SelectedSongDefinition.SongName);
-        InstantiateLevel();
-        TileRunner.Instance.StopGameEvent.RemoveListener(() => OnGameStop());
-        TileRunner.Instance.StopGameEvent.AddListener(() => OnGameStop());
-        HpManager.Instance.OnZeroHp.AddListener(() => OnDeath());
-    }
     private SongDefinition SelectRandomSong()
     {
         SongDefinition songDef = Instantiate(songDefinitions[UnityEngine.Random.Range(0, songDefinitions.Length)]);
@@ -64,6 +49,7 @@ public class PVPManager : Singleton<PVPManager>
         {
             reviveCount = 0;
         }
+        //OnNoteMissed.RemoveAllListeners();
         HpManager.Instance.ResetHp();
         ScoreManager.Instance.ResetScore();
         Timer.Instance.ResetTimer();
@@ -71,19 +57,36 @@ public class PVPManager : Singleton<PVPManager>
         TileRunner.Instance.ResetLevel();
     }
 
-    public void ResetGameForNewMatch()
+    public void NewMatch()
     {
-        Destroy(levelGO);
-        TileRunner.Instance = null;
-        SelectRandomSong();
+        if (levelGO != null)
+        {
+            Destroy(levelGO);
+
+        }
+        if (TileRunner.Instance != null)
+        {
+            TileRunner.Instance.StopGameEvent.RemoveListener(() => OnGameStop());
+            TileRunner.Instance = null;
+        }
+        CurrentState = State.Stop;
+        SelectedSongDefinition = SelectRandomSong();
+        _ui.UpdateSongTitle(SelectedSongDefinition.SongName);
         InstantiateLevel();
+        TileRunner.Instance.StopGameEvent.AddListener(() => OnGameStop());
+        HpManager.Instance.OnZeroHp.RemoveListener(() => OnDeath());
+        HpManager.Instance.OnZeroHp.AddListener(() => OnDeath());
     }
 
 
 
     public void OnGameStop()
     {
-        CurrentState = State.Stop;
+        if (CurrentState == State.Playing)
+        {
+            CurrentState = State.Stop;
+            _ui.HideHUD();
+        }
     }
 
     public void DisplayEndgameUI()
@@ -131,8 +134,8 @@ public class PVPManager : Singleton<PVPManager>
 
     public void StartLevel()
     {
-        
-           CurrentState = State.Playing;
+
+        CurrentState = State.Playing;
         TileRunner.Instance.StartTheGame();
     }
 

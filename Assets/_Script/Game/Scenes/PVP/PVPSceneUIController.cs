@@ -24,9 +24,6 @@ public class PVPSceneUIController : Singleton<PVPSceneUIController>
     [SerializeField] private TextMeshProUGUI[] _songTitiles;
     private void Start()
     {
-        TileRunner.Instance.StopGameEvent.RemoveListener(() => HideHUD());
-        TileRunner.Instance.StopGameEvent.AddListener(() => HideHUD());
-
         _originalArrowPos = arrows.transform.position;
         _findingOpponentScreen.StartFindOpponent();
     }

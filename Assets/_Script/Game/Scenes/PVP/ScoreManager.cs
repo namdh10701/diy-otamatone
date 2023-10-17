@@ -12,15 +12,9 @@ public class ScoreManager : Singleton<ScoreManager>
 
     private int CurrentP1Combo = 0;
     private int CurrentP2Combo = 0;
-    public void OnEnable()
+    public void OnNoteHit(TileRunner.Player player)
     {
-        PVPManager.Instance.OnNoteHit.AddListener(player => OnNoteHit(player));
-        PVPManager.Instance.OnNoteMissed.AddListener(player => OnNoteMissed(player));
-    }
-
-    private void OnNoteHit(PVPManager.Player player)
-    {
-        if (player == PVPManager.Player.P1)
+        if (player == TileRunner.Player.P1)
         {
             CurrentP1Combo++;
             CurrentP1Score += 10*(int)(CurrentP1Combo * (CurrentP1Combo + 1) * .5f);
@@ -34,9 +28,9 @@ public class ScoreManager : Singleton<ScoreManager>
             UpdateScore(CurrentP2Score, false);
         }
     }
-    private void OnNoteMissed(PVPManager.Player player)
+    public void OnNoteMissed(TileRunner.Player player)
     {
-        if (player == PVPManager.Player.P1)
+        if (player == TileRunner.Player.P1)
         {
             CurrentP1Combo = 0;
         }

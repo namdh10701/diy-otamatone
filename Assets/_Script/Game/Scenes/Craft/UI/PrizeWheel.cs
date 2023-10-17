@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using Core.UI;
+using DG.Tweening;
 using Game.Audio;
 using Game.Craft;
 using Game.Datas;
@@ -15,6 +16,7 @@ public class PrizeWheel : MonoBehaviour
     public Transform pointer;
     public int coinMutiplier = 1;
     public TextMeshProUGUI coinText;
+    public BasePopup rewardRecieved;
     private void OnEnable()
     {
         if (LoseItBtn != null)
@@ -73,6 +75,8 @@ public class PrizeWheel : MonoBehaviour
                 if (watched)
                 {
                     AddGold(10 * coinMutiplier);
+                    rewardRecieved.Show();
+                    gameObject.SetActive(false);
                 }
             }
             );

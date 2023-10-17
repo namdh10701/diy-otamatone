@@ -13,8 +13,6 @@ public class KeyboardHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (PVPManager.Instance.CurrentState == PVPManager.State.Playing)
-        {
             if (Input.GetKeyDown(KeyCode.W))
             {
                 up.OnButton();
@@ -47,6 +45,5 @@ public class KeyboardHandler : MonoBehaviour
             {
                 right.OnRealease();
             }
-        }
     }
 }

@@ -51,8 +51,8 @@ MonoBehaviour:
   StopGameEvent:
     m_PersistentCalls:
       m_Calls: []
-  AudioSource: {fileID: 930642340235734124}
-  ReverseAudioSource: {fileID: 5731876896353891357}
+  PrimaryAudioSource: {fileID: 930642340235734124}
+  SecondaryAudioSource: {fileID: 5731876896353891357}
   NoteRoot: {fileID: 1063408916979196542}
   LevelDefinition: {fileID: 11400000, guid: 9b5a08afb6928fa46ab4cb907883a502, type: 2}
   _noteHitLine: {fileID: 4911970695256475609}
@@ -62,7 +62,8 @@ MonoBehaviour:
   GameStarted:
     m_PersistentCalls:
       m_Calls: []
-  pausedTime: 0
+  pausedTimeee: 0
+  pausedPos: {x: 0, y: 0, z: 0}
 --- !u!1 &1254739017642612839
 GameObject:
   m_ObjectHideFlags: 0
@@ -74,7 +75,7 @@ GameObject:
   - component: {fileID: 2945718668361551353}
   - component: {fileID: 5731876896353891357}
   m_Layer: 6
-  m_Name: AudioSource (1)
+  m_Name: SecondaryAudioSource
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -381,7 +382,7 @@ GameObject:
   - component: {fileID: 6012339330825777578}
   - component: {fileID: 930642340235734124}
   m_Layer: 6
-  m_Name: AudioSource
+  m_Name: PrimaryAudioSource
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
