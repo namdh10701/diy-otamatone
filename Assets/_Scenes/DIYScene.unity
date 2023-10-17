@@ -12154,50 +12154,6 @@ RectTransform:
   m_AnchoredPosition: {x: -56.20099, y: -50}
   m_SizeDelta: {x: 68.1, y: 68.1}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &557133977
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 557133979}
-  - component: {fileID: 557133978}
-  m_Layer: 0
-  m_Name: Piano Tiles Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &557133978
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 557133977}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 636dfb03fe14a1e4782edf87c49cd689, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &557133979
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 557133977}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.28638434, y: -1.3857257, z: 1.5678871}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &560739320 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 571810711157606931, guid: 6e0fba43a71ff0947a1cb29d9e759fad, type: 3}
@@ -12799,7 +12755,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2b13c9d9a6b4e3d49aa6b524878e80a4, type: 2}
+  - {fileID: 2100000, guid: aecd679ae6a41f448ade97f5442063f4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -13269,7 +13225,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2b13c9d9a6b4e3d49aa6b524878e80a4, type: 2}
+  - {fileID: 2100000, guid: aecd679ae6a41f448ade97f5442063f4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -25609,7 +25565,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1452066357
 Transform:
   m_ObjectHideFlags: 0
@@ -25722,7 +25678,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1452066356}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -27148,8 +27104,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1591058025}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0.9316517, w: 0.3633526}
-  m_LocalPosition: {x: 1.4755062, y: -0.34178385, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0.93892515, w: 0.3441216}
+  m_LocalPosition: {x: 1.4673324, y: -0.2818283, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -42302,4 +42258,3 @@ SceneRoots:
   - {fileID: 1154248685}
   - {fileID: 90654075}
   - {fileID: 126102372}
-  - {fileID: 557133979}

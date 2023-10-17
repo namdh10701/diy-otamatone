@@ -138,6 +138,8 @@ namespace Game.Craft
 
         public void OnHeadSelect(int headId)
         {
+            CompleteOtamatone._idHead = headId;
+            CompleteOtamatoneUI._idHead = headId;
             if (_idHead == -1)
             {
                 _head.gameObject.SetActive(true);
@@ -154,6 +156,8 @@ namespace Game.Craft
 
         public void OnBodySelect(int bodyId)
         {
+            CompleteOtamatone._idBody = bodyId;
+            CompleteOtamatoneUI._idBody = bodyId;
             if (_idBody == -1)
             {
                 _body.gameObject.SetActive(true);
@@ -168,6 +172,8 @@ namespace Game.Craft
         }
         public void OnMouthSelect(int mouthId)
         {
+            CompleteOtamatone._idMouth = mouthId;
+            CompleteOtamatoneUI._idMouth = mouthId;
             if (_idMouth == -1)
             {
                 _mouth.gameObject.SetActive(true);
@@ -182,6 +188,8 @@ namespace Game.Craft
         }
         public void OnEyeSelect(int eyeId)
         {
+            CompleteOtamatone._idEye = eyeId;
+            CompleteOtamatoneUI._idEye = eyeId;
             if (_idEye == -1)
             {
                 _eye.gameObject.SetActive(true);

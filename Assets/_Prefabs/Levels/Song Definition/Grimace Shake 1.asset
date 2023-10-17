@@ -14,10 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 0
   SongName: Grimace Shake 1
-  Stars: 0
   IsNewAndHot: 0
   IsTrending: 1
   IsSkibidy: 1
   EasyLevel: {fileID: 0}
   NormalLevel: {fileID: 0}
   HardLevel: {fileID: 1185330286296039614, guid: 27961e4c8cd8fee4cb77ec83c13e4853, type: 3}
+  EasyThreshold: 10270000409c0000a0860100
+  NormalThreshold: e093040020a1070040420f00
+  HardThreshold: e093040020a1070040420f00

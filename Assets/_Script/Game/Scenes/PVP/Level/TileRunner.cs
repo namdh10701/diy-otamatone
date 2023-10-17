@@ -68,7 +68,7 @@ public class TileRunner : Singleton<TileRunner>
     {
         CameraYBound = Camera.main.orthographicSize;
         _currentState = State.DelayPlay;
-        float timeFirstNoteReachLine = (Camera.main.orthographicSize + 2.4f - (-Camera.main.orthographicSize + 3.25f)) / LevelDefinition.NoteSpeed;
+        float timeFirstNoteReachLine = (NoteRoot.position.y - (-Camera.main.orthographicSize + 3.1f)) / LevelDefinition.NoteSpeed;
         float offsetTimeMinus = timeFirstNoteReachLine - LevelDefinition.TimeToFirstNote;
         PrimaryAudioSource.clip = LevelDefinition.MusicClip;
         SecondaryAudioSource.clip = LevelDefinition.MusicClip;

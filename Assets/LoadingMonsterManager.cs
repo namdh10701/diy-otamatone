@@ -18,10 +18,7 @@ public class LoadingMonsterManager : MonoBehaviour
     public GameObject texts;
     private void Awake()
     {
-
         monsters[MonsterIndex].gameObject.SetActive(true);
-        string[] anims = { "Dance1", "Dance2", "Dance3", "Dance4" };
-        monsters[MonsterIndex].AnimationState.SetAnimation(0, anims[Random.Range(0, anims.Length)], true);
     }
 
     public void StartLoading(string sceneName)
