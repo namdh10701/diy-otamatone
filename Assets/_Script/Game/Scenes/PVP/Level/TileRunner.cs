@@ -18,6 +18,7 @@ public class TileRunner : Singleton<TileRunner>
     {
         P1, P2
     }
+    public UnityEvent StartGameEvent = new UnityEvent();
     [HideInInspector] public UnityEvent<Player> OnNoteMissed = new UnityEvent<Player>();
     [HideInInspector] public UnityEvent<Player> OnNoteHit = new UnityEvent<Player>();
     public UnityEvent StopGameEvent = new UnityEvent();
@@ -75,6 +76,7 @@ public class TileRunner : Singleton<TileRunner>
         SecondaryAudioSource.Play();
         PrimaryAudioSource.Play();
         PrimaryAudioSource.pitch = 1;
+        StartGameEvent.Invoke();
         StartCoroutine(Delay(Mathf.Abs(offsetTimeMinus)));
 
     }
@@ -129,12 +131,12 @@ public class TileRunner : Singleton<TileRunner>
         SecondaryAudioSource.time = pausedTime;
         pausedPos = NoteRoot.position;
         SecondaryAudioSource.Pause();
-        PrimaryAudioSource.DOFade(0, 0.3f).OnComplete(
+        PrimaryAudioSource.DOFade(0, 0.3f).SetUpdate(true).OnComplete(
             () =>
             {
 
                 PrimaryAudioSource.Pause();
-                PrimaryAudioSource.DOFade(.7f, 0);
+                PrimaryAudioSource.DOFade(.7f, 0).SetUpdate(true);
             }
             );
     }

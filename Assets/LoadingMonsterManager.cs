@@ -12,13 +12,17 @@ public class LoadingMonsterManager : MonoBehaviour
 {
     [SerializeField] SkeletonGraphic[] monsters;
 
-    public static int MonsterIndex;
+    public static int MonsterIndex = -1;
     public Image bg;
     public Image above;
     public GameObject texts;
     private void Awake()
-    {
+    {if (MonsterIndex == -1)
+        {
+            MonsterIndex = UnityEngine.Random.Range(0, 8);
+        }
         monsters[MonsterIndex].gameObject.SetActive(true);
+        
     }
 
     public void StartLoading(string sceneName)

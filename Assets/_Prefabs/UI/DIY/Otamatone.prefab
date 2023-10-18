@@ -411,6 +411,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8470987196402454239}
   - component: {fileID: 1858100032589484640}
+  - component: {fileID: -4000972517926697660}
   m_Layer: 0
   m_Name: Otamatone
   m_TagString: Untagged
@@ -450,6 +451,18 @@ MonoBehaviour:
   _eye: {fileID: 1588201586951324960}
   _body: {fileID: 3832713826782042835}
   _mouth: {fileID: 1281595163140279539}
+--- !u!210 &-4000972517926697660
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4182807080579821645}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 151
+  m_SortAtRoot: 0
 --- !u!1 &8032537490384608152
 GameObject:
   m_ObjectHideFlags: 0

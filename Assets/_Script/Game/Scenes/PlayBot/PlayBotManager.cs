@@ -13,15 +13,15 @@ using static PVPManager;
 
 public class PlayBotManager : Singleton<PlayBotManager>
 {
+    public Transform P1;
+    public Transform P2;
+    DancingMonster P1Monster;
+    DancingMonster P2Monster;
+
     public Transform Ready1;
     public Transform Ready2;
     public Transform Ready3;
     public Transform Begin;
-
-
-
-
-
 
     public enum State
     {
@@ -37,6 +37,10 @@ public class PlayBotManager : Singleton<PlayBotManager>
     public int hitCount = 0;
     private void Start()
     {
+        P1Monster = P1.GetChild(LoadingMonsterManager.MonsterIndex).GetComponent<DancingMonster>();
+        P1Monster.gameObject.SetActive(true);
+        P2Monster = P2.GetChild(UnityEngine.Random.Range(0, 8)).GetComponent<DancingMonster>();
+        P2Monster.gameObject.SetActive(true);
         CurrentState = State.Stop;
         switch (SelectedDifficulty)
         {
@@ -58,6 +62,8 @@ public class PlayBotManager : Singleton<PlayBotManager>
         TileRunner.Instance.StopGameEvent.AddListener(() => OnTileRunnerStop());
         TileRunner.Instance.OnNoteHit.AddListener((player) => OnNoteHit(player));
         TileRunner.Instance.OnNoteMissed.AddListener((player) => OnNoteMissed(player));
+        P1Monster.Init(TileRunner.Instance.OnNoteMissed, TileRunner.Instance.OnNoteHit, TileRunner.Instance.StartGameEvent, TileRunner.Instance.StopGameEvent, TileRunner.Player.P1);
+        P2Monster.Init(TileRunner.Instance.OnNoteMissed, TileRunner.Instance.OnNoteHit, TileRunner.Instance.StartGameEvent, TileRunner.Instance.StopGameEvent, TileRunner.Player.P2);
 
         StartCoroutine(CountdownToStartCoroutine());
 
@@ -206,10 +212,12 @@ public class PlayBotManager : Singleton<PlayBotManager>
 
     public void OnPause()
     {
+        Time.timeScale = 0;
         CurrentState = State.Pause;
         TileRunner.Instance.PauseGame();
         pausePanel.ShowWithCallback(() =>
         {
+            Time.timeScale = 1;
             TileRunner.Instance.Continue();
             CurrentState = State.Playing;
         });
@@ -219,6 +227,8 @@ public class PlayBotManager : Singleton<PlayBotManager>
     {
         hitCount = 0;
         missedCount = 0;
+        P1Monster.OnReset();
+        P2Monster.OnReset();
         PlayBotScoreManager.Instance.ResetScore();
         TileRunner.Instance.ResetLevel();
         StartCoroutine(CountdownToStartCoroutine());

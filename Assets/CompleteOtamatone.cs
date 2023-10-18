@@ -101,7 +101,7 @@ public class CompleteOtamatone : MonoBehaviour
         _head.AnimationState.SetAnimation(0, "Idle", false);
 
         _head.Skeleton.SetSlotsToSetupPose();
-        if (_idEye != -1)
+        if (_idEye == -1)
         {
             _idEye = Random.Range(0, 19);
         }
@@ -121,7 +121,7 @@ public class CompleteOtamatone : MonoBehaviour
         _eye.Skeleton.SetSlotsToSetupPose();
 
 
-        if (_idBody != -1)
+        if (_idBody == -1)
         {
             _idBody = Random.Range(0, 10);
         }
@@ -130,7 +130,7 @@ public class CompleteOtamatone : MonoBehaviour
         _body.Skeleton.SetSkin("Body/" + idBody[_idBody]);
         _body.AnimationState.SetAnimation(0, "Idle", false);
         _body.Skeleton.SetSlotsToSetupPose();
-        if (_idMouth != -1)
+        if (_idMouth == -1)
         {
             _idMouth = Random.Range(0, 14);
         }

@@ -25,7 +25,7 @@ public class DancingMonsterUI : MonoBehaviour
 
     private void ChangeAnim()
     {
-        string random = anims[Random.Range(0, 5)];
+        string random = anims[Random.Range(0, 4)];
 
         if (random == "Dance1")
         {

@@ -16,6 +16,7 @@ public class DestroyNet : MonoBehaviour
                 if (!tile.IsDestroyed)
                 {
                     HpManager.Instance.OnNoteMissed(tile.IsP2Turn ? TileRunner.Player.P2 : TileRunner.Player.P1);
+                    TileRunner.Instance.OnNoteMissed.Invoke(tile.IsP2Turn ? TileRunner.Player.P2 : TileRunner.Player.P1);
                     if (HpManager.Instance.CurrentP1Heath > 0)
                     {
                         tile.SeftDestroy();

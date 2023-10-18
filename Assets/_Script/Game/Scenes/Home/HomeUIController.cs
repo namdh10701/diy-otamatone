@@ -12,9 +12,14 @@ public class HomeUIController : Singleton<HomeUIController>
     GameData2 gameData2;
     GameData gameData;
 
+    public Transform m1;
+    public Transform m2;
+
     [SerializeField] LoadingMonsterManager lmm;
     private void Start()
     {
+        m1.GetChild(Random.Range(0, m1.childCount)).gameObject.SetActive(true);
+        m2.GetChild(Random.Range(0, m2.childCount)).gameObject.SetActive(true);
         gameData2 = GameDataManager.Instance.GameDatas2;
         gameData = GameDataManager.Instance.GameDatas;
 

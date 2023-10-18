@@ -80,10 +80,10 @@ public class CompleteOtamatoneUI : MonoBehaviour
             {9,"Body_9" }
         };
 
-    public static int _idHead = -1;
-    public static int _idBody = -1;
-    public static int _idMouth = -1;
-    public static int _idEye = -1;
+    private int _idHead = -1;
+    private int _idBody = -1;
+    private int _idMouth = -1;
+    private int _idEye = -1;
 
     public SkeletonGraphic _head;
     public SkeletonGraphic _eye;
