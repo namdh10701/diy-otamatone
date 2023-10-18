@@ -216,7 +216,7 @@ public class ArrowButton : MonoBehaviour
     {
         if (collision.CompareTag("Endgame"))
         {
-
+            Debug.Log("here");
             TileRunner.Instance.StopGame();
 
         }

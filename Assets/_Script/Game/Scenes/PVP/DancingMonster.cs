@@ -8,15 +8,20 @@ using static TileRunner;
 
 public class DancingMonster : MonoBehaviour
 {
+    public enum State
+    {
+        Introducing, Idle, Dance, Final
+    }
     private Player _player;
+    private State _currentState;
     private SkeletonAnimation _skeletonAnimation;
     string[] anims = { "Dance1", "Dance2", "Dance3", "Dance4" };
-    public bool IsIdle = false;
-    public bool IsRandomDance;
-    public float elapsedTime = 0;
+    public float idleTime = 0;
+    public float danceTime = 0;
     string idleDance = "Idle_Dance";
     string prepareplay = "PrepairPlay";
     public GameObject otamatone;
+    public float tapBuffer = 2;
     private void Awake()
     {
         otamatone = transform.Find("OtamatoneIK").gameObject;
@@ -38,10 +43,6 @@ public class DancingMonster : MonoBehaviour
         _skeletonAnimation.AnimationState.SetAnimation(0, prepareplay, true);
     }
 
-    private void OnAnimationComplete(TrackEntry trackEntry)
-    {
-        throw new NotImplementedException();
-    }
 
     public void Init(UnityEvent<Player> onNoteMissed, UnityEvent<Player> onNoteHit, UnityEvent onStart, UnityEvent onEnd, UnityEvent onLastNote, Player side)
     {
@@ -67,18 +68,19 @@ public class DancingMonster : MonoBehaviour
 
     private void OnNoteMissed(Player player)
     {
-        Debug.Log(player);
         if (player == _player)
         {
+            if (tapBuffer > 0)
+                return;
             IdleDance();
         }
     }
 
     private void OnNoteHit(Player player)
     {
-        Debug.Log(player);
         if (player == _player)
         {
+            tapBuffer = 2;
             RandomDance();
         }
     }
@@ -94,47 +96,47 @@ public class DancingMonster : MonoBehaviour
 
     public void IdleDance()
     {
-        if (IsIdle)
+        if (_currentState == State.Idle)
+        {
             return;
-        IsIdle = true;
-        IsRandomDance = false;
+        }
+        _currentState = State.Idle;
         _skeletonAnimation.AnimationState.SetAnimation(0, idleDance, true);
     }
 
     public void RandomDance()
     {
-        if (IsRandomDance)
+        if (_currentState == State.Dance)
         {
-            if (elapsedTime < 2)
+            if (danceTime < 2)
             {
                 return;
             }
         }
-        IsRandomDance = true;
-        elapsedTime = 0;
+        _currentState = State.Dance;
+        danceTime = 0;
         _skeletonAnimation.AnimationState.SetAnimation(0, anims[UnityEngine.Random.Range(0, 4)], true);
-        Invoke("CheckIdleDance", 2);
-    }
-
-    void CheckIdleDance()
-    {
-        if (elapsedTime > 2)
-        {
-            IdleDance();
-        }
     }
 
     private void Update()
     {
-        if (IsRandomDance)
+        switch (_currentState)
         {
-            elapsedTime += Time.deltaTime;
-            if (elapsedTime >= 3)
+            case State.Idle:
+                idleTime += Time.deltaTime;
+                break;
+            case State.Dance:
+                danceTime += Time.deltaTime;
+                break;
+        }
+        if (_currentState != State.Final && _currentState != State.Introducing)
+        {
+            tapBuffer -= Time.deltaTime;
+            if (tapBuffer < -2 && _currentState == State.Dance)
             {
                 IdleDance();
             }
         }
-        
     }
 
     public void OnReset()

@@ -10,10 +10,7 @@ public class DancingMonsterUI : MonoBehaviour
     [SerializeField] SkeletonGraphic _monster;
     string monsterName = "";
     string[] anims = { "Dance1", "Dance2", "Dance3", "Dance4" };
-/*    string[] absDance1 = { };
-    string[] absDance2 = { };
-    string[] absDance3 = { "Gimaze", "Joyvile" };
-    string[] absDance4 = { };*/
+
     void Start()
     {
         _monster = GetComponent<SkeletonGraphic>();

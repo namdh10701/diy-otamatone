@@ -41,8 +41,8 @@ public class CameraController : MonoBehaviour
         if (CurrentState == State.All)
             return;
         CurrentState = State.All;
-        _camera.DOOrthoSize(allSize, 1f);
-        _camera.transform.DOMove(new Vector3(0, 0, -10), 1f);
+        _camera.DOOrthoSize(allSize, .5f);
+        _camera.transform.DOMove(new Vector3(0, 0, -10), .5f);
     }
     public void SetTarget(Transform target)
     {
@@ -60,8 +60,8 @@ public class CameraController : MonoBehaviour
         {
             CurrentState = State.Focus_On_Target;
             currentTarget = target;
-            _camera.DOOrthoSize(allSize, .5f);
-            _camera.transform.DOMove(new Vector3(0, 0, -10), .5f)
+            _camera.DOOrthoSize(allSize, .25f);
+            _camera.transform.DOMove(new Vector3(0, 0, -10), .25f)
                 .OnComplete(
                 () => SetTarget()
                 );
@@ -76,24 +76,17 @@ public class CameraController : MonoBehaviour
 
         float monsterWidth = 4f;
         float camOrthoSize = monsterWidth / _camera.aspect / 2;
-        _camera.DOOrthoSize(camOrthoSize, 1f);
+        _camera.DOOrthoSize(camOrthoSize, .5f);
 
         float newCamX = currentTarget.position.x;
         float newCamY = currentTarget.position.y;
 
         newCamX = Mathf.Clamp(newCamX, XBound.x + monsterWidth / 2, XBound.y - monsterWidth / 2);
         newCamY = Mathf.Clamp(newCamY, YBound.x + camOrthoSize / 2, YBound.y - camOrthoSize / 2);
-        _camera.transform.DOMove(new Vector3(newCamX, newCamY + 1.5f, -10), 1f);
+        _camera.transform.DOMove(new Vector3(newCamX, newCamY + 1.5f, -10), .5f);
 
     }
 
-    public void CheckResetCamera()
-    {
-        if (elapsedTime > 2)
-        {
-            ResetCamera();
-        }
-    }
 
     public void Update()
     {
@@ -109,6 +102,30 @@ public class CameraController : MonoBehaviour
 
     public void Roaming()
     {
+        float monsterWidth = 4f;
+        float camOrthoSize = monsterWidth / _camera.aspect / 2;
+        _camera.DOOrthoSize(camOrthoSize, 1f);
+
+        float newCamX = P1.position.x;
+        float newCamY = P1.position.y;
+        float newCamX1 = P2.position.x;
+        float newCamY1 = P2.position.y;
+        newCamX = Mathf.Clamp(newCamX, XBound.x + monsterWidth / 2, XBound.y - monsterWidth / 2);
+        newCamY = Mathf.Clamp(newCamY, YBound.x + camOrthoSize / 2, YBound.y - camOrthoSize / 2);
+        Sequence sequence = DOTween.Sequence();
+        sequence.Append(_camera.transform.DOMove(new Vector3(newCamX, newCamY + 1.5f, -10), 1f));
+        sequence.AppendInterval(.75f);
+
+        sequence.Append(_camera.transform.DOMove(new Vector3(newCamX1, newCamY1 + 1.5f, -10), 1f));
+        sequence.AppendInterval(.75f);
+        sequence.Append(_camera.DOOrthoSize(allSize, .5f).OnPlay(
+            () =>
+            {
+                CurrentState = State.All;
+                _camera.transform.DOMove(new Vector3(0, 0, -10),.5f);
+            }
+            ));
+
 
     }
 
@@ -137,6 +154,7 @@ public class CameraController : MonoBehaviour
 
     private void OnNoteHit(TileRunner.Player player)
     {
+        elapsedTime = 0;
         if (player == TileRunner.Player.P1)
         {
             SetTarget(P1);
@@ -149,6 +167,6 @@ public class CameraController : MonoBehaviour
 
     private void OnNoteMissed(TileRunner.Player player)
     {
-        ResetCamera();
+        //   ResetCamera();
     }
 }

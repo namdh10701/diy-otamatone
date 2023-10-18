@@ -662,10 +662,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e1d721e2066064cb5f6afa536e1aee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsIdle: 0
-  IsRandomDance: 0
-  elapsedTime: 0
+  idleTime: 0
+  danceTime: 0
   otamatone: {fileID: 0}
+  tapBuffer: 2
 --- !u!114 &154501618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1396,10 +1396,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e1d721e2066064cb5f6afa536e1aee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsIdle: 0
-  IsRandomDance: 0
-  elapsedTime: 0
+  idleTime: 0
+  danceTime: 0
   otamatone: {fileID: 0}
+  tapBuffer: 2
 --- !u!114 &215860655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1913,7 +1913,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &249452931
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2277,7 +2277,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &271289536
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2817,10 +2817,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e1d721e2066064cb5f6afa536e1aee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsIdle: 0
-  IsRandomDance: 0
-  elapsedTime: 0
+  idleTime: 0
+  danceTime: 0
   otamatone: {fileID: 0}
+  tapBuffer: 2
 --- !u!114 &366651394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3293,7 +3293,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &411637666
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6703,7 +6703,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &898162631
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7065,7 +7065,7 @@ GameObject:
   m_Icon: {fileID: 2800000, guid: 044258107fd1bcd4a94f3066d2d9e62b, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &967982957
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7114,9 +7114,9 @@ MonoBehaviour:
   - {fileID: 411637665}
   - {fileID: 898162630}
   diffs:
-  - {fileID: 230393553}
-  - {fileID: 1612145077}
   - {fileID: 249452930}
+  - {fileID: 1612145077}
+  - {fileID: 230393553}
   canvasGroup: {fileID: 0}
   newRecord: {fileID: 1129402045}
   prizeWheel: {fileID: 5247165597391775723}
@@ -7768,7 +7768,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1054700168
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9808,10 +9808,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e1d721e2066064cb5f6afa536e1aee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsIdle: 0
-  IsRandomDance: 0
-  elapsedTime: 0
+  idleTime: 0
+  danceTime: 0
   otamatone: {fileID: 0}
+  tapBuffer: 2
 --- !u!114 &1305424446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13548,10 +13548,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e1d721e2066064cb5f6afa536e1aee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsIdle: 0
-  IsRandomDance: 0
-  elapsedTime: 0
+  idleTime: 0
+  danceTime: 0
   otamatone: {fileID: 0}
+  tapBuffer: 2
 --- !u!114 &1626812729
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14051,10 +14051,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e1d721e2066064cb5f6afa536e1aee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsIdle: 0
-  IsRandomDance: 0
-  elapsedTime: 0
+  idleTime: 0
+  danceTime: 0
   otamatone: {fileID: 0}
+  tapBuffer: 2
 --- !u!114 &1658208209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14440,10 +14440,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e1d721e2066064cb5f6afa536e1aee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsIdle: 0
-  IsRandomDance: 0
-  elapsedTime: 0
+  idleTime: 0
+  danceTime: 0
   otamatone: {fileID: 0}
+  tapBuffer: 2
 --- !u!114 &1684809683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15575,10 +15575,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e1d721e2066064cb5f6afa536e1aee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsIdle: 0
-  IsRandomDance: 0
-  elapsedTime: 0
+  idleTime: 0
+  danceTime: 0
   otamatone: {fileID: 0}
+  tapBuffer: 2
 --- !u!114 &1795382678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19748,7 +19748,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e301b4857c911d649918cdba42330de4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _panel: {fileID: 8286320394689845684}
+  _panel: {fileID: 1069520961}
   _contents: {fileID: 4270844424014702415}
 --- !u!1 &1737901001841023253
 GameObject:
@@ -24263,7 +24263,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &5806590565542578018
 GameObject:
   m_ObjectHideFlags: 0
@@ -26193,10 +26193,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e1d721e2066064cb5f6afa536e1aee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsIdle: 0
-  IsRandomDance: 0
-  elapsedTime: 0
+  idleTime: 0
+  danceTime: 0
   otamatone: {fileID: 0}
+  tapBuffer: 2
 --- !u!1 &7618693715682754753
 GameObject:
   m_ObjectHideFlags: 0
@@ -26452,10 +26452,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e1d721e2066064cb5f6afa536e1aee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsIdle: 0
-  IsRandomDance: 0
-  elapsedTime: 0
+  idleTime: 0
+  danceTime: 0
   otamatone: {fileID: 0}
+  tapBuffer: 2
 --- !u!1 &7958440820141142792
 GameObject:
   m_ObjectHideFlags: 0
@@ -26625,10 +26625,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e1d721e2066064cb5f6afa536e1aee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsIdle: 0
-  IsRandomDance: 0
-  elapsedTime: 0
+  idleTime: 0
+  danceTime: 0
   otamatone: {fileID: 0}
+  tapBuffer: 2
 --- !u!4 &8039092202161746592
 Transform:
   m_ObjectHideFlags: 0
@@ -26702,10 +26702,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e1d721e2066064cb5f6afa536e1aee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsIdle: 0
-  IsRandomDance: 0
-  elapsedTime: 0
+  idleTime: 0
+  danceTime: 0
   otamatone: {fileID: 0}
+  tapBuffer: 2
 --- !u!114 &8122676087540997619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26930,10 +26930,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e1d721e2066064cb5f6afa536e1aee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsIdle: 0
-  IsRandomDance: 0
-  elapsedTime: 0
+  idleTime: 0
+  danceTime: 0
   otamatone: {fileID: 0}
+  tapBuffer: 2
 --- !u!224 &8187121279291726655
 RectTransform:
   m_ObjectHideFlags: 0
@@ -27708,10 +27708,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e1d721e2066064cb5f6afa536e1aee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsIdle: 0
-  IsRandomDance: 0
-  elapsedTime: 0
+  idleTime: 0
+  danceTime: 0
   otamatone: {fileID: 0}
+  tapBuffer: 2
 --- !u!33 &8795478410111400795
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -27932,10 +27932,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e1d721e2066064cb5f6afa536e1aee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsIdle: 0
-  IsRandomDance: 0
-  elapsedTime: 0
+  idleTime: 0
+  danceTime: 0
   otamatone: {fileID: 0}
+  tapBuffer: 2
 --- !u!1 &8923928194273219484
 GameObject:
   m_ObjectHideFlags: 0
@@ -28325,10 +28325,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e1d721e2066064cb5f6afa536e1aee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsIdle: 0
-  IsRandomDance: 0
-  elapsedTime: 0
+  idleTime: 0
+  danceTime: 0
   otamatone: {fileID: 0}
+  tapBuffer: 2
 --- !u!1 &9176161889724206906
 GameObject:
   m_ObjectHideFlags: 0

@@ -78,7 +78,7 @@ public class PlayBotManager : Singleton<PlayBotManager>
         Ready2.gameObject.SetActive(false);
         Ready3.gameObject.SetActive(false);
         Begin.gameObject.SetActive(false);
-
+        sequence.AppendInterval(5);
 
         sequence.Append(Ready3.DOScale(.9f, .75f).OnStart(() =>
         {
@@ -102,7 +102,7 @@ public class PlayBotManager : Singleton<PlayBotManager>
             () => Ready1.gameObject.SetActive(false)
             ));
         sequence.Append(Begin.DOScale(1, .5f).OnStart(() => Begin.gameObject.SetActive(true)).OnComplete(() => Begin.gameObject.SetActive(false)));
-        yield return new WaitForSeconds(.75f * 3);
+        yield return new WaitForSeconds(.75f * 3 + 5);
 
         TileRunner.Instance.ResetLevel();
         TileRunner.Instance.StartTheGame();
@@ -135,9 +135,10 @@ public class PlayBotManager : Singleton<PlayBotManager>
                 case Difficulty.Easy:
                     if (score > sp.Easy.BestScore)
                     {
+                        sp.Easy.BestScore = score;
                         isNewRecord = true;
                     }
-                    sp.Easy.BestScore = score;
+
                     foreach (int threshold in SelectedSong.EasyThreshold)
                     {
                         if (score > threshold)
@@ -153,9 +154,10 @@ public class PlayBotManager : Singleton<PlayBotManager>
                 case Difficulty.Normal:
                     if (score > sp.Normal.BestScore)
                     {
+                        sp.Normal.BestScore = score;
                         isNewRecord = true;
                     }
-                    sp.Normal.BestScore = score;
+
                     foreach (int threshold in SelectedSong.NormalThreshold)
                     {
                         if (score > threshold)
@@ -171,9 +173,16 @@ public class PlayBotManager : Singleton<PlayBotManager>
                 case Difficulty.Hard:
                     if (score > sp.Hard.BestScore)
                     {
+                        Debug.Log("BestScored");
+                        sp.Hard.BestScore = score;
                         isNewRecord = true;
                     }
-                    sp.Hard.BestScore = score;
+                    else
+                    {
+
+                        Debug.Log("NotBestScored");
+                    }
+
                     foreach (int threshold in SelectedSong.HardThreshold)
                     {
                         if (score > threshold)
@@ -194,7 +203,7 @@ public class PlayBotManager : Singleton<PlayBotManager>
 
 
             ResultPanel.Init(SelectedSong, PlayBotScoreManager.Instance.BestCombo, PlayBotScoreManager.Instance.CurrentP1Score
-                , missedCount, hitCount, 3, isNewRecord);
+                , missedCount, hitCount, star, isNewRecord);
             ResultPanel.Show();
         }
     }

@@ -42,12 +42,6 @@ public class ResultPanel : MonoBehaviour
         {
             this.stars[i].SetActive(true);
         }
-
-
-
-
-        //TODO: Save stars
-        // each diff has threshold
     }
 
     public void OnReplay()
@@ -56,6 +50,7 @@ public class ResultPanel : MonoBehaviour
             () =>
             {
                 HideImmediately();
+                OnReset();
                 PlayBotManager.Instance.Replay();
             }
             );
@@ -79,5 +74,17 @@ public class ResultPanel : MonoBehaviour
     void HideImmediately()
     {
         gameObject.SetActive(false);
+    }
+
+    void OnReset()
+    {
+        for (int i = 0; i < diffs.Length; i++)
+        {
+                diffs[i].gameObject.SetActive(false);
+        }
+        for (int i = 0; i < stars.Length; i++)
+        {
+            this.stars[i].SetActive(false);
+        }
     }
 }
