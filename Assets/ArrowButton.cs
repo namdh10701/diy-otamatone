@@ -220,6 +220,12 @@ public class ArrowButton : MonoBehaviour
             TileRunner.Instance.StopGame();
 
         }
+        if (collision.CompareTag("LastNote"))
+        {
+
+            TileRunner.Instance.LastNotePassedEvent.Invoke();
+
+        }
         if (collision.CompareTag("Note"))
         {
             Tile tile = collision.GetComponent<Tile>();

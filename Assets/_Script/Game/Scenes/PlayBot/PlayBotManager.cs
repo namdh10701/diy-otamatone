@@ -23,6 +23,8 @@ public class PlayBotManager : Singleton<PlayBotManager>
     public Transform Ready3;
     public Transform Begin;
 
+    public CameraController cameraController;
+
     public enum State
     {
         Pause, Stop, Playing
@@ -62,9 +64,9 @@ public class PlayBotManager : Singleton<PlayBotManager>
         TileRunner.Instance.StopGameEvent.AddListener(() => OnTileRunnerStop());
         TileRunner.Instance.OnNoteHit.AddListener((player) => OnNoteHit(player));
         TileRunner.Instance.OnNoteMissed.AddListener((player) => OnNoteMissed(player));
-        P1Monster.Init(TileRunner.Instance.OnNoteMissed, TileRunner.Instance.OnNoteHit, TileRunner.Instance.StartGameEvent, TileRunner.Instance.StopGameEvent, TileRunner.Player.P1);
-        P2Monster.Init(TileRunner.Instance.OnNoteMissed, TileRunner.Instance.OnNoteHit, TileRunner.Instance.StartGameEvent, TileRunner.Instance.StopGameEvent, TileRunner.Player.P2);
-
+        P1Monster.Init(TileRunner.Instance.OnNoteMissed, TileRunner.Instance.OnNoteHit, TileRunner.Instance.StartGameEvent, TileRunner.Instance.StopGameEvent, TileRunner.Instance.LastNotePassedEvent, TileRunner.Player.P1);
+        P2Monster.Init(TileRunner.Instance.OnNoteMissed, TileRunner.Instance.OnNoteHit, TileRunner.Instance.StartGameEvent, TileRunner.Instance.StopGameEvent, TileRunner.Instance.LastNotePassedEvent, TileRunner.Player.P2);
+        cameraController.Init(TileRunner.Instance.OnNoteMissed, TileRunner.Instance.OnNoteHit, TileRunner.Instance.StartGameEvent, TileRunner.Instance.StopGameEvent, TileRunner.Instance.LastNotePassedEvent);
         StartCoroutine(CountdownToStartCoroutine());
 
     }

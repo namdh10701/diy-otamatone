@@ -1,3 +1,4 @@
+using Game.Craft;
 using Spine;
 using Spine.Unity;
 using System;
@@ -15,8 +16,10 @@ public class DancingMonster : MonoBehaviour
     public float elapsedTime = 0;
     string idleDance = "Idle_Dance";
     string prepareplay = "PrepairPlay";
+    public GameObject otamatone;
     private void Awake()
     {
+        otamatone = transform.Find("OtamatoneIK").gameObject;
         if (name == "Jumbo Josh")
             idleDance = "Idle_Dancer";
         if (name == "BanBan")
@@ -40,7 +43,7 @@ public class DancingMonster : MonoBehaviour
         throw new NotImplementedException();
     }
 
-    public void Init(UnityEvent<Player> onNoteMissed, UnityEvent<Player> onNoteHit, UnityEvent onStart, UnityEvent onEnd, Player side)
+    public void Init(UnityEvent<Player> onNoteMissed, UnityEvent<Player> onNoteHit, UnityEvent onStart, UnityEvent onEnd, UnityEvent onLastNote, Player side)
     {
         _player = side;
         onNoteHit.AddListener(
@@ -53,6 +56,13 @@ public class DancingMonster : MonoBehaviour
 
         onStart.AddListener(() => OnGameStart());
         onEnd.AddListener(() => OnGameEnd());
+        onLastNote.AddListener(() => OnLastNote());
+    }
+
+    private void OnLastNote()
+    {
+        otamatone.gameObject.SetActive(false);
+        _skeletonAnimation.AnimationState.SetAnimation(0, "Idle8", true);
     }
 
     private void OnNoteMissed(Player player)
@@ -74,14 +84,12 @@ public class DancingMonster : MonoBehaviour
     }
     private void OnGameStart()
     {
-        Debug.Log("OngameStart");
         IdleDance();
     }
 
     public void OnGameEnd()
     {
 
-        Debug.Log("OngameStart3");
     }
 
     public void IdleDance()
@@ -105,17 +113,33 @@ public class DancingMonster : MonoBehaviour
         IsRandomDance = true;
         elapsedTime = 0;
         _skeletonAnimation.AnimationState.SetAnimation(0, anims[UnityEngine.Random.Range(0, 4)], true);
+        Invoke("CheckIdleDance", 2);
     }
 
+    void CheckIdleDance()
+    {
+        if (elapsedTime > 2)
+        {
+            IdleDance();
+        }
+    }
 
     private void Update()
     {
         if (IsRandomDance)
+        {
             elapsedTime += Time.deltaTime;
+            if (elapsedTime >= 3)
+            {
+                IdleDance();
+            }
+        }
+        
     }
 
     public void OnReset()
     {
+        otamatone.gameObject.SetActive(true);
         SelfIntroduce();
     }
 }

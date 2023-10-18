@@ -18,10 +18,12 @@ public class TileRunner : Singleton<TileRunner>
     {
         P1, P2
     }
-    public UnityEvent StartGameEvent = new UnityEvent();
+    [HideInInspector] public UnityEvent StartGameEvent = new UnityEvent();
     [HideInInspector] public UnityEvent<Player> OnNoteMissed = new UnityEvent<Player>();
     [HideInInspector] public UnityEvent<Player> OnNoteHit = new UnityEvent<Player>();
-    public UnityEvent StopGameEvent = new UnityEvent();
+    [HideInInspector] public UnityEvent StopGameEvent = new UnityEvent();
+    [HideInInspector] public UnityEvent LastNotePassedEvent = new UnityEvent();
+
     public AudioSource PrimaryAudioSource;
     public AudioSource SecondaryAudioSource;
     private bool levelEditorMode = false;
@@ -69,7 +71,7 @@ public class TileRunner : Singleton<TileRunner>
     {
         CameraYBound = Camera.main.orthographicSize;
         _currentState = State.DelayPlay;
-        float timeFirstNoteReachLine = (NoteRoot.position.y - (-Camera.main.orthographicSize + 3.1f)) / LevelDefinition.NoteSpeed;
+        float timeFirstNoteReachLine = (NoteRoot.position.y - (-Camera.main.orthographicSize + 3.3f)) / LevelDefinition.NoteSpeed;
         float offsetTimeMinus = timeFirstNoteReachLine - LevelDefinition.TimeToFirstNote;
         PrimaryAudioSource.clip = LevelDefinition.MusicClip;
         SecondaryAudioSource.clip = LevelDefinition.MusicClip;

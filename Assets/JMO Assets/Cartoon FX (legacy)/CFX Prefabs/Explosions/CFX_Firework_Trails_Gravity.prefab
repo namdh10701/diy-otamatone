@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 4782282035096714}
   - component: {fileID: 198405478074982118}
   - component: {fileID: 199773197783368204}
-  - component: {fileID: 8441869463369062072}
-  m_Layer: 8
+  - component: {fileID: 2818358188555779640}
+  m_Layer: 6
   m_Name: CFX_Firework_Trails_Gravity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -186,9 +186,9 @@ ParticleSystem:
         m_RotationOrder: 4
     startColor:
       serializedVersion: 2
-      minMaxState: 2
+      minMaxState: 0
       minColor: {r: 0, g: 0.50198245, b: 1, a: 0.54901963}
-      maxColor: {r: 0.02352941, g: 0.9220701, b: 1, a: 0.78431374}
+      maxColor: {r: 1, g: 0.18449406, b: 0.02352941, a: 0.78431374}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -4621,7 +4621,7 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!210 &8441869463369062072
+--- !u!210 &2818358188555779640
 SortingGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

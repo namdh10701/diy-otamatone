@@ -10,10 +10,10 @@ public class DancingMonsterUI : MonoBehaviour
     [SerializeField] SkeletonGraphic _monster;
     string monsterName = "";
     string[] anims = { "Dance1", "Dance2", "Dance3", "Dance4" };
-    string[] absDance1 = { };
+/*    string[] absDance1 = { };
     string[] absDance2 = { };
     string[] absDance3 = { "Gimaze", "Joyvile" };
-    string[] absDance4 = { };
+    string[] absDance4 = { };*/
     void Start()
     {
         _monster = GetComponent<SkeletonGraphic>();
@@ -27,7 +27,7 @@ public class DancingMonsterUI : MonoBehaviour
     {
         string random = anims[Random.Range(0, 4)];
 
-        if (random == "Dance1")
+       /* if (random == "Dance1")
         {
             if (Contain(absDance1, monsterName))
             {
@@ -70,7 +70,7 @@ public class DancingMonsterUI : MonoBehaviour
             {
                 otamatone.SetActive(true);
             }
-        }
+        }*/
         _monster.AnimationState.SetAnimation(0, random, true);
     }
 
