@@ -62,6 +62,7 @@ public class DancingMonster : MonoBehaviour
 
     private void OnLastNote()
     {
+        _currentState = State.Final;
         otamatone.gameObject.SetActive(false);
         _skeletonAnimation.AnimationState.SetAnimation(0, "Idle8", true);
     }

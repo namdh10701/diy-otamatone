@@ -1,3 +1,4 @@
+using Spine;
 using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
@@ -90,6 +91,24 @@ public class CompleteOtamatone : MonoBehaviour
     public SkeletonAnimation _body;
     public SkeletonAnimation _mouth;
 
+    private void OnEnable()
+    {
+        GetComponentInParent<SkeletonAnimation>().AnimationState.Event += OnAnimationEvent;
+    }
+
+    private void OnAnimationEvent(TrackEntry trackEntry, Spine.Event e)
+    {
+        if (e.Data.Name == "Bop")
+        {
+            RunPlay();
+        }
+    }
+
+    private void OnDisable()
+    {
+        GetComponentInParent<SkeletonAnimation>().AnimationState.Event -= OnAnimationEvent;
+
+    }
     public void Start()
     {
         if (_idHead == -1)
@@ -139,5 +158,12 @@ public class CompleteOtamatone : MonoBehaviour
         _mouth.AnimationState.SetAnimation(0, "Idle", false);
 
         _mouth.Skeleton.SetSlotsToSetupPose();
+    }
+    public void RunPlay()
+    {
+        _head.AnimationState.SetAnimation(0, "Play", false);
+        _body.AnimationState.SetAnimation(0, "Play", false);
+        _eye.AnimationState.SetAnimation(0, "Play", false);
+        _mouth.AnimationState.SetAnimation(0, "Play", false);
     }
 }

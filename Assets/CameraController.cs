@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Game.Audio;
 using System;
 using UnityEngine;
 using UnityEngine.Events;
@@ -112,11 +113,18 @@ public class CameraController : MonoBehaviour
         float newCamY1 = P2.position.y;
         newCamX = Mathf.Clamp(newCamX, XBound.x + monsterWidth / 2, XBound.y - monsterWidth / 2);
         newCamY = Mathf.Clamp(newCamY, YBound.x + camOrthoSize / 2, YBound.y - camOrthoSize / 2);
+        newCamX1 = Mathf.Clamp(newCamX1, XBound.x + monsterWidth / 2, XBound.y - monsterWidth / 2);
+        newCamY1 = Mathf.Clamp(newCamY1, YBound.x + camOrthoSize / 2, YBound.y - camOrthoSize / 2);
+
         Sequence sequence = DOTween.Sequence();
-        sequence.Append(_camera.transform.DOMove(new Vector3(newCamX, newCamY + 1.5f, -10), 1f));
+        sequence.Append(_camera.transform.DOMove(new Vector3(newCamX, newCamY + 1.5f, -10), 1f).OnComplete(
+            () => AudioManager.Instance.PlaySound(SoundID.Monster_Voice)
+            )) ;
         sequence.AppendInterval(.75f);
 
-        sequence.Append(_camera.transform.DOMove(new Vector3(newCamX1, newCamY1 + 1.5f, -10), 1f));
+        sequence.Append(_camera.transform.DOMove(new Vector3(newCamX1, newCamY1 + 1.5f, -10), 1f).OnComplete(
+            () => AudioManager.Instance.PlaySound(SoundID.Monster_Voice)
+            ));
         sequence.AppendInterval(.75f);
         sequence.Append(_camera.DOOrthoSize(allSize, .5f).OnPlay(
             () =>
@@ -168,5 +176,10 @@ public class CameraController : MonoBehaviour
     private void OnNoteMissed(TileRunner.Player player)
     {
         //   ResetCamera();
+    }
+
+    public void OnReset()
+    {
+        Roaming();
     }
 }

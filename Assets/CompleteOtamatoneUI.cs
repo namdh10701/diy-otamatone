@@ -91,10 +91,13 @@ public class CompleteOtamatoneUI : MonoBehaviour
     public SkeletonGraphic _mouth;
 
     public SkeletonGraphic _monster;
+    private void OnEnable()
+    {
+        GetComponentInParent<SkeletonGraphic>().AnimationState.Event += OnAnimationEvent;
+    }
+
     public void Start()
     {
-        _monster = GetComponentInParent<SkeletonGraphic>();
-        _monster.AnimationState.Event += OnAnimationEvent;
 
         if (_idHead == -1)
         {

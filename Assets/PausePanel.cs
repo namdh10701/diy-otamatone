@@ -2,6 +2,7 @@ using Core.UI;
 using Monetization.Ads;
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PausePanel : BasePopup
 {
@@ -23,6 +24,31 @@ public class PausePanel : BasePopup
             () =>
             {
                 base.Hide(onclosed);
+            }
+            );
+    }
+
+    public void OnResume()
+    {
+        HideImmediately();
+        PlayBotManager.Instance.OnContinue();
+    }
+    public void OnReplay()
+    {
+        AdsController.Instance.ShowInter(
+           () =>
+           {
+               base.HideImmediately();
+               PlayBotManager.Instance.Replay();
+           }
+           );
+    }
+    public void OnHome()
+    {
+        AdsController.Instance.ShowInter(
+            () =>
+            {
+                SceneManager.LoadScene("HomeScene");
             }
             );
     }

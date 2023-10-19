@@ -30,6 +30,8 @@ public class PlayBotManager : Singleton<PlayBotManager>
         Pause, Stop, Playing
     }
     public static SongDefinition SelectedSong;
+
+
     public static Difficulty SelectedDifficulty;
     public State CurrentState;
     public PausePanel pausePanel;
@@ -228,14 +230,18 @@ public class PlayBotManager : Singleton<PlayBotManager>
         TileRunner.Instance.PauseGame();
         pausePanel.ShowWithCallback(() =>
         {
-            Time.timeScale = 1;
-            TileRunner.Instance.Continue();
-            CurrentState = State.Playing;
+            OnContinue();
         });
     }
-
+    public void OnContinue()
+    {
+        Time.timeScale = 1;
+        TileRunner.Instance.Continue();
+        CurrentState = State.Playing;
+    }
     public void Replay()
     {
+        Time.timeScale = 1;
         hitCount = 0;
         missedCount = 0;
         P1Monster.OnReset();
