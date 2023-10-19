@@ -15,14 +15,18 @@ public class LoadingMonsterManager : MonoBehaviour
     public static int MonsterIndex = -1;
     public Image bg;
     public Image above;
+    public Image progressBar;
     public GameObject texts;
     private void Awake()
-    {if (MonsterIndex == -1)
+    {
+        bg.DOFade(0, 0);
+        texts.SetActive(false);
+        if (MonsterIndex == -1)
         {
             MonsterIndex = UnityEngine.Random.Range(0, 8);
         }
         monsters[MonsterIndex].gameObject.SetActive(true);
-        
+
     }
 
     public void StartLoading(string sceneName)
@@ -41,18 +45,13 @@ public class LoadingMonsterManager : MonoBehaviour
 
     private IEnumerator LoadSceneCoroutine(string sceneName)
     {
-        bool IsShowOpen = false;
         float elapsedTime = 0;
         AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneName);
         asyncOperation.allowSceneActivation = false;
-        while (elapsedTime <= 4)
+        while (elapsedTime <= 2)
         {
             elapsedTime += Time.deltaTime;
-            if (elapsedTime >= 2 && !IsShowOpen)
-            {
-                IsShowOpen = true;
-                //AdsController.Instance.ShowAppOpenAd();
-            }
+            progressBar.fillAmount = elapsedTime / 2;
             yield return null;
         }
         asyncOperation.allowSceneActivation = true;

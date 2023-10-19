@@ -320,7 +320,7 @@ MonoBehaviour:
   LevelDefinition: {fileID: 0}
   IsSnapToGrid: 1
   sp: {fileID: 5596524396706041303}
-  IsEditMode: 0
+  IsEditMode: 1
   Type: 1
   IsP2Turn: 0
   IsDestroyed: 0
@@ -330,6 +330,7 @@ MonoBehaviour:
   TrailMat: {fileID: 0}
   TrailTopMat: {fileID: 0}
   IsClicked: 0
+  IsTotallyDestroyed: 0
 --- !u!61 &8336163233530490212
 BoxCollider2D:
   m_ObjectHideFlags: 0

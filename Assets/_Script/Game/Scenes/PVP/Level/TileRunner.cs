@@ -24,8 +24,10 @@ public class TileRunner : Singleton<TileRunner>
     [HideInInspector] public UnityEvent StopGameEvent = new UnityEvent();
     [HideInInspector] public UnityEvent LastNotePassedEvent = new UnityEvent();
 
-    public AudioSource PrimaryAudioSource;
-    public AudioSource SecondaryAudioSource;
+    [SerializeField] AudioSource[] AudioSources;
+
+
+
     private bool levelEditorMode = false;
     public Transform NoteRoot;
     public float cooldownTime = .1f;
@@ -39,19 +41,18 @@ public class TileRunner : Singleton<TileRunner>
     [SerializeField] private Transform _noteHitLine;
 
     [SerializeField] private State _currentState = State.Stop;
+    [SerializeField] private State previousState;
     public List<Tile> ActiveTiles;
     public float CameraYBound;
     public UnityEvent GameStarted = new UnityEvent();
     protected override void Awake()
     {
         base.Awake();
-        PrimaryAudioSource.DOFade(.7f, 0);
         //LoadLevel(LevelSelectionScreen.current);
     }
 
     private void Start()
     {
-        SecondaryAudioSource.volume = 0;
         ActiveTiles = gameObject.GetComponentsInChildren<Tile>().ToList();
         List<TrailTile> TrailTiles = FindObjectsOfType<TrailTile>().ToList();
         foreach (TrailTile tile in TrailTiles)
@@ -71,13 +72,20 @@ public class TileRunner : Singleton<TileRunner>
     {
         CameraYBound = Camera.main.orthographicSize;
         _currentState = State.DelayPlay;
+        previousState = _currentState;
         float timeFirstNoteReachLine = (NoteRoot.position.y - (-Camera.main.orthographicSize + 3.3f)) / LevelDefinition.NoteSpeed;
         float offsetTimeMinus = timeFirstNoteReachLine - LevelDefinition.TimeToFirstNote;
-        PrimaryAudioSource.clip = LevelDefinition.MusicClip;
-        SecondaryAudioSource.clip = LevelDefinition.MusicClip;
-        SecondaryAudioSource.Play();
-        PrimaryAudioSource.Play();
-        PrimaryAudioSource.pitch = 1;
+
+        // 2 audiosource being played
+        // one produce music in the game, the other tracking the time of the music
+        // switch 2 audiosource role when paused -> unpaused
+        foreach (AudioSource audioSource in AudioSources)
+        {
+            audioSource.clip = LevelDefinition.MusicClip;
+            audioSource.pitch = 1;
+            audioSource.Play();
+        }
+        AudioSources[1].mute = true;
         StartGameEvent.Invoke();
         StartCoroutine(Delay(Mathf.Abs(offsetTimeMinus)));
 
@@ -85,14 +93,19 @@ public class TileRunner : Singleton<TileRunner>
 
     public void ResetLevel()
     {
+        StopAllCoroutines();
         foreach (Tile tile in ActiveTiles)
         {
             tile.OnReset();
         }
-        SecondaryAudioSource.DOFade(0, 0);
-        SecondaryAudioSource.Stop();
-        PrimaryAudioSource.DOFade(.7f, 0);
-        PrimaryAudioSource.Stop();
+        foreach (AudioSource audioSource in AudioSources)
+        {
+            audioSource.Stop();
+            audioSource.clip = LevelDefinition.MusicClip;
+            audioSource.pitch = 1;
+            audioSource.time = 0;
+
+        }
         NoteRoot.position = new Vector2(0, Camera.main.orthographicSize + 2.4f);
 
     }
@@ -101,12 +114,12 @@ public class TileRunner : Singleton<TileRunner>
     IEnumerator Delay(float time)
     {
         Debug.Log($"Delay time {time}");
-        yield return new WaitForSecondsRealtime(time);
+        yield return new WaitForSeconds(time);
         StartGame();
     }
     private void StartGame()
     {
-
+        previousState = _currentState;
         _currentState = State.Playing;
     }
     void Update()
@@ -120,25 +133,23 @@ public class TileRunner : Singleton<TileRunner>
     }
     public void StopGame()
     {
+        previousState = _currentState;
         _currentState = State.Stop;
-        PrimaryAudioSource.Stop();
+        AudioSources[0].Stop();
         StopGameEvent.Invoke();
     }
 
     public void PauseGame()
     {
-        StopAllCoroutines();
+        previousState = _currentState;
         _currentState = State.Pause;
-        float pausedTime = PrimaryAudioSource.time;
-        SecondaryAudioSource.time = pausedTime;
         pausedPos = NoteRoot.position;
-        SecondaryAudioSource.Pause();
-        PrimaryAudioSource.DOFade(0, 0.3f).SetUpdate(true).OnComplete(
+        AudioSources[1].Pause();
+        AudioSources[0].DOFade(0, 0.3f).SetUpdate(true).OnComplete(
             () =>
             {
-
-                PrimaryAudioSource.Pause();
-                PrimaryAudioSource.DOFade(.7f, 0).SetUpdate(true);
+                AudioSources[0].Pause();
+                AudioSources[0].DOFade(.7f, 0).SetUpdate(true);
             }
             );
     }
@@ -153,9 +164,10 @@ public class TileRunner : Singleton<TileRunner>
     private IEnumerator ReverseAudio()
     {
         // TODO: clear destroyed notes when reverse
+
         _currentState = State.Pause;
-        PrimaryAudioSource.Play();
-        PrimaryAudioSource.pitch = -2;
+        AudioSources[0].Play();
+        AudioSources[0].pitch = -2;
         float elapsedTime = 0;
         while (elapsedTime <= 2)
         {
@@ -163,16 +175,31 @@ public class TileRunner : Singleton<TileRunner>
             NoteRoot.transform.Translate(Vector3.up * LevelDefinition.NoteSpeed * 2 * Time.deltaTime);
             yield return null;
         }
-        PrimaryAudioSource.Pause();
-        PrimaryAudioSource.mute = true;
-        SecondaryAudioSource.time -= elapsedTime;
+        AudioSources[0].Pause();
+        AudioSources[0].mute = true;
+        AudioSources[1].time -= elapsedTime;
         NoteRoot.transform.position = pausedPos + Vector3.up * LevelDefinition.NoteSpeed * elapsedTime;
     }
 
     public void Continue()
     {
-        SecondaryAudioSource.DOFade(.7f, .2f);
-        SecondaryAudioSource.Play();
-        _currentState = State.Playing;
+        if (_currentState != State.Pause)
+        {
+            return;
+        }
+        _currentState = previousState;
+        AudioSources[0].mute = true;
+        AudioSources[0].DOFade(.7f, 0);
+        AudioSources[0].time = AudioSources[1].time;
+        AudioSources[0].Play();
+        AudioSources[1].DOFade(.7f, .2f);
+        AudioSources[1].Play();
+        AudioSources[1].mute = false;
+
+
+
+        AudioSource temp = AudioSources[0];
+        AudioSources[0] = AudioSources[1];
+        AudioSources[1] = temp;
     }
 }

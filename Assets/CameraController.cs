@@ -51,7 +51,7 @@ public class CameraController : MonoBehaviour
         if (CurrentState == State.Focus_On_Target && currentTarget == target)
             return;
 
-        if (CurrentState == State.All)
+        /*if (CurrentState == State.All)
         {
             CurrentState = State.Focus_On_Target;
             currentTarget = target;
@@ -66,9 +66,11 @@ public class CameraController : MonoBehaviour
                 .OnComplete(
                 () => SetTarget()
                 );
-        }
+        }*/
 
-
+        CurrentState = State.Focus_On_Target;
+        currentTarget = target;
+        SetTarget();
 
     }
 
@@ -103,6 +105,7 @@ public class CameraController : MonoBehaviour
 
     public void Roaming()
     {
+        CurrentState = State.Roaming;
         float monsterWidth = 4f;
         float camOrthoSize = monsterWidth / _camera.aspect / 2;
         _camera.DOOrthoSize(camOrthoSize, 1f);
@@ -119,7 +122,7 @@ public class CameraController : MonoBehaviour
         Sequence sequence = DOTween.Sequence();
         sequence.Append(_camera.transform.DOMove(new Vector3(newCamX, newCamY + 1.5f, -10), 1f).OnComplete(
             () => AudioManager.Instance.PlaySound(SoundID.Monster_Voice)
-            )) ;
+            ));
         sequence.AppendInterval(.75f);
 
         sequence.Append(_camera.transform.DOMove(new Vector3(newCamX1, newCamY1 + 1.5f, -10), 1f).OnComplete(
@@ -130,7 +133,7 @@ public class CameraController : MonoBehaviour
             () =>
             {
                 CurrentState = State.All;
-                _camera.transform.DOMove(new Vector3(0, 0, -10),.5f);
+                _camera.transform.DOMove(new Vector3(0, 0, -10), .5f);
             }
             ));
 

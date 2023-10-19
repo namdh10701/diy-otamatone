@@ -48,6 +48,7 @@ public class PausePanel : BasePopup
         AdsController.Instance.ShowInter(
             () =>
             {
+                Time.timeScale = 1;
                 SceneManager.LoadScene("HomeScene");
             }
             );

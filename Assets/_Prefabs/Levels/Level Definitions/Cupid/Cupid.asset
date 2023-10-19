@@ -1,0 +1,552 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6020ed4e11b362e4b8cfd2e851079ae8, type: 3}
+  m_Name: Cupid
+  m_EditorClassIdentifier: 
+  Diff: 0
+  SongDefinition: {fileID: 11400000, guid: 3c5d7dba41fcb8a46baa64de727ef9f7, type: 2}
+  MusicClip: {fileID: 8300000, guid: 068a80ea893c4b1439b3fbf936f0cdf3, type: 3}
+  TimeToFirstNote: 6.9
+  TimeFromLastNote: 2
+  Bpm: 75
+  GridHeight: 4
+  GridWidth: 1.8
+  Row: 0
+  NoteSpeed: 4.998
+  DownNote: {fileID: 7916950901887495100, guid: 380543de222c072458b06ba43902fec2, type: 3}
+  TrailNote: {fileID: 1435220035835637354, guid: 5f054cf13aa33a545be6db843baa0fca, type: 3}
+  Spawnables:
+  - Type: 1
+    TrailHeight: 8
+    Row: 288
+    Col: 2
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 8
+    Row: 295
+    Col: 1
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 3
+    Row: 307
+    Col: 2
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 3
+    Row: 303
+    Col: 3
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 4
+    Row: 310
+    Col: 0
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 260
+    Col: 2
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 262
+    Col: 0
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 272
+    Col: 1
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 258
+    Col: 2
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 256
+    Col: 2
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 252
+    Col: 0
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 254
+    Col: 1
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 250
+    Col: 3
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 248
+    Col: 2
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 246
+    Col: 1
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 244
+    Col: 0
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 228
+    Col: 2
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 232
+    Col: 2
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 234
+    Col: 0
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 242
+    Col: 3
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 240
+    Col: 2
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 236
+    Col: 3
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 224
+    Col: 2
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 226
+    Col: 3
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 160
+    Col: 0
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 162
+    Col: 2
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 164
+    Col: 1
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 168
+    Col: 3
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 16
+    Row: 130
+    Col: 0
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 1
+    Row: 128
+    Col: 2
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 1
+    Row: 128
+    Col: 1
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 4
+    Row: 118
+    Col: 0
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 8
+    Row: 24
+    Col: 0
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 8
+    Row: 8
+    Col: 2
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 54
+    Col: 2
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 54
+    Col: 1
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 52
+    Col: 1
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 52
+    Col: 2
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 8
+    Row: 16
+    Col: 3
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 8
+    Row: 0
+    Col: 0
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 8
+    Row: 0
+    Col: 0
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 8
+    Row: 32
+    Col: 2
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 58
+    Col: 2
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 58
+    Col: 0
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 60
+    Col: 0
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 60
+    Col: 2
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 16
+    Row: 130
+    Col: 3
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 4
+    Row: 175
+    Col: 0
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 8
+    Row: 40
+    Col: 1
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 3
+    Row: 48
+    Col: 3
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 3
+    Row: 111
+    Col: 3
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 8
+    Row: 104
+    Col: 1
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 8
+    Row: 96
+    Col: 2
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 8
+    Row: 64
+    Col: 0
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 8
+    Row: 64
+    Col: 0
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 8
+    Row: 80
+    Col: 3
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 8
+    Row: 72
+    Col: 2
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 8
+    Row: 88
+    Col: 0
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 3
+    Row: 115
+    Col: 2
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 16
+    Row: 146
+    Col: 2
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 1
+    Row: 144
+    Col: 0
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 1
+    Row: 144
+    Col: 3
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 16
+    Row: 146
+    Col: 1
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 170
+    Col: 2
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 172
+    Col: 1
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 4
+    Row: 175
+    Col: 2
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 3
+    Row: 179
+    Col: 3
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 3
+    Row: 179
+    Col: 1
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 4
+    Row: 182
+    Col: 0
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 4
+    Row: 182
+    Col: 2
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 4
+    Row: 374
+    Col: 2
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 4
+    Row: 374
+    Col: 0
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 3
+    Row: 371
+    Col: 1
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 3
+    Row: 371
+    Col: 3
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 4
+    Row: 367
+    Col: 2
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 364
+    Col: 1
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 362
+    Col: 2
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 16
+    Row: 338
+    Col: 1
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 1
+    Row: 336
+    Col: 3
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 1
+    Row: 336
+    Col: 0
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 16
+    Row: 338
+    Col: 2
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 4
+    Row: 367
+    Col: 0
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 16
+    Row: 322
+    Col: 3
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 1
+    Row: 320
+    Col: 1
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 1
+    Row: 320
+    Col: 2
+    IsP2Turn: 0
+  - Type: 1
+    TrailHeight: 16
+    Row: 322
+    Col: 0
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 360
+    Col: 3
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 356
+    Col: 1
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 354
+    Col: 2
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 352
+    Col: 0
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 256
+    Col: 3
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 258
+    Col: 3
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 274
+    Col: 1
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 274
+    Col: 0
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 272
+    Col: 0
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 264
+    Col: 1
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 268
+    Col: 3
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 266
+    Col: 0
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 270
+    Col: 2
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 276
+    Col: 2
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 278
+    Col: 3
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 280
+    Col: 0
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 282
+    Col: 1
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 284
+    Col: 2
+    IsP2Turn: 0
+  - Type: 0
+    TrailHeight: 0
+    Row: 286
+    Col: 3
+    IsP2Turn: 0

@@ -27,25 +27,26 @@ public class PlayBotManager : Singleton<PlayBotManager>
 
     public enum State
     {
-        Pause, Stop, Playing
+        Pause, Stop, Playing, Introducing, DelayPlaying
     }
     public static SongDefinition SelectedSong;
 
 
     public static Difficulty SelectedDifficulty;
     public State CurrentState;
+    public State PreviousState;
     public PausePanel pausePanel;
     public ResultPanel ResultPanel;
     public ArrowButton[] arrowButtons;
     public int missedCount = 0;
     public int hitCount = 0;
+    public Sequence countdown;
     private void Start()
     {
         P1Monster = P1.GetChild(LoadingMonsterManager.MonsterIndex).GetComponent<DancingMonster>();
         P1Monster.gameObject.SetActive(true);
         P2Monster = P2.GetChild(UnityEngine.Random.Range(0, 8)).GetComponent<DancingMonster>();
         P2Monster.gameObject.SetActive(true);
-        CurrentState = State.Stop;
         switch (SelectedDifficulty)
         {
             case Difficulty.Easy:
@@ -75,40 +76,48 @@ public class PlayBotManager : Singleton<PlayBotManager>
 
     private IEnumerator CountdownToStartCoroutine()
     {
-        Sequence sequence = DOTween.Sequence();
+        CurrentState = State.Introducing;
+        PreviousState = State.Introducing;
+        countdown = DOTween.Sequence();
         Ready1.gameObject.SetActive(false);
         Ready2.gameObject.SetActive(false);
         Ready3.gameObject.SetActive(false);
         Begin.gameObject.SetActive(false);
-        sequence.AppendInterval(5);
+        countdown.AppendInterval(5);
 
-        sequence.Append(Ready3.DOScale(.9f, .75f).OnStart(() =>
+        countdown.Append(Ready3.DOScale(.9f, .75f).OnStart(() =>
         {
             Ready3.gameObject.SetActive(true);
             AudioManager.Instance.PlaySound(SoundID.Beep);
         }).OnComplete(
             () => Ready3.gameObject.SetActive(false)
             ));
-        sequence.Append(Ready2.DOScale(.9f, .75f).OnStart(() =>
+        countdown.Append(Ready2.DOScale(.9f, .75f).OnStart(() =>
         {
             Ready2.gameObject.SetActive(true);
             AudioManager.Instance.PlaySound(SoundID.Beep);
         }).OnComplete(
             () => Ready2.gameObject.SetActive(false)
             ));
-        sequence.Append(Ready1.DOScale(.9f, .75f).OnStart(() =>
+        countdown.Append(Ready1.DOScale(.9f, .75f).OnStart(() =>
         {
             Ready1.gameObject.SetActive(true);
             AudioManager.Instance.PlaySound(SoundID.Beep);
         }).OnComplete(
             () => Ready1.gameObject.SetActive(false)
             ));
-        sequence.Append(Begin.DOScale(1, .5f).OnStart(() => Begin.gameObject.SetActive(true)).OnComplete(() => Begin.gameObject.SetActive(false)));
-        yield return new WaitForSeconds(.75f * 3 + 5);
+        countdown.Append(Begin.DOScale(1, .5f).OnStart(() =>
+        {
+            Begin.gameObject.SetActive(true);
+            TileRunner.Instance.ResetLevel();
+            TileRunner.Instance.StartTheGame();
+            PreviousState = CurrentState;
+            CurrentState = State.Playing;
+        }
+        ).OnComplete(() => Begin.gameObject.SetActive(false)));
 
-        TileRunner.Instance.ResetLevel();
-        TileRunner.Instance.StartTheGame();
-        CurrentState = State.Playing;
+        yield break;
+
     }
 
     private void OnNoteMissed(TileRunner.Player player)
@@ -200,6 +209,7 @@ public class PlayBotManager : Singleton<PlayBotManager>
             }
             GameDataManager.Instance.SaveDatas2();
 
+            PreviousState = CurrentState;
             CurrentState = State.Stop;
 
 
@@ -225,7 +235,17 @@ public class PlayBotManager : Singleton<PlayBotManager>
 
     public void OnPause()
     {
+        if (CurrentState == State.Introducing)
+        {
+            Time.timeScale = 0;
+            pausePanel.ShowWithCallback(() =>
+            {
+                OnContinue();
+            });
+            return;
+        }
         Time.timeScale = 0;
+        PreviousState = CurrentState;
         CurrentState = State.Pause;
         TileRunner.Instance.PauseGame();
         pausePanel.ShowWithCallback(() =>
@@ -235,17 +255,25 @@ public class PlayBotManager : Singleton<PlayBotManager>
     }
     public void OnContinue()
     {
+        if (CurrentState == State.Introducing)
+        {
+            Time.timeScale = 1;
+            return;
+        }
         Time.timeScale = 1;
         TileRunner.Instance.Continue();
+        PreviousState = CurrentState;
         CurrentState = State.Playing;
     }
     public void Replay()
     {
+        countdown.Kill();
         Time.timeScale = 1;
         hitCount = 0;
         missedCount = 0;
         P1Monster.OnReset();
         P2Monster.OnReset();
+        cameraController.Roaming();
         PlayBotScoreManager.Instance.ResetScore();
         TileRunner.Instance.ResetLevel();
         StartCoroutine(CountdownToStartCoroutine());

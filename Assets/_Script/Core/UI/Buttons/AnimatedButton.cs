@@ -47,7 +47,7 @@ namespace Core.UI
                 _pointerDownPos = eventData.position;
                 _clickedDown = true;
                 _isDragging = false;
-                tween = _transform.DOScale(originalScale * .9f, .1f);
+                tween = _transform.DOScale(originalScale * .9f, .1f).SetUpdate(true);
             }
         }
 
@@ -55,7 +55,7 @@ namespace Core.UI
         {
             if (_button.interactable && _button.enabled && !_isCooldown && _clickedDown)
             {
-                tween = _transform.DOScale(originalScale, .1f).SetEase(Ease.OutBack);
+                tween = _transform.DOScale(originalScale, .1f).SetEase(Ease.OutBack).SetUpdate(true);
                 if (!_isDragging)
                 {
                     _onClickEvent?.Invoke();

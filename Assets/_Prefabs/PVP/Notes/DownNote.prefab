@@ -52,7 +52,7 @@ MonoBehaviour:
   LevelDefinition: {fileID: 0}
   IsSnapToGrid: 1
   sp: {fileID: 7320822324972751135}
-  IsEditMode: 0
+  IsEditMode: 1
   Type: 0
   IsP2Turn: 0
   IsDestroyed: 0

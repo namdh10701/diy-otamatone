@@ -103,12 +103,6 @@ public class CompleteOtamatone : MonoBehaviour
             RunPlay();
         }
     }
-
-    private void OnDisable()
-    {
-        GetComponentInParent<SkeletonAnimation>().AnimationState.Event -= OnAnimationEvent;
-
-    }
     public void Start()
     {
         if (_idHead == -1)

@@ -34,10 +34,10 @@ public class ResultPanel : MonoBehaviour
         }
         newRecord.SetActive(isNewRecord);
         songTitle.text = songDefinition.SongName;
-        this.great.text = "Great: " + great;
+        this.great.text = great.ToString();
         this.score.text = "Score: " + score.ToString();
-        this.missed.text = "Missed: " + missed.ToString();
-        this.bestCombo.text = "Best combo: " + bestCombo;
+        this.missed.text = missed.ToString();
+        this.bestCombo.text = bestCombo.ToString();
         for (int i = 0; i < stars; i++)
         {
             this.stars[i].SetActive(true);
@@ -80,7 +80,7 @@ public class ResultPanel : MonoBehaviour
     {
         for (int i = 0; i < diffs.Length; i++)
         {
-                diffs[i].gameObject.SetActive(false);
+            diffs[i].gameObject.SetActive(false);
         }
         for (int i = 0; i < stars.Length; i++)
         {

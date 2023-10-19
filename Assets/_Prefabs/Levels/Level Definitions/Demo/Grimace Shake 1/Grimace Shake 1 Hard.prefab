@@ -63,8 +63,9 @@ MonoBehaviour:
   LastNotePassedEvent:
     m_PersistentCalls:
       m_Calls: []
-  PrimaryAudioSource: {fileID: 930642340235734124}
-  SecondaryAudioSource: {fileID: 4384012490754079046}
+  AudioSources:
+  - {fileID: 930642340235734124}
+  - {fileID: 4384012490754079046}
   NoteRoot: {fileID: 1063408916979196542}
   cooldownTime: 0.1
   LevelDefinition: {fileID: 11400000, guid: bad3549505e13c647bc0d0f8d5081bd4, type: 2}

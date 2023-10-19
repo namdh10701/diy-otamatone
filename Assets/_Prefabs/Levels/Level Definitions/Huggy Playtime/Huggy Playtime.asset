@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6020ed4e11b362e4b8cfd2e851079ae8, type: 3}
+  m_Name: Huggy Playtime
+  m_EditorClassIdentifier: 
+  Diff: 0
+  SongDefinition: {fileID: 11400000, guid: 6ce62e3159929ed4ba57dfc250b1803c, type: 2}
+  MusicClip: {fileID: 8300000, guid: c0dd58003b8f1bc43bebd695def47fc8, type: 3}
+  TimeToFirstNote: 0
+  TimeFromLastNote: 0
+  Bpm: 0
+  GridHeight: 4
+  GridWidth: 1.8
+  Row: 0
+  NoteSpeed: 0
+  DownNote: {fileID: 7916950901887495100, guid: 380543de222c072458b06ba43902fec2, type: 3}
+  TrailNote: {fileID: 1435220035835637354, guid: 5f054cf13aa33a545be6db843baa0fca, type: 3}
+  Spawnables: []
